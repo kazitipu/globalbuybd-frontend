@@ -1,0 +1,16 @@
+.blinking-text{
+    animation: blink 1s linear infinite;
+}
+@media (min-width : 1200px){
+    .blinking-text{
+        margin-left: 1rem;
+    }
+}
+@keyframes blink{
+    50%{
+        opacity: .3;
+    }
+}
+.new-arrival {
+    color: rgb(255, 166, 0) !important;
+}

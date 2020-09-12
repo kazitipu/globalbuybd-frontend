@@ -66,7 +66,7 @@ class LeftSideBar extends Component {
             <div>
                 {/*SEO Support*/}
                 <Helmet>
-                    <title>MultiKart | {item.category} | {item.name}</title>
+                    <title>GlobalbuyBd | {item.category} | {item.name}</title>
                     <meta name="description" content="Multikart – Multipurpose eCommerce React Template is a multi-use React template. It is designed to go well with multi-purpose websites. Multikart Bootstrap 4 Template will help you run multiple businesses." />
                 </Helmet>
                 {/*SEO Support End */}

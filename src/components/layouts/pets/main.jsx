@@ -50,7 +50,7 @@ class Pets extends Component {
                 </Helmet>
                 <HeaderThree logoName={'logo/14.png'} />
                 <section className="p-0 small-slider">
-                    <Slider className="slide-1 home-slider">
+                    <Slider className="slide-1 home-slider" autoplay={true} autoplaySpeed={400} dots={true} infinite={true} speed={1000} slidesToScroll={1} arrows={true} slidesToShow={1}>
                         <div>
                             <div className="home home46">
                                     <div className="container">

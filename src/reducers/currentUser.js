@@ -1,14 +1,15 @@
-const INITIAL_STATE = {currentUser:null}
+const INITIAL_STATE = {currentUser:{
+    displayName:'',
+    email:'',
+    password:''
+}}
 
 const setCurrentUserReducer = (state =INITIAL_STATE, action)=>{
     switch (action.type){
         case "SET_CURRENT_USER":
-            if (action.payload.email =='fahim' && action.payload.password =='01521'){
-                return {...state, currentUser:action.payload}
-            } 
-            return {...state};
+            return {...state, currentUser : action.payload}
         default:
-            return {...state};
+            return {...state}
     }
         
 }

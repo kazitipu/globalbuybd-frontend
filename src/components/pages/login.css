@@ -1,0 +1,21 @@
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.social-link span{
+    font-size: 120%;
+
+}
+.fb-button{
+    padding: .3rem;
+    font-size: 150%;
+    cursor: pointer;
+}
+.google-button{
+    padding: .3rem;
+    font-size: 150%;
+    cursor: pointer;
+}

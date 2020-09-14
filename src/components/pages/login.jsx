@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {setCurrentUser} from '../../actions'
+import './login.css'
+import {signInWithGoogle, singInWithFacebook} from '../../firebase/firebase.utils'
+import {auth} from '../../firebase/firebase.utils'
 
 import Breadcrumb from "../common/breadcrumb";
 
 class Login extends Component {
 
-    constructor (props) {
-        super (props)
+    constructor(props) {
+        super(props)
 
         this.state={
             email:'',
@@ -17,23 +20,45 @@ class Login extends Component {
 
     }
 
-    handleChange = (event) => {
-        console.log(this.state.email)
-        console.log(this.state.password)
-        const {name, value} = event.target
-        this.setState({[name]:value})
-    }
+    handleSubmit = async event => {
+        event.preventDefault();
+    
+        const { email, password } = this.state;
+    
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          this.setState({ email: '', password: '' });
+          this.props.history.push('/')
+        } catch (error) {
+          alert(error);
+        }
+      };
+    
+    handleChange = event => {
+        const { value, name } = event.target;
+    
+        this.setState({ [name]: value });
+      };
 
-    handleSubmit = (event) => {
-        event.preventDefault()
-        this.props.setCurrentUser(this.state)
-        this.setState({email:'', password:''})
-        this.props.history.push('/')
-        
+    signInWithGoogle =async ()=>{
+        try{
+            await signInWithGoogle()
+            this.props.history.push('/')
+        }catch(error){
+            alert(error)
+        }
+    }
+    
+    singInWithFacebook = async () =>{
+        try{
+            await singInWithFacebook()
+            this.props.history.push('/')
+        }catch(error){
+            alert(error)
+        }
     }
 
     render(){
-        console.log(this.props)
         return (
             <div>
                 <Breadcrumb title={'Login'}/>
@@ -57,7 +82,11 @@ class Login extends Component {
                                             <input type="password" name="password" className="form-control" id="review" value={this.state.password} onChange={this.handleChange}
                                                    placeholder="Enter your password" required="" />
                                         </div>
+                                        <div className='buttons'>
                                         <button type="submit" className="btn btn-solid" htmlFor='login'>Login</button> 
+                                       <div className='social-link'><span> or sign in with: </span>
+                                       <i onClick={this.singInWithFacebook} className='fa fa-facebook-official fb-button' aria-hidden='true'>
+                                       </i> <i onClick={this.signInWithGoogle} className='fa fa-google google-button' aria-hidden='true'></i></div></div>
                                     </form>
                                 </div>
                             </div>

@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {auth} from '../../../../firebase/firebase.utils'
+import './topbar.css'
+import {setCurrentUser} from '../../../../actions'
 
 class TopBar extends Component {
 
+    onSignOutClick =async ()=>{
+        await auth.signOut()
+        this.props.setCurrentUser({displayName:'', email:'', password:''})
+    }
+
     render() {
-        console.log(this.props)
+        const {currentUser} = this.props
         return (
             <div className="top-header">
                 <div className="container">
@@ -24,7 +32,18 @@ class TopBar extends Component {
                                 <li className="mobile-wishlist"><Link to={`${process.env.PUBLIC_URL}/wishlist`}><i className="fa fa-heart" aria-hidden="true"></i>wishlist</Link></li>
 
                                 {
-                                this.props.currentUser?(<Link to='/pages/admin/dashboard'><li className="mobile-account"><i className="fa fa-user" aria-hidden="true"></i>dashboard </li></Link>):
+                                currentUser.displayName? ( <li className="onhover-dropdown mobile-account">
+                                    
+                                <i className="fa fa-user" aria-hidden="true"></i>{currentUser.displayName.slice(0,10)}
+                                <ul className="onhover-show-div">
+                                    <li>
+                                        <Link to={`${process.env.PUBLIC_URL}/pages/dashboard`} data-lng="en">Dashboard</Link>
+                                    </li>
+                                    <li>
+                                        <div className='sign-out-button' onClick={this.onSignOutClick} data-lng="en">sign out</div>
+                                    </li>
+                                </ul>
+                            </li>):
                                 ( <li className="onhover-dropdown mobile-account">
                                     
                                 <i className="fa fa-user" aria-hidden="true"></i> my_account
@@ -37,19 +56,7 @@ class TopBar extends Component {
                                     </li>
                                 </ul>
                             </li>)
-                                }
-                                {/* <li className="onhover-dropdown mobile-account">
-                                    
-                                    <i className="fa fa-user" aria-hidden="true"></i> my_account
-                                    <ul className="onhover-show-div">
-                                        <li>
-                                            <Link to={`${process.env.PUBLIC_URL}/pages/login`} data-lng="en">Login</Link>
-                                        </li>
-                                        <li>
-                                            <Link to={`${process.env.PUBLIC_URL}/pages/register`} data-lng="en">Register</Link>
-                                        </li>
-                                    </ul>
-                                </li> */}
+    }
                             </ul>
                         </div>
                     </div>
@@ -61,6 +68,7 @@ class TopBar extends Component {
 
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
+
 })
 
-export default connect(mapStateToProps,null)(TopBar);
+export default connect(mapStateToProps,{setCurrentUser})(TopBar);

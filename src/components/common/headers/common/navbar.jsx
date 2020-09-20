@@ -96,11 +96,11 @@ class NavBar extends Component {
                                     <span className="sub-arrow"></span>
                                 </Link>
                                 <ul className="nav-submenu">
-                                    <li><Link to={`${process.env.PUBLIC_URL}/left-sidebar/collection`} >electronic</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/right-sidebar/collection`} >watch</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/no-sidebar/collection`} >beauty</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/metro/collection`} >fashion</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/full-width/collection`} >kids</Link></li>
+                                    <li><Link to={`${process.env.PUBLIC_URL}/collection/electronic`} >electronic</Link></li>
+                                    <li><Link to={`${process.env.PUBLIC_URL}/collection/watch`} >watch</Link></li>
+                                    <li><Link to={`${process.env.PUBLIC_URL}/collection/beauty`} >beauty</Link></li>
+                                    <li><Link to={`${process.env.PUBLIC_URL}/collection/fashion`} >fashion</Link></li>
+                                    <li><Link to={`${process.env.PUBLIC_URL}/collection/kids`} >kids</Link></li>
                                 </ul>
                             </li>
                             <li >

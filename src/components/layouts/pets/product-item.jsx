@@ -184,7 +184,7 @@ class ProductItem extends Component {
                     {/*Quick-view modal popup End*/}
 
                     {/* Add to cart modal popup start */}
-                    <Modal open={this.state.cartModalopen} onClose={this.onCloseCartModal} center className="cart-modal">
+                    {/* <Modal open={this.state.cartModalopen} onClose={this.onCloseCartModal} center className="cart-modal">
                         <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                             <div className="modal-content">
                                 <div className="modal-body modal1">
@@ -258,7 +258,7 @@ class ProductItem extends Component {
                                 </div>
                             </div>
                         </div>
-                    </Modal>
+                    </Modal> */}
                     {/*Add to cart modal popup End*/}
 
 

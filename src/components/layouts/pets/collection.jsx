@@ -7,11 +7,18 @@ import { getTrendingCollection} from '../../../services'
 import {Product4} from '../../../services/script'
 import {addToCart, addToWishlist, addToCompare} from "../../../actions";
 import ProductItem from './product-item';
+import {addCartItemTofirestore} from '../../../firebase/firebase.utils'
+import {auth} from '../../../firebase/firebase.utils'
 
 class Collection extends Component {
+    addToReduxAndFirestoreCart =(product,qty)=>{
+        const {addToCart} = this.props;
+        auth.onAuthStateChanged(async(userAuth)=>await addCartItemTofirestore(userAuth,product,qty))
+        addToCart(product,qty)
+    }
 
     render (){
-        const {items, symbol, addToCart, addToWishlist, addToCompare, title, subtitle} = this.props;
+        const {items, symbol, addToWishlist, addToCompare, title, subtitle} = this.props;
         return (
             <div>
                 {/*Paragraph*/}
@@ -30,7 +37,8 @@ class Collection extends Component {
                                             <ProductItem product={product} symbol={symbol}
                                                          onAddToCompareClicked={() => addToCompare(product)}
                                                          onAddToWishlistClicked={() => addToWishlist(product)}
-                                                         onAddToCartClicked={() => addToCart(product, 1)} key={index} />
+                                                         onAddToCartClicked={() => this.addToReduxAndFirestoreCart(product, 1)} key={index}
+                                                          />
                                         </div>)
                                     }
                                 </Slider>
@@ -45,7 +53,8 @@ class Collection extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     items: getTrendingCollection(state.data.products, ownProps.type),
-    symbol: state.data.symbol
+    symbol: state.data.symbol,
+    cartItems: state.cartList
 })
 
 export default connect(mapStateToProps, {addToCart, addToWishlist, addToCompare}) (Collection);

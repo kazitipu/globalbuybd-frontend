@@ -48,7 +48,7 @@ class Pets extends Component {
                 <Helmet>
                     <title>GlobalbuyBD | A cross border shopping platform for Bangladeshi Smart Shoppers</title>
                 </Helmet>
-                <HeaderThree logoName={'logo/14.png'} />
+                {/* <HeaderThree logoName={'logo/14.png'} /> */}
                 <section className="p-0 small-slider">
                     <Slider className="slide-1 home-slider" autoplay={true} autoplaySpeed={400} dots={true} infinite={true} speed={1000} slidesToScroll={1} arrows={true} slidesToShow={1}>
                         <div>
@@ -240,8 +240,8 @@ class Pets extends Component {
                     <BlogSection />
                 </section>
                 {/* Blog Section End*/}
-                <ThemeSettings/>
-                <FooterTwo logoName={'logo/14.png'}/>
+                {/* <ThemeSettings/> */}
+                {/* <FooterTwo logoName={'logo/14.png'}/> */}
             </div>
         )
     }

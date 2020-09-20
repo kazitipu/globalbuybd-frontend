@@ -1,7 +1,6 @@
 const INITIAL_STATE = {currentUser:{
     displayName:'',
-    email:'',
-    password:''
+    email:''
 }}
 
 const setCurrentUserReducer = (state =INITIAL_STATE, action)=>{

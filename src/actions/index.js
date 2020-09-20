@@ -4,6 +4,7 @@ import store from "../store";
 import { toast  } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
+
 export const setCurrentUser = (user) =>{
     return{
         type:'SET_CURRENT_USER',
@@ -38,6 +39,8 @@ export const fetchSingleProduct = productId => ({
 
 
 //it seems that I should probably use this as the basis for "Cart"
+
+
 export const addToCart = (product,qty) => (dispatch) => {
     toast.success("Item Added to Cart");
         dispatch(addToCartUnsafe(product, qty))

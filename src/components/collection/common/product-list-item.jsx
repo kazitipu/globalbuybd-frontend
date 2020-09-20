@@ -113,7 +113,7 @@ class ProductListItem extends Component {
                                 </ul>:''}
                             </div>
                         </div>
-                    <Modal open={open} onClose={this.onCloseModal} center>
+                    {/* <Modal open={open} onClose={this.onCloseModal} center>
                             <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div className="modal-content quick-view-modal">
                                     <div className="modal-body">
@@ -177,7 +177,7 @@ class ProductListItem extends Component {
                                     </div>
                                 </div>
                             </div>
-                    </Modal>
+                    </Modal> */}
                 </div>
         )
     }

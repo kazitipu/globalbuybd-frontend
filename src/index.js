@@ -93,16 +93,17 @@ class Root extends React.Component {
 				<BrowserRouter basename={'/'} >
 					<ScrollContext>
 						<Switch>
-                            <Route exact path={`${process.env.PUBLIC_URL}/`} component={Pets}/>
+                            
                             <Layout>
+                            <Route exact path={`${process.env.PUBLIC_URL}/`} component={Pets}/>
 
                                 {/*Routes For Layouts*/}
 								{/*Routes For Features (Product Collection) */}
-								<Route path={`${process.env.PUBLIC_URL}/left-sidebar/collection`} component={CollectionLeftSidebar}/>
-								<Route path={`${process.env.PUBLIC_URL}/no-sidebar/collection`} component={CollectionNoSidebar}/>
+								<Route path={`${process.env.PUBLIC_URL}/collection/:categoryId`} component={CollectionLeftSidebar}/>
+								{/* <Route path={`${process.env.PUBLIC_URL}/no-sidebar/collection`} component={CollectionNoSidebar}/>
 								<Route path={`${process.env.PUBLIC_URL}/right-sidebar/collection`} component={CollectionRightSidebar}/>
 								<Route path={`${process.env.PUBLIC_URL}/full-width/collection`} component={CollectionFullWidth}/>
-								<Route path={`${process.env.PUBLIC_URL}/metro/collection`} component={CollectionMetro}/>
+								<Route path={`${process.env.PUBLIC_URL}/metro/collection`} component={CollectionMetro}/> */}
 
 								{/*Routes For Single Product*/}
 								<Route path={`${process.env.PUBLIC_URL}/left-sidebar/product/:id`} component={LeftSideBar}/>

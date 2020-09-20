@@ -8,6 +8,7 @@ import { getTotal, getCartProducts } from '../../../reducers'
 import { addToCart, addToWishlist, addToCompare } from '../../../actions'
 import {getVisibleproducts} from '../../../services';
 import ProductListItem from "./product-list-item";
+import { getSearchedProducts } from '../../../rapidApi/rapidApi.utils'
 
 class ProductListing extends Component {
 
@@ -36,10 +37,17 @@ class ProductListing extends Component {
 
 
     }
+    getProductsList =async()=>{
+        const {categoryId} =this.props;
+        const productsList = await getSearchedProducts(categoryId)
+        return productsList;
 
-    render (){
+    }
+
+    render(){
         const {products, addToCart, symbol, addToWishlist, addToCompare} = this.props;
-        console.log(this.props.colSize)
+        const productsList =this.getProductsList()
+        console.log(productsList)
         return (
             <div>
                 <div className="product-wrapper-grid">
@@ -58,6 +66,7 @@ class ProductListing extends Component {
                             >
                                 <div className="row">
                                     { products.slice(0, this.state.limit).map((product, index) =>
+                                    // { productsList.map((product, index) =>
                                         <div className={`${this.props.colSize===3?'col-xl-3 col-md-6 col-grid-box':'col-lg-'+this.props.colSize}`} key={index}>
                                         <ProductListItem product={product} symbol={symbol}
                                                          onAddToCompareClicked={() => addToCompare(product)}

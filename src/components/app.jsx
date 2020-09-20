@@ -20,6 +20,7 @@ class App extends Component {
     unsuscribeFromAuth = null;
 
     componentDidMount() {
+      
       this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
         if (userAuth) {
           const userRef = await createUserProfileDocument(userAuth);
@@ -28,12 +29,24 @@ class App extends Component {
             this.props.setCurrentUser({ id: snapShot.id, ...snapShot.data() });
           });
         }else {
-            this.props.setCurrentUser({ displayName: "", email: "", password: "" });
+            this.props.setCurrentUser({ displayName: "", email: "" });
         }
       });
     }
   
     componentWillUnmount() {
+      const {cartItems} = this.props
+      this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+        if (userAuth) {
+          const userRef = await createUserProfileDocument(userAuth,cartItems);
+  
+          userRef.onSnapshot((snapShot) => {
+            this.props.setCurrentUser({ id: snapShot.id, ...snapShot.data() });
+          });
+        }else {
+            this.props.setCurrentUser({ displayName: "", email: "", password: "" });
+        }
+      });
       this.unsubscribeFromAuth();
     }
 
@@ -51,7 +64,12 @@ class App extends Component {
     }
 }
 
-const mapStateToProps=(state)=>({
-    currentUser:state.user
-})
+const mapStateToProps=(state)=>{
+  console.log(state.cartList.cart)
+  
+  
+  return{
+    currentUser:state.user,
+    cartItems: state.cartList
+}}
 export default connect(mapStateToProps,{setCurrentUser})(App);

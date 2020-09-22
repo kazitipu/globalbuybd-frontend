@@ -39,7 +39,7 @@ import Vertical from "./components/products/vertical";
 import Layout from './components/app'
 import Cart from './components/cart'
 import Compare from './components/compare/index'
-import wishList from './components/wishlist'
+import wishList from './components/wishlist/wishlist'
 import checkOut from './components/checkout'
 import orderSuccess from './components/checkout/success-page'
 

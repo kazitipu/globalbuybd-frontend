@@ -9,6 +9,7 @@ export default function cartReducer(state = {
     cart: []
 }, action) {
     switch (action.type) {
+        
         case ADD_TO_CART:
             const productId = action.product.id
             if (state.cart.findIndex(product => product.id === productId) !== -1) {
@@ -26,22 +27,26 @@ export default function cartReducer(state = {
             }
 
             return { ...state, cart: [...state.cart, { ...action.product, qty: action.qty, sum: (action.product.price*action.product.discount/100)*action.qty }] }
+            
+        case 'SET_REDUX_CART':
+            return {...state, cart:action.payload}
 
         case DECREMENT_QTY:
             
             if (state.cart.findIndex(product => product.id === action.productId) !== -1) {
                 const cart = state.cart.reduce((cartAcc, product) => {
-                    if (product.id === action.productId && product.qty > 1) {
+                    if (product.id === action.productId && product.qty >= 1) {
                         //console.log('price: '+product.price+'Qty: '+product.qty)
                         cartAcc.push({ ...product, qty: product.qty-1, sum: (product.price*product.discount/100)*(product.qty-1) }) // Decrement qty
-                    } else {
+                    }else{
                         cartAcc.push(product)
                     }
 
                     return cartAcc
                 }, [])
+                const newCart = cart.filter(item=> item.qty !== 0)
 
-                return { ...state, cart }
+                return { ...state, cart:newCart}
             }
 
             return { ...state, cart: [...state.cart, { ...action.product, qty: action.qty, sum: action.product.price*action.qty }] }

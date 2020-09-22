@@ -6,7 +6,9 @@ import PaypalExpressBtn from 'react-paypal-express-checkout';
 import SimpleReactValidator from 'simple-react-validator';
 
 import Breadcrumb from "../common/breadcrumb";
-import {removeFromWishlist} from '../../actions'
+import {removeFromWishlist,removeFromCart} from '../../actions'
+import {auth,removeCartItemFromFirestore,addCartItemsToOrdersFirestore} from '../../firebase/firebase.utils'
+
 import {getCartTotal} from "../../services";
 
 class checkOut extends Component {
@@ -37,7 +39,7 @@ class checkOut extends Component {
 
       }
 
-      setStateFromCheckbox = (event) => {
+    setStateFromCheckbox = (event) => {
           var obj = {};
           obj[event.target.name] = event.target.checked;
           this.setState(obj);
@@ -54,33 +56,43 @@ class checkOut extends Component {
         })
     }
 
-    StripeClick = () => {
-
-        if (this.validator.allValid()) {
-            alert('You submitted the form and stuff!');
-
-            var handler = (window).StripeCheckout.configure({
-                key: 'pk_test_glxk17KhP7poKIawsaSgKtsL',
-                locale: 'auto',
-                token: (token: any) => {
-                    console.log(token)
-                      this.props.history.push({
-                          pathname: '/order-success',
-                              state: { payment: token, items: this.props.cartItems, orderTotal: this.props.total, symbol: this.props.symbol }
-                      })
-                }
-              });
-              handler.open({
-                name: 'Multikart',
-                description: 'Online Fashion Store',
-                amount: this.amount * 100
-              })
-        } else {
-          this.validator.showMessages();
-          // rerender to show messages for the first time
-          this.forceUpdate();
-        }
+    removeFromCartAndAddToOrders=(cartItems) =>{
+        const {removeFromCart,history}= this.props;
+        auth.onAuthStateChanged(async userAuth =>await addCartItemsToOrdersFirestore(userAuth,cartItems))
+        cartItems.map(product=>{
+            removeFromCart(product.id)
+            auth.onAuthStateChanged(async userAuth=>await removeCartItemFromFirestore(userAuth,product))
+        })
+        history.push('/order-success')
     }
+    
+    // StripeClick = () => {
+
+    //     if (this.validator.allValid()) {
+    //         alert('You submitted the form and stuff!');
+
+    //         var handler = (window).StripeCheckout.configure({
+    //             key: 'pk_test_glxk17KhP7poKIawsaSgKtsL',
+    //             locale: 'auto',
+    //             token: (token: any) => {
+    //                 console.log(token)
+    //                   this.props.history.push({
+    //                       pathname: '/order-success',
+    //                           state: { payment: token, items: this.props.cartItems, orderTotal: this.props.total, symbol: this.props.symbol }
+    //                   })
+    //             }
+    //           });
+    //           handler.open({
+    //             name: 'Multikart',
+    //             description: 'Online Fashion Store',
+    //             amount: this.amount * 100
+    //           })
+    //     } else {
+    //       this.validator.showMessages();
+    //       // rerender to show messages for the first time
+    //       this.forceUpdate();
+    //     }
+    // }
 
     render (){
         const {cartItems, symbol, total} = this.props;
@@ -92,7 +104,6 @@ class checkOut extends Component {
                 pathname: '/order-success',
                     state: { payment: payment, items: cartItems, orderTotal: total, symbol: symbol }
             })
-
         }
 
         const onCancel = (data) => {
@@ -115,7 +126,7 @@ class checkOut extends Component {
                 {/*SEO Support*/}
                 <Helmet>
                     <title>GlobalbuyBd | CheckOut Page</title>
-                    <meta name="description" content="GlobalbuyBd – An e-commerce platform for every smart shoppers" />
+                    <meta name="description" content="GlobalbuyBd – A global e-commerce platform for every smart shoppers" />
                 </Helmet>
                 {/*SEO Support End */}
 
@@ -241,7 +252,7 @@ class checkOut extends Component {
                                                     </div>
                                                     {(total !== 0)?
                                                     <div className="text-right">
-                                                        {(this.state.payment === 'stripe')? <button type="button" className="btn-solid btn" onClick={() => this.StripeClick()} >Place Order</button>:
+                                                        {(this.state.payment === 'stripe')? <button type="button" className="btn-solid btn" onClick={()=>this.removeFromCartAndAddToOrders(cartItems)}>Place Order</button>:
                                                          <PaypalExpressBtn env={'sandbox'} client={client} currency={'USD'} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />}
                                                     </div>
                                                     : ''}
@@ -316,5 +327,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {removeFromWishlist}
+    {removeFromWishlist,removeFromCart}
 )(checkOut)

@@ -10,7 +10,7 @@ import ProductItem from './product-item';
 import {addCartItemTofirestore,addWishlistTofirestore} from '../../../firebase/firebase.utils'
 import {auth} from '../../../firebase/firebase.utils'
 
-class Collection extends Component {
+class CollectionTwo extends Component {
     componentDidMount(){
         console.log(this.props)
     }
@@ -68,4 +68,4 @@ const mapStateToProps = (state, ownProps) => ({
     cartItems: state.cartList
 })
 
-export default connect(mapStateToProps,{addToWishlist,addToCart,addToCompare})(Collection)
+export default connect(mapStateToProps,{addToWishlist,addToCart,addToCompare})(CollectionTwo)

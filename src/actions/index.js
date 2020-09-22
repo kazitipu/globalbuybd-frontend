@@ -3,6 +3,7 @@ import * as types from '../constants/ActionTypes'
 import store from "../store";
 import { toast  } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import wishlist from '../components/wishlist';
 
 
 export const setCurrentUser = (user) =>{
@@ -11,6 +12,20 @@ export const setCurrentUser = (user) =>{
         payload: user
     }
 };
+
+export const setReduxCart = (cartArray)=>{
+    return{
+        type:'SET_REDUX_CART',
+        payload: cartArray,
+    }
+}
+
+export const setReduxWishlist = (wishlistArray) =>{
+    return{
+        type:'SET_REDUX_WISHLIST_ARRAY',
+        payload: wishlistArray,
+    }
+}
 
 export const fetchProductsBegin = () => ({
     type: types.FETCH_PRODUCTS_BEGIN

@@ -7,9 +7,9 @@ import HeaderThree from './common/headers/header-three';
 import FooterOne from "./common/footers/footer-one";
 import FooterTwo from "./common/footers/footer-two";
 import FooterThree from "./common/footers/footer-three";
-import {auth, createUserProfileDocument} from '../firebase/firebase.utils'
+import {auth, createUserProfileDocument,firestore} from '../firebase/firebase.utils'
 import {connect} from 'react-redux'
-import {setCurrentUser} from '../actions'
+import {setCurrentUser,setReduxCart,setReduxWishlist} from '../actions'
 // ThemeSettings
 import ThemeSettings from "./common/theme-settings"
 
@@ -28,8 +28,22 @@ class App extends Component {
           userRef.onSnapshot((snapShot) => {
             this.props.setCurrentUser({ id: snapShot.id, ...snapShot.data() });
           });
+          const cartRef = firestore.doc(`carts/${userAuth.uid}`);
+          cartRef.onSnapshot((snapShot) =>{
+            if (snapShot.exists){
+              this.props.setReduxCart(snapShot.data().cart)
+            }
+          });
+          const wishlistRef = firestore.doc(`wishlists/${userAuth.uid}`)
+          wishlistRef.onSnapshot((snapShot)=>{
+            if (snapShot.exists){
+              this.props.setReduxWishlist(snapShot.data().wishlist)
+            }  
+          })
         }else {
             this.props.setCurrentUser({ displayName: "", email: "" });
+            this.props.setReduxCart([])
+            this.props.setReduxWishlist([])
         }
       });
     }
@@ -51,6 +65,7 @@ class App extends Component {
     }
 
     render() {
+      console.log(this.props)
         return (
             <div>
                 <HeaderThree logoName={'logo/14.png'}/>
@@ -65,11 +80,8 @@ class App extends Component {
 }
 
 const mapStateToProps=(state)=>{
-  console.log(state.cartList.cart)
-  
-  
   return{
     currentUser:state.user,
     cartItems: state.cartList
 }}
-export default connect(mapStateToProps,{setCurrentUser})(App);
+export default connect(mapStateToProps,{setCurrentUser,setReduxCart,setReduxWishlist})(App);

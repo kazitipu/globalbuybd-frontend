@@ -24,6 +24,9 @@ export default function wishlistReducer(state = {
 
             return { ...state, list: [...state.list, action.product] }
 
+        case 'SET_REDUX_WISHLIST_ARRAY':
+            return {...state, list:action.payload}
+            
         case REMOVE_FROM_WISHLIST:
             return {
                 list: state.list.filter(id => id !== action.product_id)

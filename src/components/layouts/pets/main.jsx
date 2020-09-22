@@ -5,13 +5,14 @@ import Slider from 'react-slick';
 import {Link} from 'react-router-dom'
 
 // Import custom components
-import Collection from "./collection"
+import Collection from "./collection";
 import LogoBlock from "../common/logo-block"
 import BlogSection from "../common/blogsection";
 import HeaderThree from "../../common/headers/header-three"
 import FooterTwo from "../../common/footers/footer-two"
 import ThemeSettings from "../../common/theme-settings"
 import axios from 'axios'
+import CollectionTwo from './collection2'
 
 
 class Pets extends Component {
@@ -196,7 +197,7 @@ class Pets extends Component {
                 {/*Banner Section End*/}
 
                 {/*Product Section*/}
-                <Collection type={'pets'} title="TOP COLLECTION" subtitle="Special Offer"/>
+                <CollectionTwo type={'pets'} title="TOP COLLECTION" subtitle="Special Offer"/>
                 {/*Product Section End*/}
 
                 {/*Parallax banner*/}
@@ -221,7 +222,7 @@ class Pets extends Component {
                 {/*Parallax banner end*/}
 
                 {/*Product Slider*/}
-                <Collection type={'pets'} title="SAVE AND EXTRA" />
+                <CollectionTwo type={'pets'} title="SAVE AND EXTRA" />
                 {/*Product Slider End*/}
 
                 {/* Blog Section Section*/}

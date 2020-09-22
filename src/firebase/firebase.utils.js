@@ -1,7 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid'
 import collection from "../components/layouts/pets/collection";
+import { getCartTotal } from "../services";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD_y8loznUuaKya6oq1OLwq1KhcG44VKC4",
@@ -46,7 +48,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   }
   return userRef;
 };
-
+// add item to firestore cart start
 export const addCartItemTofirestore =async (userAuth,product,qty)=>{
   if (!userAuth) return;
   const cartRef = firestore.doc(`carts/${userAuth.uid}`);
@@ -91,7 +93,6 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
   }    
 }
 
-
 export const decrementCartItemFromFirestore = async (userAuth,product) =>{
   if (!userAuth) return;
   const cartRef = firestore.doc(`carts/${userAuth.uid}`);
@@ -101,7 +102,7 @@ export const decrementCartItemFromFirestore = async (userAuth,product) =>{
   }else{
     if (snapShot.data().cart.findIndex(item=>item.id === product.id) !== -1){
       const cart = snapShot.data().cart.reduce((cartAcc, item)=>{
-        if (item.id === product.id && item.qty >1){
+        if (item.id === product.id && item.qty >= 1){
           cartAcc.push({...item, qty:item.qty-1,sum:(item.price*item.discount/100)*(item.qty-1)})
         }
         else{
@@ -109,9 +110,10 @@ export const decrementCartItemFromFirestore = async (userAuth,product) =>{
         }
         return cartAcc;
       },[])
+      const newCart = cart.filter(item=>item.qty !==0)
       try{
         await cartRef.update({
-          cart
+          cart: newCart
         })
       }catch(error){
         alert(error)
@@ -119,6 +121,7 @@ export const decrementCartItemFromFirestore = async (userAuth,product) =>{
     }
   }
 }
+
 export const removeCartItemFromFirestore =async (userAuth,product) =>{
   if (!userAuth)return;
   const cartRef = firestore.doc(`carts/${userAuth.uid}`)
@@ -134,7 +137,54 @@ export const removeCartItemFromFirestore =async (userAuth,product) =>{
     }
   }
 }
+// add item to firestore cart finished
 
+// add item to firestore wishlist
+
+export const addWishlistTofirestore =async (userAuth,product)=>{
+  if (!userAuth) return
+  const wishlistRef = firestore.doc(`wishlists/${userAuth.uid}`)
+  const snapShot = await wishlistRef.get()
+  if (!snapShot.exists){
+    wishlistRef.set({wishlist:[product]})
+  }else{
+    if (snapShot.data().wishlist.findIndex(item=>item.id === product.id) !==-1){
+      return
+    }else {
+      wishlistRef.update({
+        wishlist:[...snapShot.data().wishlist, product]
+      })
+    }
+  }
+}
+
+export const removeFromWishlistFirestore = async (userAuth, product) =>{
+  if (!userAuth) return
+  const wishlistRef = firestore.doc(`wishlists/${userAuth.uid}`)
+  const snapShot = await wishlistRef.get()
+  const wishlist = snapShot.data().wishlist.filter(item=>item.id !==product.id)
+  wishlistRef.update({wishlist})
+}
+
+export const addToCartAndRemoveWishlistFirestore = async (userAuth,product,qty)=>{
+  await addCartItemTofirestore(userAuth,product,qty)
+  await removeFromWishlistFirestore(userAuth,product)
+
+}
+
+// wishlist ended
+
+// orders start 
+export const addCartItemsToOrdersFirestore=(userAuth,ordersArray) =>{
+  if (!userAuth) return;
+  const sum = getCartTotal(ordersArray)
+  const ordersRef = firestore.doc(`orders/${uuidv4()}`)
+  ordersRef.set({
+    userId:userAuth.uid,
+    orders:ordersArray,
+    sum
+  })
+}
 
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 export const singInWithFacebook = () => auth.signInWithPopup(facebookProvider);

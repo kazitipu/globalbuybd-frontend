@@ -7,12 +7,30 @@ import {Link} from 'react-router-dom'
 import Breadcrumb from "../common/breadcrumb";
 import {getCartTotal} from "../../services";
 import {removeFromCart, incrementQty, decrementQty} from '../../actions'
+import {addCartItemTofirestore,decrementCartItemFromFirestore,removeCartItemFromFirestore,auth} from '../../firebase/firebase.utils'
+
 
 class cartComponent extends Component {
 
     constructor (props) {
         super (props)
     }
+
+    removeFromReduxAndFirestoreCart = (item) =>{
+        auth.onAuthStateChanged(async userAuth=>await removeCartItemFromFirestore(userAuth,item))
+        this.props.removeFromCart(item)      
+    }
+
+    decrementReduxAndFirestoreQty = (item) =>{
+        auth.onAuthStateChanged(async userAuth=>await decrementCartItemFromFirestore(userAuth,item))
+        this.props.decrementQty(item.id)
+    }
+
+    incrementReduxAndFirestoreQty = (item, qty) =>{
+        auth.onAuthStateChanged(async userAuth =>await addCartItemTofirestore(userAuth,item,qty))
+        this.props.incrementQty(item,qty)
+    }
+
 
     render (){
 
@@ -21,7 +39,7 @@ class cartComponent extends Component {
             <div>
                 {/*SEO Support*/}
                 <Helmet>
-                    <title>MultiKart | Cart List Page</title>
+                    <title>Globalbuybd | Cart items</title>
                     <meta name="description" content="Multikart – Multipurpose eCommerce React Template is a multi-use React template. It is designed to go well with multi-purpose websites. Multikart Bootstrap 4 Template will help you run multiple businesses." />
                 </Helmet>
                 {/*SEO Support End */}
@@ -70,9 +88,9 @@ class cartComponent extends Component {
                                                         </div>
                                                         <div className="col-xs-3">
                                                             <h2 className="td-color">
-                                                                <a href="#" className="icon" onClick={() => this.props.removeFromCart(item)}>
+                                                                <div className="icon" style={{'cursor':'pointer'}} onClick={() => this.removeFromReduxAndFirestoreCart(item)}>
                                                                     <i className="icon-close"></i>
-                                                                </a>
+                                                                </div>
                                                             </h2>
                                                         </div>
                                                     </div>
@@ -82,14 +100,14 @@ class cartComponent extends Component {
                                                     <div className="qty-box">
                                                         <div className="input-group">
                                                             <span className="input-group-prepend">
-                                                                <button type="button" className="btn quantity-left-minus" onClick={() => this.props.decrementQty(item.id)} data-type="minus" data-field="">
+                                                                <button type="button" className="btn quantity-left-minus" onClick={() => this.decrementReduxAndFirestoreQty(item)} data-type="minus" data-field="">
                                                                  <i className="fa fa-angle-left"></i>
                                                                 </button>
                                                             </span>
                                                             <input type="text" name="quantity" value={item.qty} readOnly={true} className="form-control input-number" />
 
                                                             <span className="input-group-prepend">
-                                                            <button className="btn quantity-right-plus" onClick={() => this.props.incrementQty(item, 1)}  data-type="plus" disabled={(item.qty >= item.stock)? true : false}>
+                                                            <button className="btn quantity-right-plus" onClick={() => this.incrementReduxAndFirestoreQty(item, 1)}  data-type="plus" disabled={(item.qty >= item.stock)? true : false}>
                                                             <i className="fa fa-angle-right"></i>
                                                             </button>
                                                            </span>
@@ -97,9 +115,9 @@ class cartComponent extends Component {
                                                     </div>{(item.qty >= item.stock)? 'out of Stock' : ''}
                                                 </td>
                                                 <td>
-                                                    <a href="#" className="icon" onClick={() => this.props.removeFromCart(item)}>
+                                                    <div className="icon" style={{'cursor':'pointer'}} onClick={() => this.removeFromReduxAndFirestoreCart(item)}>
                                                         <i className="fa fa-times"></i>
-                                                    </a>
+                                                    </div>
                                                 </td>
                                                 <td><h2 className="td-color">{symbol}{item.sum}</h2></td>
                                             </tr>

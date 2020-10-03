@@ -34,7 +34,7 @@ const persistedState = loadFromLocalStorage()
  * Create a Redux store that holds the app state.
  */
 const store = createStore(rootReducer, compose(
-    applyMiddleware(thunkMiddleware),
+    applyMiddleware(thunkMiddleware,),
 
     //For working redux dev tools in chrome (https://github.com/zalmoxisus/redux-devtools-extension)
     window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function (f) {

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
-const CartHeader  = ({item, total, symbol, removeFromCart}) => (
+const CartHeader  = ({item, total, symbol, removeFromCart,history}) => (
             <li >
-                <div className="media">
-                    <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}><img alt="" className="mr-3" src={`${item.pictures[0]}`} /></Link>
+                <div className="media" style={{"cursor":"pointer"}} onClick={()=>history.push(`${process.env.PUBLIC_URL}/product/${item.id}`)}>
+                    <img alt="" className="mr-3" src={`${item.pictures[0]}`} />
                     <div className="media-body">
-                        <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}><h4>{item.name}</h4></Link>
-                        <h4><span>{item.qty} x {symbol} {(item.price*item.discount/100)}</span></h4>
+                        <h4>{item.name}</h4>
+                        <h4><span>{item.qty} x {symbol} {item.salePrice}</span></h4>
                     </div>
                 </div>
                 {/*<span>{cart}</span>*/}
@@ -19,4 +20,4 @@ const CartHeader  = ({item, total, symbol, removeFromCart}) => (
 
 
 
-export default CartHeader;
+export default withRouter(CartHeader);

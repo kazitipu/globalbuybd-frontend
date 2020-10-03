@@ -3,6 +3,8 @@ import {Helmet} from 'react-helmet'
 import '../../common/index.scss';
 import Slider from 'react-slick';
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getAllProductsFirestore} from '../../../actions'
 
 // Import custom components
 import Collection from "./collection";
@@ -13,11 +15,14 @@ import FooterTwo from "../../common/footers/footer-two"
 import ThemeSettings from "../../common/theme-settings"
 import axios from 'axios'
 import CollectionTwo from './collection2'
+import {getAllFirestoreProducts} from '../../../firebase/firebase.utils'
 
 
 class Pets extends Component {
 
-    componentDidMount() {
+    componentDidMount = async()=> {
+        const productsArray = await getAllFirestoreProducts()
+        this.props.getAllProductsFirestore(productsArray)
         document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/color15.css` );
         console.log(this.props)
     //     axios({
@@ -60,9 +65,9 @@ class Pets extends Component {
                                                 <div className="slider-contain">
                                                     <div>
                                                         <h3>GlobalBuyBd এর সাথে</h3>
-                                                        <h2>বিশ্বের সেরা যে কোন ই-কমার্স প্লাটফর্ম থেকে পন্য ক্রয় করুন খুব সহজে</h2>
+                                                        <h2 style={{'color':'white'}}>বিশ্বের সেরা যে কোন ই-কমার্স প্লাটফর্ম থেকে পন্য ক্রয় করুন খুব সহজে</h2>
                                                         <h5>আমরা পোঁছে দিবো আপনার দরজায়</h5>
-                                                        <Link to="/left-sidebar/collection" className="btn btn-solid">shop now</Link>
+                                                        <Link to="/collection/in-stock" className="btn btn-solid">shop now</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,9 +83,9 @@ class Pets extends Component {
                                                 <div className="slider-contain">
                                                     <div>
                                                     <h3>GlobalBuyBd এর সাথে</h3>
-                                                    <h2>বিশ্বের সেরা যে কোন ই-কমার্স প্লাটফর্ম থেকে পন্য ক্রয় করুন খুব সহজে</h2>
+                                                    <h2 style={{'color':'white'}}>বিশ্বের সেরা যে কোন ই-কমার্স প্লাটফর্ম থেকে পন্য ক্রয় করুন খুব সহজে</h2>
                                                     <h5>আমরা পোঁছে দিবো আপনার দরজায়</h5>
-                                                    <Link to="/left-sidebar/collection" className="btn btn-solid">shop now</Link>
+                                                    <Link to="/collection/pre-order" className="btn btn-solid">pre order</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -100,7 +105,7 @@ class Pets extends Component {
                     <div className="container">
                         <div className="row partition3">
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/1.jpg`}
@@ -115,7 +120,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-right text-right">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/2.jpg`}
@@ -130,7 +135,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/3.jpg`}
@@ -147,7 +152,7 @@ class Pets extends Component {
                         </div>
                         <div className="row partition3 banner-top-cls">
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-right">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/4.jpg`}
@@ -162,7 +167,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-left text-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/5.jpg`}
@@ -177,7 +182,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/left-sidebar/collection">
+                                <Link to="/">
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/6.jpg`}
@@ -197,7 +202,7 @@ class Pets extends Component {
                 {/*Banner Section End*/}
 
                 {/*Product Section*/}
-                <CollectionTwo type={'pets'} title="TOP COLLECTION" subtitle="Special Offer"/>
+                <CollectionTwo type={'others'} status={'new'} title="NEW COLLECTION" subtitle="choose yours"/>
                 {/*Product Section End*/}
 
                 {/*Parallax banner*/}
@@ -222,7 +227,7 @@ class Pets extends Component {
                 {/*Parallax banner end*/}
 
                 {/*Product Slider*/}
-                <CollectionTwo type={'pets'} title="SAVE AND EXTRA" />
+                <CollectionTwo type={'Kids'} status={'sale'} title="SAVE AND EXTRA" subtitle="special offer" />
                 {/*Product Slider End*/}
 
                 {/* Blog Section Section*/}
@@ -249,4 +254,4 @@ class Pets extends Component {
 }
 
 
-export default Pets;
+export default connect(null,{getAllProductsFirestore})(Pets);

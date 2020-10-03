@@ -27,27 +27,34 @@ export const setReduxWishlist = (wishlistArray) =>{
     }
 }
 
-export const fetchProductsBegin = () => ({
-    type: types.FETCH_PRODUCTS_BEGIN
-});
+// export const fetchProductsBegin = () => ({
+//     type: types.FETCH_PRODUCTS_BEGIN
+// });
 
 
 
-export const receiveProducts = products => ({
-    type: types.RECEIVE_PRODUCTS,
-    products
-})
+// export const receiveProducts = products => ({
+//     type: types.RECEIVE_PRODUCTS,
+//     products
+// })
 
-export const getAllProducts = () => dispatch => {
-    dispatch(fetchProductsBegin());
-    shop.getProducts(products => {
-        dispatch(receiveProducts(products));
-        return products;
-    })
+// export const getAllProducts = () => dispatch => {
+//     dispatch(fetchProductsBegin());
+//     shop.getProducts(products => {
+//         dispatch(receiveProducts(products));
+//         return products;
+//     })
+// }
+export const getAllProductsFirestore = (productsArray) =>{
+    return {
+        type:'FETCH_ALL_PRODUCTS_FROM_FIRESTORE',
+        payload: productsArray
+    }
+    
 }
-export const fetchSingleProduct = productId => ({
+export const fetchSingleProduct = productObj => ({
     type: types.FETCH_SINGLE_PRODUCT,
-    productId
+    payload : productObj,
 })
 
 
@@ -78,6 +85,11 @@ export const removeFromCart = product_id => (dispatch) => {
         product_id
     })
 };
+export const removeCart =()=>{
+    return{
+        type:'REMOVE_CART',
+    }
+}
 export const incrementQty = (product,qty) => (dispatch) => {
     toast.success("Item Added to Cart");
     dispatch(addToCartUnsafe(product, qty))
@@ -110,6 +122,15 @@ export const removeFromWishlist = product_id => (dispatch) => {
         product_id
     })
 };
+
+// order porducts 
+
+export const setOrderObj = (orderObj) =>{
+    return{
+        type:'SET_ORDER_OBJECT',
+        payload: orderObj
+    }
+}
 
 
 //Compare Products

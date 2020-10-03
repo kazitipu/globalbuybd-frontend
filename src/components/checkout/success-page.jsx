@@ -1,16 +1,30 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import Modal from 'react-responsive-modal';
+import './success-page.css';
 
 
 class orderSuccess extends Component {
 
     constructor (props) {
         super (props)
+        
+        this.state = {
+            open: false,
+            image: ''
+        }
 
     }
+    onOpenModal = () => {
+        this.setState({ open: true });
+    };
+    onCloseModal = () => {
+        this.setState({ open: false });
+    };
 
     render (){
 
-        // const {payment, items, symbol, orderTotal} = this.props.location.state;
+        const {orderObj,symbol} = this.props;
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         var current = new Date();
         var next5days = new Date(Date.now() + 5 * 86400000);
@@ -18,23 +32,40 @@ class orderSuccess extends Component {
         let deliveryDate = next5days.toLocaleDateString("en-US", options).toString()
 
         return (
-            // (payment)?
-            <>
             <div>
-                <section className="section-b-space light-layout">
+                {
+                    orderObj?<div><section className="section-b-space dark-layout">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="success-text">
                                     <i className="fa fa-check-circle" aria-hidden="true"></i>
                                     <h2>thank you</h2>
-                                    <p>Payment Is Has Been Received Order Placed Successfully</p>
-                                    {/* <p>Transaction ID: {(payment.paymentID)?payment.paymentID:payment.id}</p> */}
+                                    <p>Order Placed Successfully</p>
+                                    <h3>Order Id:  {orderObj.orderId} </h3>
+                                    <p>আগামী ৪৮ ঘন্টার মধ্যে পেমেন্ট সম্পন্ন করে আপনার অর্ডারটি কনফার্ম করুন।</p>
+                               
+                        
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+
+                <div className='success-page-payment-buttons'>
+                        <button type='button' className='btn-solid btn' data-toggle="modal" data-target="#exampleModalCenter">Pay now 
+                        </button>
+                        <button type='button' className='btn-solid btn' onClick={() => this.props.history.push('/')}>Pay later
+                        </button>
+                </div>
+{/* 
+<button type="button" class="btn btn-primary"  >
+  Launch demo modal
+</button> */}
+
+
+
+                 
 
                 <section className="section-b-space">
                     <div className="container">
@@ -42,12 +73,10 @@ class orderSuccess extends Component {
                             <div className="col-lg-6">
                                 <div className="product-order">
                                     <h3>your order details</h3>
-                                    {/* {items.map((item, index) => {
+                                    {orderObj.order.map((item, index) => {
                                     return <div className="row product-order-detail" key={index}>
                                                 <div className="col-3">
-                                                    <img src={item.variants?
-                                                        item.variants[0].images
-                                                        :item.pictures[0]} alt="" className="img-fluid" />
+                                                    <img src={item.pictures[0]} alt="" className="img-fluid" />
                                                 </div>
                                                 <div className="col-3 order_detail">
                                                     <div>
@@ -64,20 +93,20 @@ class orderSuccess extends Component {
                                                 <div className="col-3 order_detail">
                                                     <div>
                                                         <h4>price</h4>
-                                                        <h5>{symbol}{item.sum}</h5>
+                                                        <h5>{symbol}{item.qty * item.salePrice}</h5>
                                                     </div>
                                                 </div>
                                             </div>
-                                    })} */}
+                                    })}
                                     <div className="total-sec">
                                         <ul>
-                                            {/* <li>subtotal <span>{symbol}{orderTotal}</span></li> */}
+                                            <li>subtotal <span>{symbol}{orderObj.sum}</span></li>
                                             <li>shipping <span>$0</span></li>
                                             <li>tax(GST) <span>$0</span></li>
                                         </ul>
                                     </div>
                                     <div className="final-total">
-                                        {/* <h3>total <span>{symbol}{orderTotal}</span></h3> */}
+                                        <h3>total <span>{symbol}{orderObj.sum}</span></h3>
                                     </div>
                                 </div>
                             </div>
@@ -85,29 +114,17 @@ class orderSuccess extends Component {
                                 <div className="row order-success-sec">
                                     <div className="col-sm-6">
                                         <h4>summery</h4>
-                                        {/* <ul className="order-detail">
-                                            {(payment.paymentID)?
-                                                <div>
-                                            <li>payer ID: {payment.payerID}</li>
-                                            <li>payment ID: {payment.paymentID}</li>
-                                            <li>payment Token: {payment.paymentToken}</li></div>
-                                                :
-                                            <li>Order ID: {payment.id}</li> }
-
-                                            <li>Order Date: {CheckDate}</li>
-                                            <li>Order Total: {symbol}{orderTotal}</li>
-                                        </ul> */}
+                                       
                                     </div>
                                     <div className="col-sm-6">
                                         <h4>shipping address</h4>
                                         <ul className="order-detail">
-                                            <li>gerg harvell</li>
-                                            <li>568, suite ave.</li>
-                                            <li>Austrlia, 235153</li>
-                                            <li>Contact No. 987456321</li>
+                                            <li>{orderObj.otherInformation.first_name}{orderObj.otherInformation.last_name}</li>
+                                            <li>{orderObj.otherInformation.address}</li>
+                                            <li>{orderObj.otherInformation.city}</li>
+                                            <li>{orderObj.otherInformation.phone}</li>
                                         </ul>
                                     </div>
-
                                     <div className="col-sm-12 payment-mode">
                                         <h4>payment method</h4>
                                         <p>Pay on Delivery (Cash/Card). Cash on delivery (COD) available. Card/Net
@@ -124,9 +141,13 @@ class orderSuccess extends Component {
 
                         </div>
                     </div>
-                </section>
+                </section> 
+            
+                </div>: <div>please make an order first</div>
+                }
+                
             </div>
-            // :
+            /* // :
             <section className="p-0">
                 <div className="container">
                     <div className="row">
@@ -139,9 +160,16 @@ class orderSuccess extends Component {
                         </div>
                     </div>
                 </div>
-            </section></>
+            </section>   */
+               
         )
     }
 }
 
-export default orderSuccess
+const mapStateToProps =(state)=>{
+    return{
+        orderObj:state.orders.orders[state.orders.orders.length - 1],
+        symbol: state.data.symbol,
+    }
+}
+export default connect(mapStateToProps)(orderSuccess)

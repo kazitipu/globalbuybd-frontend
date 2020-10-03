@@ -66,22 +66,22 @@ class ProductItem extends Component {
         for(var i = 0; i < product.rating; i++) {
             RatingStars.push(<i className="fa fa-star" key={i}></i>)
         }
+        const image = product.pictures[0]
+        console.log(product)
         return (
             <div>
                 <div className="product-box">
                     <div className="img-wrapper">
                         <div className="lable-block">
-                            {(product.new == true)? <span className="lable3">new</span> : ''}
                             {(product.sale == true)? <span className="lable4">on sale</span> : ''}
+                            {(product.new == true)? <span className="lable3">new</span> : ''}
+                           
 
                         </div>
                         <div className="front">
-                            <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`} >
-                                <img src={`${
-                                    product.variants?
-                                        this.state.image?this.state.image:product.variants[0].images
-                                        :product.pictures[0]
-                                    }`}
+                        
+                            <Link to={`/product/${product.id}`} >
+                                <img src={`${image}`}
                                 className="img-fluid lazyload bg-img"
                                 alt="" />
                             </Link>
@@ -106,11 +106,11 @@ class ProductItem extends Component {
                             <div className="rating">
                                 {RatingStars}
                             </div>
-                            <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}>
+                            <Link to={`/product/${product.id}`}>
                                 <h6>{product.name}</h6>
                             </Link>
-                            <h4>{symbol}{product.price-(product.price*product.discount/100)}
-                                <del><span className="money">{symbol}{product.price}</span></del>
+                            <h4>{symbol}{Math.round(product.salePrice)}
+                                {product.price? <del><span className="money">{symbol}{product.price}</span></del>:''}
                             </h4>
                         </div>
                     </div>
@@ -123,23 +123,19 @@ class ProductItem extends Component {
                                     <div className="row">
                                         <div className="col-lg-6  col-xs-12">
                                             <div className="quick-view-img">
-                                                <img src={`${
-                                                    product.variants?
-                                                        this.state.image?this.state.image:product.variants[0].images
-                                                        :product.pictures[0]
-                                                    }`} alt="" className="img-fluid" />
+                                                <img src={`${product.pictures[0]}`} alt="" className="img-fluid" />
                                             </div>
                                         </div>
                                         <div className="col-lg-6 rtl-text">
                                             <div className="product-right">
                                                 <h2> {product.name} </h2>
-                                                <h3>{symbol}{product.price}</h3>
-                                                {product.variants?
+                                                <h3>{symbol}{Math.round(product.price)}</h3>
+                                                {/* {product.variants?
                                                 <ul className="color-variant">
                                                     {product.variants.map((vari, i) =>
                                                         <li className={vari.color} key={i} title={vari.color} onClick={() => this.onClickHandle(vari.images)}></li>)
                                                     }
-                                                </ul>:''}
+                                                </ul>:''} */}
                                                 <div className="border-product">
                                                     <h6 className="product-title">product details</h6>
                                                     <p>{product.shortDetails}</p>
@@ -148,7 +144,7 @@ class ProductItem extends Component {
                                                     {product.size?
                                                     <div className="size-box">
                                                         <ul>
-                                                            {product.size.map((size, i) => {
+                                                            {product.size.split(',').map((size, i) => {
                                                                 return <li key={i}><a href="#">{size}</a></li>
                                                             })}
                                                         </ul>
@@ -172,7 +168,7 @@ class ProductItem extends Component {
                                                 </div>
                                                 <div className="product-buttons">
                                                     <button  className="btn btn-solid" onClick={() => onAddToCartClicked(product, this.state.quantity)} >add to cart</button>
-                                                    <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`} className="btn btn-solid">view detail</Link>
+                                                    <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid">view detail</Link>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,12 +3,11 @@ import Slider from 'react-slick';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'
 
-import { getTrendingCollection} from '../../../services'
-import {Product4} from '../../../services/script'
+import { getTopCollection, getTrendingCollection,getTopCollectionItems} from '../../../services'
+import {Product5} from '../../../services/script'
 import {addToCart,addToCompare,addToWishlist} from '../../../actions'
 import ProductItem from './product-item';
-import {addCartItemTofirestore,addWishlistTofirestore} from '../../../firebase/firebase.utils'
-import {auth} from '../../../firebase/firebase.utils'
+import {auth,addCartItemTofirestore,addWishlistTofirestore} from '../../../firebase/firebase.utils'
 
 class CollectionTwo extends Component {
     componentDidMount(){
@@ -28,7 +27,7 @@ class CollectionTwo extends Component {
     }
 
     render(){
-        const {items, symbol, addToCompare, title, subtitle} = this.props;
+        const {items,topCollectionItems, symbol, addToCompare, title, subtitle} = this.props;
         console.log(this.props)
         return (
             <div>
@@ -42,8 +41,19 @@ class CollectionTwo extends Component {
                                     <h2 className="title-inner1">{title}</h2>
                                     <hr role="tournament6" />
                                 </div>
-                                <Slider {...Product4} className="product-4 product-m no-arrow">
+                                <Slider {...Product5} className="product-5 product-m no-arrow">
                                     { items.map((product, index ) =>
+                                        <div key={index}>
+                                            <ProductItem product={product} symbol={symbol}
+                                                         onAddToCompareClicked={() => addToCompare(product)}
+                                                         onAddToWishlistClicked={() => this.addToReduxAndFirestoreWishlist(product)}
+                                                         onAddToCartClicked={() => this.addToReduxAndFirestoreCart(product, 1)} key={index}
+                                                          />
+                                        </div>)
+                                    }
+                                </Slider>
+                                <Slider {...Product5} className="product-5 product-m no-arrow">
+                                    { topCollectionItems.map((product, index ) =>
                                         <div key={index}>
                                             <ProductItem product={product} symbol={symbol}
                                                          onAddToCompareClicked={() => addToCompare(product)}
@@ -64,6 +74,7 @@ class CollectionTwo extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     items: getTrendingCollection(state.data.products, ownProps.type),
+    topCollectionItems: getTopCollectionItems(state.data.products, ownProps.status),
     symbol: state.data.symbol,
     cartItems: state.cartList
 })

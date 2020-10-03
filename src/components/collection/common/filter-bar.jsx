@@ -103,8 +103,8 @@ class FilterBar extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    products: getVisibleproducts(state.data, state.filters),
+const mapStateToProps = (state,ownProps) => ({
+    products: state.data.products.filter(product=>product.availability == ownProps.match.params.id),
     filters: state.filters
 })
 

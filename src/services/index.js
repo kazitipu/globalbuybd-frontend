@@ -19,7 +19,7 @@ export const getColors = (products) => {
     var uniqueColors = [];
     products.map((product, index) => {
         if(product.colors) {
-            product.colors.map((color) => {
+            product.colors.split(',').map((color) => {
                 if (uniqueColors.indexOf(color) === -1) {
                     uniqueColors.push(color);
                 }
@@ -83,17 +83,23 @@ export const getVisibleproducts = (data, { brand, color, value, sortBy }) => {
 export const getCartTotal = cartItems => {
     var total = 0;
     for(var i=0; i<cartItems.length; i++){
-        total += parseInt(cartItems[i].qty, 10)*parseInt((cartItems[i].price*cartItems[i].discount/100), 10);
+        total += parseInt(cartItems[i].qty, 10)*parseInt((cartItems[i].salePrice), 10);
     }
     return total;
 }
 
+export const getTopCollectionItems = (products,status) =>{
+    const items = products.filter(product =>{
+        return (product[status] === true)
+    })
+    return items.slice(0,15)
+}
 // Get Trending Tag wise Collection
 export const getTrendingTagCollection = (products, type, tag) => {
     const items = products.filter(product => {
         return product.category === type && product.tags.includes(tag);
     })
-    return items.slice(0,8)
+    return items.slice(0,15)
 }
 
 // Get Trending Collection

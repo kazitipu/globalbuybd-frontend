@@ -40,6 +40,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
+        ordersArray:[],
         ...additionalData,
       });
     } catch (error) {
@@ -66,7 +67,7 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
     if (snapShot.data().cart.findIndex(item => item.id === product.id) !== -1) {
       const cart = snapShot.data().cart.reduce((cartAcc, item) => {
           if (item.id === product.id) {
-              cartAcc.push({ ...item, qty: item.qty+1, sum: (item.price*item.discount/100)*(item.qty+1) }) // Increment qty
+              cartAcc.push({ ...item, qty: item.qty+parseInt(qty), sum: (item.price*item.discount/100)*(item.qty+parseInt(qty)) }) // Increment qty
           } else {
               cartAcc.push(item)
           }
@@ -137,6 +138,12 @@ export const removeCartItemFromFirestore =async (userAuth,product) =>{
     }
   }
 }
+
+export const removeAllCartItemFromFirestore = async (userAuth,cartItem)=>{
+  if (!userAuth)return;
+  const cartRef = firestore.doc(`carts/${userAuth.uid}`)
+  cartRef.delete()
+}
 // add item to firestore cart finished
 
 // add item to firestore wishlist
@@ -175,15 +182,85 @@ export const addToCartAndRemoveWishlistFirestore = async (userAuth,product,qty)=
 // wishlist ended
 
 // orders start 
-export const addCartItemsToOrdersFirestore=(userAuth,ordersArray) =>{
+
+
+const GenerateUniqueID =()=> {
+  return ('0000'+(Math.random() * (100000 - 101) + 101)).slice(-5);
+}
+
+export const addCartItemsToOrdersFirestore=async(userAuth,ordersArray,billingAddress) =>{
   if (!userAuth) return;
   const sum = getCartTotal(ordersArray)
-  const ordersRef = firestore.doc(`orders/${uuidv4()}`)
-  ordersRef.set({
+  const paid = 0
+  const uniqueId = 'gbb' + GenerateUniqueID()
+  const orderRef = firestore.doc(`orders/${uniqueId}`)
+  try{
+  await orderRef.set({
     userId:userAuth.uid,
-    orders:ordersArray,
-    sum
+    otherInformation: billingAddress,
+    order:ordersArray,
+    sum,
+    status:{
+      order_pending: true,
+      payment_approved:false,
+      ordered:false,
+      china_warehouse:false,
+      in_shipping:false,
+      in_stock:false,
+      ready_to_ship:false,
+      delivered:false
+    },
+    paymentStatus:{
+      paid,
+      due:parseInt(sum) - parseInt(paid),
+      total:sum
+    }
   })
+  const snapShot = await orderRef.get()
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const userSnapShot =await userRef.get()
+  const previousOrdersArray = userSnapShot.data().ordersArray
+  try{
+    await userRef.update({
+      ordersArray:[...previousOrdersArray, {...snapShot.data(),orderId:uniqueId}]
+    })
+  }catch(error){
+    alert('error creating order. try again later', error)
+  }
+
+  console.log(snapShot.data())
+  return {...snapShot.data(), orderId:uniqueId}
+
+}catch(error){
+    alert('error creating order. please try again',error)
+  }
+}
+
+// getting all products from firestore 
+export const getAllFirestoreProducts = async()=>{
+  const productsCollectionRef = firestore.collection('products')
+  try{
+    const products =await productsCollectionRef.get()
+    const productsArray = []
+    products.forEach((doc)=>{
+      console.log(doc.id, " => ", doc.data())
+      productsArray.push(doc.data())
+    })
+    return productsArray;
+  }catch(error){
+    alert(error)
+  }
+}
+
+// getting single product from firestore 
+export const getSingleProduct = async (id) =>{
+  const productRef = firestore.doc(`products/${id}`)
+  try {
+    const product = await productRef.get()
+    return product.data()
+  }catch(error){
+    alert(error)
+  }
 }
 
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);

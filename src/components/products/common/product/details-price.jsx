@@ -45,7 +45,10 @@ class DetailsWithPrice extends Component {
         }
     }
     changeQty = (e) => {
-        this.setState({ quantity: parseInt(e.target.value) })
+        e.preventDefault()
+        const {name, value} = e.target
+        this.setState({ [name]:value})
+        console.log(this.state)
     }
 
     render (){
@@ -66,12 +69,12 @@ class DetailsWithPrice extends Component {
                     <h4>
                         <del>{symbol}{item.price}</del>
                         <span>{item.discount}% off</span></h4>
-                    <h3>{symbol}{item.price-(item.price*item.discount/100)} </h3>
+                    <h3>{symbol}{item.salePrice} </h3>
                     {item.variants?
                     <ul >
                         <Slider {...colorsnav} asNavFor={this.props.navOne} ref={slider => (this.slider1 = slider)} className="color-variant">
-                            {item.variants.map((vari, i) => {
-                                return <li className={vari.color} key={i} title={vari.color}></li>
+                            {item.colors.split(',').map((vari, i) => {
+                                return <li className={vari} key={i} title={vari}></li>
                             })}
                         </Slider>
                     </ul>:''}
@@ -79,8 +82,8 @@ class DetailsWithPrice extends Component {
                         {item.size?
                             <div>
                                 <h6 className="product-title size-text">select size
-                                    <span><a href="#" data-toggle="modal"
-                                             data-target="#sizemodal" onClick={this.onOpenModal} >size chart</a></span></h6>
+                                    <span><div data-toggle="modal"
+                                             data-target="#sizemodal" onClick={this.onOpenModal} style={{'cursor':'pointer'}} >size chart</div></span></h6>
                                 <div className="modal fade" id="sizemodal" tabIndex="-1"
                                      role="dialog" aria-labelledby="exampleModalLabel"
                                      aria-hidden="true">
@@ -104,13 +107,13 @@ class DetailsWithPrice extends Component {
                                 </div>
                                 <div className="size-box">
                             <ul>
-                                {item.size.map((size, i) => {
-                                    return <li key={i}><a href="#">{size}</a></li>
+                                {item.size.split(',').map((size, i) => {
+                                    return <li key={i}><div>{size}</div></li>
                                 })}
                             </ul>
                         </div>
                             </div>:''}
-                        <span className="instock-cls">{this.state.stock}</span>
+                        <span className="instock-cls">{item.availability}</span>
                         <h6 className="product-title">quantity</h6>
                         <div className="qty-box">
                             <div className="input-group">

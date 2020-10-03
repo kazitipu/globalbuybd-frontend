@@ -5,10 +5,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 import { getTotal, getCartProducts } from '../../../reducers'
-import { addToCart, addToWishlist, addToCompare } from '../../../actions'
+import { addToCart, addToWishlist, addToCompare,getAllProductsFirestore } from '../../../actions'
 import {getVisibleproducts} from '../../../services';
 import ProductListItem from "./product-list-item";
-import { getSearchedProducts } from '../../../rapidApi/rapidApi.utils'
+import {auth,addCartItemTofirestore,addWishlistTofirestore,getAllFirestoreProducts} from '../../../firebase/firebase.utils'
 
 class ProductListing extends Component {
 
@@ -19,35 +19,47 @@ class ProductListing extends Component {
 
     }
 
+   
+    componentDidMount = async()=> {
+        const productsArray = await getAllFirestoreProducts()
+        this.props.getAllProductsFirestore(productsArray)
+       
+    }
+
     componentWillMount(){
         this.fetchMoreItems();
     }
 
     fetchMoreItems = () => {
-        if (this.state.limit >= this.props.products.length) {
-            this.setState({ hasMoreItems: false });
-            return;
-        }
+       
         // a fake async api call
         setTimeout(() => {
             this.setState({
                 limit: this.state.limit + 5
             });
         }, 3000);
-
+        if (this.state.limit > 200) {
+            this.setState({ hasMoreItems: true });
+            return;
+        }
 
     }
-    getProductsList =async()=>{
-        const {categoryId} =this.props;
-        const productsList = await getSearchedProducts(categoryId)
-        return productsList;
 
+    addToReduxAndFirestoreCart =(product,qty)=>{
+        const {addToCart} = this.props;
+        auth.onAuthStateChanged(async(userAuth)=>await addCartItemTofirestore(userAuth,product,qty));
+        addToCart(product,qty)
+    }
+
+    addToReduxAndFirestoreWishlist =(product)=>{
+        const {addToWishlist} = this.props;
+        console.log(this.props)
+        auth.onAuthStateChanged(async userAuth=> await addWishlistTofirestore(userAuth,product));
+        addToWishlist(product)
     }
 
     render(){
-        const {products, addToCart, symbol, addToWishlist, addToCompare} = this.props;
-        const productsList =this.getProductsList()
-        console.log(productsList)
+        const {products, symbol, addToCompare} = this.props;
         return (
             <div>
                 <div className="product-wrapper-grid">
@@ -70,8 +82,8 @@ class ProductListing extends Component {
                                         <div className={`${this.props.colSize===3?'col-xl-3 col-md-6 col-grid-box':'col-lg-'+this.props.colSize}`} key={index}>
                                         <ProductListItem product={product} symbol={symbol}
                                                          onAddToCompareClicked={() => addToCompare(product)}
-                                                         onAddToWishlistClicked={() => addToWishlist(product)}
-                                                         onAddToCartClicked={addToCart} key={index}/>
+                                                         onAddToWishlistClicked={() => this.addToReduxAndFirestoreWishlist(product)}
+                                                         onAddToCartClicked={()=>this.addToReduxAndFirestoreCart(product, 1)} key={index}/>
                                         </div>)
                                     }
                                 </div>
@@ -92,11 +104,11 @@ class ProductListing extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({
-    products: getVisibleproducts(state.data, state.filters),
+const mapStateToProps = (state,ownProps) => ({
+    products: state.data.products.filter(product=>product.availability === ownProps.match.params.id),
     symbol: state.data.symbol,
 })
 
 export default connect(
-    mapStateToProps, {addToCart, addToWishlist, addToCompare}
+    mapStateToProps, {addToCart, addToWishlist, addToCompare,getAllProductsFirestore}
 )(ProductListing)

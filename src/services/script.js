@@ -36,6 +36,8 @@ export const Product5 = {
     infinite: true,
     speed: 300,
     slidesToShow: 5,
+    autoplay: true,
+    autoplaySpeed: 3000,
     slidesToScroll: 5,
     responsive: [
         {

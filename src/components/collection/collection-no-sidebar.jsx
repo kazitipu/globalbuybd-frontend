@@ -11,7 +11,7 @@ import FilterBar from "./common/filter-bar";
 class CollectionNoSideBar extends Component {
 
     state = {
-        layoutColumns:3
+        layoutColumns:2
     }
 
     LayoutViewClicked(colums) {
@@ -21,9 +21,10 @@ class CollectionNoSideBar extends Component {
     }
 
     render(){
+        const {id}= this.props.match.params
         return (
             <div>
-                <Breadcrumb title={'Collection'} />
+                <Breadcrumb title={id} />
 
                 {/*Section Start*/}
                 <section className="section-b-space">
@@ -35,21 +36,12 @@ class CollectionNoSideBar extends Component {
                                         <div className="container-fluid">
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <div className="top-banner-wrapper">
-                                                        <a href="#"><img src={`${process.env.PUBLIC_URL}/assets/images/mega-menu/2.jpg`}
-                                                                         className="img-fluid" alt=""/></a>
-                                                        <div className="top-banner-content small-section">
-                                                            <h4>fashion</h4>
-                                                            <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
-                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </p>
-                                                        </div>
-                                                    </div>
                                                     <div className="collection-product-wrapper">
                                                         <div className="product-top-filter">
                                                             <div className="container-fluid p-0">
                                                                 <div className="row">
                                                                     <div className="col-12">
-                                                                        <FilterBar onLayoutViewClicked={(colmuns) => this.LayoutViewClicked(colmuns)}/>
+                                                                        <FilterBar onLayoutViewClicked={(colmuns) => this.LayoutViewClicked(colmuns)} {...this.props} />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -58,7 +50,7 @@ class CollectionNoSideBar extends Component {
                                                         <div className="product-wrapper-grid">
                                                             <div className="container-fluid">
                                                                 <div className="row">
-                                                                    <ProductListing colSize={this.state.layoutColumns}/>
+                                                                    <ProductListing colSize={this.state.layoutColumns} {...this.props}/>
                                                                 </div>
                                                             </div>
                                                         </div>

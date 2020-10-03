@@ -61,10 +61,8 @@ class ProductListItem extends Component {
                     <div className="product-box">
                         <div className="img-wrapper">
                             <div className="front">
-                                <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`} ><img
-                                    src={product.variants?
-                                        this.state.image?this.state.image:product.variants[0].images
-                                        :product.pictures[0]}
+                                <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} ><img
+                                    src={product.pictures[0]}
                                     className="img-fluid"
                                     alt="" /></Link>
                             </div>
@@ -99,18 +97,11 @@ class ProductListItem extends Component {
                                 <div className="rating">
                                     {RatingStars}
                                 </div>
-                                <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}>
+                                <Link to={`${process.env.PUBLIC_URL}product/${product.id}`}>
                                     <h6>{product.name}</h6>
                                 </Link>
-                                <h4>{symbol}{product.price-(product.price*product.discount/100)}
-                                    <del><span className="money">{symbol}{product.price}</span></del></h4>
-                                {product.variants?
-                                <ul className="color-variant">
-                                    {product.variants.map((vari, i) => {
-                                        return (
-                                            <li className={vari.color} key={i} title={vari.color} onClick={() => this.onClickHandle(vari.images)}></li>)
-                                    })}
-                                </ul>:''}
+                                <h4>{symbol}{product.salePrice}
+                            {product.price? <del><span className="money">{symbol}{product.price}</span></del>:''}</h4>
                             </div>
                         </div>
                     {/* <Modal open={open} onClose={this.onCloseModal} center>

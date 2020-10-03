@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
-import Breadcrumb from "../common/breadcrumb";
+import Breadcrumb from "../../common/breadcrumb";
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import { auth } from '../../../firebase/firebase.utils';
 
 class Dashboard extends Component {
 
     constructor (props) {
         super (props)
     }
+    handleLogOutClick =() =>{
+        auth.signOut()
+        this.props.history.push('/')
+    }
 
     render (){
+        const {currentUser} = this.props
+        console.log(currentUser)
 
 
         return (
@@ -33,14 +42,14 @@ class Dashboard extends Component {
                                     </div>
                                     <div className="block-content">
                                         <ul>
-                                            <li className="active"><a href='#'>Account Info</a></li>
-                                            <li><a href="#">Address Book</a></li>
-                                            <li><a href="#">My Orders</a></li>
-                                            <li><a href="#">My Wishlist</a></li>
-                                            <li><a href="#">Newsletter</a></li>
+                                            <li className='active'><Link to="/pages/dashboard">Account Info</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
-                                            <li><a href="#">Change Password</a></li>
-                                            <li className="last"><a href="#">Log Out</a></li>
+                                            <li><a href="#">Change Password</a></li> */}
+                                            <li className="last" style={{'color':'orange'}}><div style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -52,10 +61,9 @@ class Dashboard extends Component {
                                             <h2>My Dashboard</h2>
                                         </div>
                                         <div className="welcome-msg">
-                                            <p>Hello, MARK JECNO !</p>
+                                             <p>hello, {currentUser.displayName}</p>
                                             <p>From your My Account Dashboard you have the ability to view a snapshot of
-                                                your recent account activity and update your account information. Select
-                                                a link below to view or edit information.</p>
+                                                your recent account activity and track your orders information.</p>
                                         </div>
                                         <div className="box-account box-info">
                                             <div className="box-head">
@@ -66,12 +74,12 @@ class Dashboard extends Component {
                                                     <div className="box">
                                                         <div className="box-title">
                                                             <h3>Contact Information</h3>
-                                                            <a href="#">Edit</a>
+                                                            {/* <a href="#">Edit</a> */}
                                                         </div>
                                                         <div className="box-content">
-                                                            <h6>MARK JECNO</h6>
-                                                            <h6>MARk-JECNO@gmail.com</h6>
-                                                            <h6><a href="#">Change Password</a></h6>
+                                                            <h6>{currentUser.displayName}</h6>
+                                                            <h6>{currentUser.email}</h6>
+                                                            {/* <h6><a href="#">Change Password</a></h6> */}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -79,7 +87,7 @@ class Dashboard extends Component {
                                                     <div className="box">
                                                         <div className="box-title">
                                                             <h3>Newsletters</h3>
-                                                            <a href="#">Edit</a>
+                                                            {/* <a href="#">Edit</a> */}
                                                         </div>
                                                         <div className="box-content">
                                                             <p>
@@ -93,21 +101,21 @@ class Dashboard extends Component {
                                                 <div className="box">
                                                     <div className="box-title">
                                                         <h3>Address Book</h3>
-                                                        <a href="#">Manage Addresses</a>
+                                                        {/* <a href="#">Manage Addresses</a> */}
                                                     </div>
                                                     <div className="row">
                                                         <div className="col-sm-6">
                                                             <h6>Default Billing Address</h6>
                                                             <address>
                                                                 You have not set a default billing address.<br/>
-                                                                <a href="#">Edit Address</a>
+                                                                {/* <a href="#">Edit Address</a> */}
                                                             </address>
                                                         </div>
                                                         <div className="col-sm-6">
                                                             <h6>Default Shipping Address</h6>
                                                             <address>
                                                                 You have not set a default shipping address.<br />
-                                                                <a href="#">Edit Address</a>
+                                                                {/* <a href="#">Edit Address</a> */}
                                                             </address>
                                                         </div>
                                                     </div>
@@ -125,5 +133,8 @@ class Dashboard extends Component {
         )
     }
 }
+const mapStateToProps = (state) =>({
+    currentUser: state.user.currentUser
+})
 
-export default Dashboard
+export default connect(mapStateToProps, null)(Dashboard)

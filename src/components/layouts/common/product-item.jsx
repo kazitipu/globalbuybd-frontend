@@ -61,12 +61,8 @@ class ProductItem extends Component {
 
                         </div>
                         <div className="front">
-                            <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`} ><img
-                                src={`${
-                                    product.variants?
-                                        this.state.image?this.state.image:product.variants[0].images
-                                        :product.pictures[0]
-                                    }`}
+                            <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} ><img
+                                src={`${product.pictures[0]}`}
                                 className="img-fluid"
                                 alt="" /></Link>
                         </div>
@@ -84,7 +80,7 @@ class ProductItem extends Component {
                             <Link to={`${process.env.PUBLIC_URL}/compare`} title="Compare" onClick={onAddToCompareClicked}>
                                 <i className="fa fa-refresh" aria-hidden="true"></i></Link>
                         </div>
-                        {product.variants?
+                        {/* {product.variants?
                         <ul className="product-thumb-list">
                             { product.variants.map((vari, i) =>
                                 <li className={`grid_thumb_img ${(vari.images === this.state.image)?'active':''}`} key={i}>
@@ -92,7 +88,7 @@ class ProductItem extends Component {
                                         <img src={`${vari.images}`} onClick={() => this.onClickHandle(vari.images)} />
                                     </a>
                                 </li>)}
-                        </ul>:''}
+                        </ul>:''} */}
 
                     </div>
                     <div className="product-detail">
@@ -100,22 +96,22 @@ class ProductItem extends Component {
                             <div className="rating">
                                 {RatingStars}
                             </div>
-                            <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}>
+                            <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`}>
                                 <h6>{product.name}</h6>
                             </Link>
-                            <h4>{symbol}{product.price-(product.price*product.discount/100)}
+                            <h4>{symbol}{product.salePrice}
                                 <del><span className="money">{symbol}{product.price}</span></del>
                             </h4>
-                            {product.variants?
+                            {/* {product.variants?
                             <ul className="color-variant">
                                 {product.variants.map((vari, i) => {
                                     return (
                                         <li className={vari.color} key={i} title={vari.color} onClick={() => this.onClickHandle(vari.images)}></li>)
                                 })}
-                            </ul>:''}
+                            </ul>:''} */}
                         </div>
                     </div>
-                    <Modal open={this.state.open} onClose={this.onCloseModal} center>
+                    {/* <Modal open={this.state.open} onClose={this.onCloseModal} center>
                         <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                             <div className="modal-content quick-view-modal">
                                 <div className="modal-body">
@@ -179,7 +175,7 @@ class ProductItem extends Component {
                                 </div>
                             </div>
                         </div>
-                    </Modal>
+                    </Modal> */}
                 </div>
         )
     }

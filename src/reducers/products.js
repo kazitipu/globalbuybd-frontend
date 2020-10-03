@@ -6,7 +6,7 @@ import {
 
 const initialState = {
     products: [],
-    symbol: '$',
+    symbol: 'Tk',
     product_details: []
 };
 
@@ -15,20 +15,17 @@ const productReducer = (state = initialState, action) => {
         case RECEIVE_PRODUCTS:
             return { ...state,
                 products: action.products };
+        case "FETCH_ALL_PRODUCTS_FROM_FIRESTORE":
+            return {...state, products:action.payload}
         case FETCH_SINGLE_PRODUCT:
-            if (state.products.findIndex(product => product.id === action.productId) !== -1) {
-                const singleItem = state.products.reduce((itemAcc, product) => {
-                    return product
-                }, [])
-                return { ...state,
-                    product_details: singleItem };
-            }
+            return {...state, products:[...state.products, action.payload]}
 
         case CHANGE_CURRENCY:
             return { ...state,
                 symbol: action.symbol };
-        default:
-            return state;
+        // default:
+        //     return {...state};
     }
+    return state
 };
 export default productReducer;

@@ -98,7 +98,7 @@ class HeaderThree extends Component {
                                     <div>
                                         <form className="form_search" role="form">
                                             <input id="query search-autocomplete" type="search"
-                                                   placeholder="Search by any link from Aliexpress , taobao , 16888"
+                                                   placeholder="Search any products here"
                                                    className="nav-search nav-search-field" aria-expanded="true" />
                                                 <button type="submit" name="nav-submit-button" className="btn-search">
                                                     <i className="fa fa-search"></i>
@@ -125,8 +125,8 @@ class HeaderThree extends Component {
                                                             <h6>currency</h6>
                                                             <ul className="list-inline">
                                                                 <li><a href={null} onClick={() => this.props.changeCurrency('Tk')}>taka</a> </li>
-                                                                <li><a href={null} onClick={() => this.props.changeCurrency('¥')}>yen</a> </li>
-                                                                <li><a href={null} onClick={() => this.props.changeCurrency('$')}>doller</a> </li>
+                                                                {/* <li><a href={null} onClick={() => this.props.changeCurrency('¥')}>yen</a> </li>
+                                                                <li><a href={null} onClick={() => this.props.changeCurrency('$')}>doller</a> </li> */}
                                                             </ul>
                                                         </div>
                                                     </li>

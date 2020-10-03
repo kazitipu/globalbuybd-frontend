@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 
 import Breadcrumb from '../common/breadcrumb';
 import {removeFromCompare, addToCart} from '../../actions'
+import {auth,addCartItemTofirestore} from '../../firebase/firebase.utils'
 
 class Compare extends Component {
 
@@ -12,11 +13,17 @@ class Compare extends Component {
         this.setState({ quantity: parseInt(e.target.value) })
     }
 
+    addToReduxAndFirestoreCart =(product,qty)=>{
+        const {addToCart} = this.props;
+        auth.onAuthStateChanged(async(userAuth)=>await addCartItemTofirestore(userAuth,product,qty));
+        addToCart(product,qty)
+    }
+
     render (){
         var settings = {
             infinite: false,
             speed: 300,
-            slidesToShow: 4,
+            slidesToShow: 5,
             slidesToScroll: 1,
             // autoplay: true,
             // autoplaySpeed: 3000,
@@ -64,27 +71,17 @@ class Compare extends Component {
                                                 </button>
                                                 <div className="img-secton">
                                                     <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${item.id}`}>
-                                                    <img src={item.variants?
-                                                                item.variants[0].images
-                                                                :item.pictures[0]} className="img-fluid" alt="" />
+                                                    <img src={item.pictures[0]} className="img-fluid" alt="" />
                                                     <h5>{item.name}</h5></Link>
-                                                    <h5>{symbol}{(item.price*item.discount/100)}
+                                                    <h5>{symbol}{(item.salePrice)}
                                                         <del><span className="money">{symbol}{item.price}</span></del></h5>
                                                 </div>
                                                 <div className="detail-part">
                                                     <div className="title-detail">
-                                                        <h5>discription</h5>
+                                                        <h5>description</h5>
                                                     </div>
                                                     <div className="inner-detail">
                                                         <p>{item.shortDetails}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="detail-part">
-                                                    <div className="title-detail">
-                                                        <h5>Brand Name</h5>
-                                                    </div>
-                                                    <div className="inner-detail">
-                                                        <p>{item.tags}</p>
                                                     </div>
                                                 </div>
                                                 <div className="detail-part">
@@ -108,11 +105,11 @@ class Compare extends Component {
                                                         <h5>availability</h5>
                                                     </div>
                                                     <div className="inner-detail">
-                                                        <p>In stock</p>
+                                                        <p>{item.availability}</p>
                                                     </div>
                                                 </div>
                                                 <div className="btn-part">
-                                                    <a href="javascript:void(0)" className="btn btn-solid" onClick={() => addToCart(item, 1)}>add to cart</a>
+                                                    <a href="javascript:void(0)" className="btn btn-solid" onClick={() =>  this.addToReduxAndFirestoreCart(item, 1)}>add to cart</a>
                                                 </div>
                                             </div>
                                         </div>

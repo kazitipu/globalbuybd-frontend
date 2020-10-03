@@ -23,7 +23,7 @@ class NewProduct extends Component {
                         <div key={index}>
                             {products.map((product, i) =>
                                 <div className="media" key={i}>
-                                    <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}><img className="img-fluid" src={`${product.variants[0].images}`} alt="" /></Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`}><img className="img-fluid" src={`${product.pictures[0]}`} alt="" /></Link>
                                     <div className="media-body align-self-center">
                                         <div className="rating">
                                             <i className="fa fa-star"></i>
@@ -33,7 +33,7 @@ class NewProduct extends Component {
                                             <i className="fa fa-star"></i>
                                         </div>
                                         <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}><h6>{product.name}</h6></Link>
-                                        <h4>{symbol}{(product.price*product.discount/100)}
+                                        <h4>{symbol}{product.salePrice}
                                             <del><span className="money">{symbol}{product.price}</span></del></h4>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@ class NewProduct extends Component {
 
 function mapStateToProps(state) {
     return {
-        items: getBestSeller(state.data.products),
+        items: state.data.products,
         symbol: state.data.symbol
     }
 }

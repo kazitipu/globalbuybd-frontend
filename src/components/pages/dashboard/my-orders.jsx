@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
+import Breadcrumb from "../../common/breadcrumb";
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import { addToCartAndRemoveWishlistFirestore, removeFromWishlistFirestore,auth } from '../../../firebase/firebase.utils';
+import { addToCartAndRemoveWishlist, removeFromWishlist } from '../../../actions';
 
+class MyOrders extends Component {
 
-import Breadcrumb from '../common/breadcrumb';
-import {addToCartAndRemoveWishlist, removeFromWishlist} from '../../actions'
-import {addToCartAndRemoveWishlistFirestore, removeFromWishlistFirestore,auth} from '../../firebase/firebase.utils'
-
-class wishList extends Component {
-
-
+    constructor (props) {
+        super (props)
+    }
+    handleLogOutClick =() =>{
+        auth.signOut()
+        this.props.history.push('/')
+    }
     changeQty = (e) => {
         this.setState({ quantity: parseInt(e.target.value) })
     }
@@ -25,14 +29,49 @@ class wishList extends Component {
     }
 
     render (){
-
         const {Items, symbol} = this.props;
-        console.log(this.props)
+       
+
 
         return (
             <div>
-                <Breadcrumb title={'Wishlist'} />
-                {Items.length>0 ?
+                <Breadcrumb title={'Dashboard/My orders'}/>
+                
+                
+                {/*Dashboard section*/}
+                <section className="section-b-space">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-3">
+                                <div className="account-sidebar">
+                                    <a className="popup-btn">
+                                        my account
+                                    </a>
+                                </div>
+                                <div className="dashboard-left">
+                                    <div className="collection-mobile-back">
+                                    <span className="filter-back">
+                                        <i className="fa fa-angle-left" aria-hidden="true"></i> back
+                                    </span>
+                                    </div>
+                                    <div className="block-content">
+                                        <ul>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li className='active' ><Link to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            {/* <li><a href="#">Newsletter</a></li>
+                                            <li><a href="#">My Account</a></li>
+                                            <li><a href="#">Change Password</a></li> */}
+                                            <li className="last" style={{'color':'orange'}}><div  style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-9">
+                                <div className="dashboard-right">
+                                    <div className="dashboard">
+                                    {Items.length>0 ?
                 <section className="wishlist-section section-b-space">
                     <div className="container">
                         <div className="row">
@@ -51,12 +90,12 @@ class wishList extends Component {
                                         return (
                                             <tbody key={index}>
                                             <tr>
-                                                <td>
+                                                <td style={{'minWidth':'100%'}}>
                                                     <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
                                                         <img src={item.pictures[0]} alt="" />
                                                     </Link>
                                                 </td>
-                                                <td><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
+                                                <td style={{'minWidth':'100%'}}><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
                                                     <div className="mobile-cart-content row">
                                                         {/* <div className="col-xs-3">
                                                             <p>in stock</p>
@@ -77,14 +116,12 @@ class wishList extends Component {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><h2>{symbol}{item.salePrice}
+                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{item.salePrice}
                                                      <del><span className="money">{symbol}{item.price}</span></del></h2></td>
-                                                <td >
-                                                {
-                                                       item.availability == 'in-stock'?<p style={{'color':'green'}}>{item.availability}</p>:<p style={{'color':'orange'}}>{item.availability}</p>
-                                                   } 
+                                                <td style={{'minWidth':'100%'}}>
+                                                    <p>{item.availability}</p>
                                                 </td>
-                                                <td>
+                                                <td style={{'minWidth':'100%'}}>
                                                     <a href="javascript:void(0)" className="icon" onClick={() => this.removeFromReduxAndFirestoreWishlist(item)}>
                                                         <i className="fa fa-times"></i>
                                                     </a>
@@ -125,16 +162,21 @@ class wishList extends Component {
                     </div>
                 </section>
                 }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         )
     }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) =>({
+    currentUser: state.user.currentUser,
     Items: state.wishlist.list,
     symbol: state.data.symbol,
 })
 
-export default connect(
-    mapStateToProps,
-    {addToCartAndRemoveWishlist, removeFromWishlist}
-)(wishList)
+export default connect(mapStateToProps,{addToCartAndRemoveWishlist, removeFromWishlist})(MyOrders)

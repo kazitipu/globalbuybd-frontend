@@ -1,17 +1,12 @@
 import React, {Component} from 'react';
-import {Helmet} from 'react-helmet'
-import { connect } from 'react-redux'
+import Breadcrumb from "../../common/breadcrumb";
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import './index.css'
+import {removeFromCart, incrementQty, decrementQty} from '../../../actions'
+import {getCartTotal} from "../../../services";
+import {addCartItemTofirestore,decrementCartItemFromFirestore,removeCartItemFromFirestore,auth} from '../../../firebase/firebase.utils'
 
-
-import Breadcrumb from "../common/breadcrumb";
-import {getCartTotal} from "../../services";
-import {removeFromCart, incrementQty, decrementQty} from '../../actions'
-import {addCartItemTofirestore,decrementCartItemFromFirestore,removeCartItemFromFirestore,auth} from '../../firebase/firebase.utils'
-
-
-class cartComponent extends Component {
+class MyCart extends Component {
 
     constructor (props) {
         super (props)
@@ -31,23 +26,53 @@ class cartComponent extends Component {
         auth.onAuthStateChanged(async userAuth =>await addCartItemTofirestore(userAuth,item,qty))
         this.props.incrementQty(item,qty)
     }
-
+    handleLogOutClick =() =>{
+        auth.signOut()
+        this.props.history.push('/')
+    }
 
     render (){
+        const {currentUser,cartItems,symbol,total} = this.props
 
-        const {cartItems, symbol, total} = this.props;
         return (
             <div>
-                {/*SEO Support*/}
-                <Helmet>
-                    <title>Globalbuybd | Cart items</title>
-                    <meta name="description" content="Multikart – Multipurpose eCommerce React Template is a multi-use React template. It is designed to go well with multi-purpose websites. Multikart Bootstrap 4 Template will help you run multiple businesses." />
-                </Helmet>
-                {/*SEO Support End */}
-
-                <Breadcrumb title={'Cart Page'}/>
-
-                {cartItems.length>0 ?
+                <Breadcrumb title={'Dashboard/My cart'}/>
+                
+                
+                {/*Dashboard section*/}
+                <section className="section-b-space">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-3">
+                                <div className="account-sidebar">
+                                    <a className="popup-btn">
+                                        my account
+                                    </a>
+                                </div>
+                                <div className="dashboard-left">
+                                    <div className="collection-mobile-back">
+                                    <span className="filter-back">
+                                        <i className="fa fa-angle-left" aria-hidden="true"></i> back
+                                    </span>
+                                    </div>
+                                    <div className="block-content">
+                                        <ul>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li className="active"><Link to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            {/* <li><a href="#">Newsletter</a></li>
+                                            <li><a href="#">My Account</a></li>
+                                            <li><a href="#">Change Password</a></li> */}
+                                            <li className="last" style={{'color':'orange'}}><div style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-9">
+                                <div className="dashboard-right">
+                                    <div className="dashboard">
+                                    {cartItems.length>0 ?
                 <section className="cart-section section-b-space">
                     <div className="container">
                         <div className="row">
@@ -67,12 +92,12 @@ class cartComponent extends Component {
                                         return (
                                         <tbody key={index}>
                                             <tr>
-                                                <td>
+                                                <td style={{'minWidth':'100%'}}>
                                                     <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
                                                         <img src={item.pictures[0]} alt="" />
                                                     </Link>
                                                 </td>
-                                                <td><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
+                                                <td style={{'minWidth':'100%'}}><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
                                                     <div className="mobile-cart-content row">
                                                         <div className="col-xs-3">
                                                             <div className="qty-box">
@@ -94,7 +119,7 @@ class cartComponent extends Component {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><h2>{symbol}{item.salePrice}</h2></td>
+                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{item.salePrice}</h2></td>
                                                 <td>
                                                     <div className="qty-box">
                                                         <div className="input-group">
@@ -113,12 +138,12 @@ class cartComponent extends Component {
                                                         </div>
                                                     </div>{(item.qty >= item.stock)? 'out of Stock' : ''}
                                                 </td>
-                                                <td>
+                                                <td style={{'minWidth':'100%'}}>
                                                     <div className="icon" style={{'cursor':'pointer'}} onClick={() => this.removeFromReduxAndFirestoreCart(item)}>
                                                         <i className="fa fa-times"></i>
                                                     </div>
                                                 </td>
-                                                <td><h2 className="td-color">{symbol}{item.salePrice * item.qty}</h2></td>
+                                                <td style={{'minWidth':'100%'}}><h2 className="td-color">{symbol}{item.salePrice * item.qty}</h2></td>
                                             </tr>
                                         </tbody> )
                                     })}
@@ -126,8 +151,8 @@ class cartComponent extends Component {
                                 <table className="table cart-table table-responsive-md">
                                     <tfoot>
                                     <tr>
-                                        <td>total price :</td>
-                                        <td className='cart-total-black'><h2>{symbol} {total} </h2></td>
+                                        <td >total price :</td>
+                                        <td className='cart-total-black' style={{'paddingRight':'0px'}}><h2>{symbol} {total} </h2></td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -162,17 +187,24 @@ class cartComponent extends Component {
                     </div>
                 </section>
                 }
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         )
     }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) =>({
+    currentUser: state.user.currentUser,
     cartItems: state.cartList.cart,
     symbol: state.data.symbol,
     total: getCartTotal(state.cartList.cart)
+
 })
 
-export default connect(
-    mapStateToProps,
-    {removeFromCart, incrementQty, decrementQty}
-)(cartComponent)
+export default connect(mapStateToProps, {removeFromCart, incrementQty, decrementQty})(MyCart)

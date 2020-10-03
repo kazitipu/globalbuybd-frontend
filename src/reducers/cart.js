@@ -15,7 +15,7 @@ export default function cartReducer(state = {
             if (state.cart.findIndex(product => product.id === productId) !== -1) {
                 const cart = state.cart.reduce((cartAcc, product) => {
                     if (product.id === productId) {
-                        cartAcc.push({ ...product, qty: product.qty+1, sum: (product.price*product.discount/100)*(product.qty+1) }) // Increment qty
+                        cartAcc.push({ ...product, qty: product.qty+parseInt(action.qty), sum: (product.price*product.discount/100)*(product.qty+parseInt(action.qty)) }) // Increment qty
                     } else {
                         cartAcc.push(product)
                     }
@@ -53,7 +53,11 @@ export default function cartReducer(state = {
 
         case REMOVE_FROM_CART:
             return {
-                cart: state.cart.filter(item => item.id !== action.product_id.id)
+                ...state, cart: state.cart.filter(item => item.id !== action.product_id.id)
+            }
+        case 'REMOVE_CART':
+            return {
+                ...state, cart:[]
             }
 
         default:

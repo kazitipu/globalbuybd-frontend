@@ -9,7 +9,7 @@ import FooterTwo from "./common/footers/footer-two";
 import FooterThree from "./common/footers/footer-three";
 import {auth, createUserProfileDocument,firestore} from '../firebase/firebase.utils'
 import {connect} from 'react-redux'
-import {setCurrentUser,setReduxCart,setReduxWishlist} from '../actions'
+import {setCurrentUser,setReduxCart,setReduxWishlist,getAllProductsFirestore} from '../actions'
 // ThemeSettings
 import ThemeSettings from "./common/theme-settings"
 
@@ -19,7 +19,11 @@ class App extends Component {
 
     unsuscribeFromAuth = null;
 
-    componentDidMount() {
+    componentDidMount=async()=> {
+      
+          // const productsArray = await geAllFirestoreProducts()
+          // this.props.getAllProductsFirestore(productsArray)
+      
       
       this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
         if (userAuth) {
@@ -84,4 +88,4 @@ const mapStateToProps=(state)=>{
     currentUser:state.user,
     cartItems: state.cartList
 }}
-export default connect(mapStateToProps,{setCurrentUser,setReduxCart,setReduxWishlist})(App);
+export default connect(mapStateToProps,{setCurrentUser,setReduxCart,setReduxWishlist,getAllProductsFirestore})(App);

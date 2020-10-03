@@ -2,8 +2,8 @@
 {
   "id": 1,
   "name": "Flare Dress",
-  "price": 120,
-  "salePrice": 200,
+  "price": 200,
+  "salePrice": 100,
   "discount": 50,
   "pictures": ["/assets/images/fashion/product/1.jpg", "/assets/images/fashion/product/21.jpg", "/assets/images/fashion/product/36.jpg", "/assets/images/fashion/product/12.jpg"],
   "shortDetails": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem,",

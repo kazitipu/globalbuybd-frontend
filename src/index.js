@@ -11,7 +11,6 @@ import store from './store';
 import translations from './constants/translations'
 import { getAllProducts } from './actions'
 
-
 // Layouts
 import Pets from './components/layouts/pets/main';
 
@@ -24,7 +23,7 @@ import CollectionFullWidth from "./components/collection/collection-full-width";
 import CollectionMetro from "./components/collection/collection-metro";
 
 // Product Pages
-import LeftSideBar from "./components/products/left-sidebar";
+// import LeftSideBar from "./components/products/left-sidebar";
 import RightSideBar from "./components/products/right-sidebar";
 import NoSideBar from "./components/products/no-sidebar";
 import LeftImage from "./components/products/left-image";
@@ -53,7 +52,10 @@ import Search from './components/pages/search'
 import Collection from './components/pages/collection'
 import ForgetPassword from './components/pages/forget-password'
 import Contact from './components/pages/contact'
-import Dashboard from './components/pages/dashboard'
+import Dashboard from './components/pages/dashboard/dashboard'
+import MyCart from './components/pages/dashboard/my-cart'
+import MyWishlist from './components/pages/dashboard/my-wishlist.jsx'
+import MyOrders from './components/pages/dashboard/my-orders'
 import Faq from './components/pages/faq'
 
 // Blog Pages
@@ -84,8 +86,10 @@ import MasonaryGridCols from "./components/features/portfolio/masonary-grid-cols
 
 class Root extends React.Component {
 
+
     render() {
-        store.dispatch(getAllProducts());
+        
+        // store.dispatch(getAllProducts());
 
         return(
         	<Provider store={store}>
@@ -97,18 +101,20 @@ class Root extends React.Component {
                             <Layout>
                             <Route exact path={`${process.env.PUBLIC_URL}/`} component={Pets}/>
 
-                                {/*Routes For Layouts*/}
-								{/*Routes For Features (Product Collection) */}
-								<Route path={`${process.env.PUBLIC_URL}/collection/:categoryId`} component={CollectionLeftSidebar}/>
-								{/* <Route path={`${process.env.PUBLIC_URL}/no-sidebar/collection`} component={CollectionNoSidebar}/>
-								<Route path={`${process.env.PUBLIC_URL}/right-sidebar/collection`} component={CollectionRightSidebar}/>
-								<Route path={`${process.env.PUBLIC_URL}/full-width/collection`} component={CollectionFullWidth}/>
-								<Route path={`${process.env.PUBLIC_URL}/metro/collection`} component={CollectionMetro}/> */}
+                            {/*Routes For custom Features*/}
+								<Route exact path={`${process.env.PUBLIC_URL}/cart`} component={Cart}/>
+								<Route exact path={`${process.env.PUBLIC_URL}/wishlist`} component={wishList}/>
+								<Route exact path={`${process.env.PUBLIC_URL}/compare`} component={Compare}/>
+								<Route exact path={`${process.env.PUBLIC_URL}/checkout`} component={checkOut}/>
+								<Route exact path={`${process.env.PUBLIC_URL}/order-success`} component={orderSuccess}/>
 
+								<Route exact path={`${process.env.PUBLIC_URL}/sales/orders`} component={aboutUs}/>
+
+                          
 								{/*Routes For Single Product*/}
-								<Route path={`${process.env.PUBLIC_URL}/left-sidebar/product/:id`} component={LeftSideBar}/>
-								<Route path={`${process.env.PUBLIC_URL}/right-sidebar/product/:id`} component={RightSideBar}/>
-								<Route path={`${process.env.PUBLIC_URL}/no-sidebar/product/:id`} component={NoSideBar}/>
+								{/* <Route exact path={`${process.env.PUBLIC_URL}/product/:id`} component={LeftSideBar}/> */}
+                                <Route exact path={`${process.env.PUBLIC_URL}/product/:id`} component={NoSideBar}/>
+								{/* <Route path={`${process.env.PUBLIC_URL}/right-sidebar/product/:id`} component={RightSideBar}/>
 								<Route path={`${process.env.PUBLIC_URL}/col-left/product/:id`} component={ColumnLeft}/>
 								<Route path={`${process.env.PUBLIC_URL}/col-right/product/:id`} component={ColumnRight}/>
 								<Route path={`${process.env.PUBLIC_URL}/accordian/product/:id`} component={Accordian}/>
@@ -116,57 +122,62 @@ class Root extends React.Component {
 								<Route path={`${process.env.PUBLIC_URL}/left-image/product/:id`} component={LeftImage}/>
 								<Route path={`${process.env.PUBLIC_URL}/right-image/product/:id`} component={RightImage}/>
 								<Route path={`${process.env.PUBLIC_URL}/vertical/product/:id`} component={Vertical}/>
+								 */}
+
 								
 
-								{/*Routes For custom Features*/}
-								<Route path={`${process.env.PUBLIC_URL}/cart`} component={Cart}/>
-								<Route path={`${process.env.PUBLIC_URL}/wishlist`} component={wishList}/>
-								<Route path={`${process.env.PUBLIC_URL}/compare`} component={Compare}/>
-								<Route path={`${process.env.PUBLIC_URL}/checkout`} component={checkOut}/>
-								<Route path={`${process.env.PUBLIC_URL}/order-success`} component={orderSuccess}/>
-
-								<Route path={`${process.env.PUBLIC_URL}/sales/orders`} component={aboutUs}/>
-
 								{/*Routes For Extra Pages*/}
-                                <Route path={`${process.env.PUBLIC_URL}/pages/about-us`} component={aboutUs}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/404`} component={PageNotFound}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/lookbook`} component={lookbook}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/login`} component={Login}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/register`} component={Register}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/search`} component={Search}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/collection`} component={Collection}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/forget-password`} component={ForgetPassword}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/contact`} component={Contact}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/dashboard`} component={Dashboard}/>
-                                <Route path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/about-us`} component={aboutUs}/>
+                                
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/lookbook`} component={lookbook}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/login`} component={Login}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/register`} component={Register}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/search`} component={Search}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/collection`} component={Collection}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/forget-password`} component={ForgetPassword}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/contact`} component={Contact}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard`} component={Dashboard}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-cart`} component={MyCart}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-wishlist`} component={MyWishlist}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-orders`} component={MyOrders}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}/>
 
 								{/*Features*/}
 								{/*Theme Elements*/}
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-title`} component={ElementTitle}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-banner`} component={ElementBanner}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-slider`} component={ElementSlider}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-category`} component={ElementCategory}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-service`} component={ElementService}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-ratio`} component={ElementRatio}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-title`} component={ElementTitle}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-banner`} component={ElementBanner}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-slider`} component={ElementSlider}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-category`} component={ElementCategory}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-service`} component={ElementService}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-ratio`} component={ElementRatio}/>
 
 								{/*Product Elements*/}
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-product-box`} component={ElementProductBox}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-product-slider`} component={ElementProductSlider}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-product-no-slider`} component={ElementProductNoSlider}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-product-multiple-slider`} component={ElementMultipleSlider}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/element-product-tab`} component={ElementProductTab}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-product-box`} component={ElementProductBox}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-product-slider`} component={ElementProductSlider}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-product-no-slider`} component={ElementProductNoSlider}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-product-multiple-slider`} component={ElementMultipleSlider}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/element-product-tab`} component={ElementProductTab}/>
 
 								{/*Portfolios*/}
-                                <Route path={`${process.env.PUBLIC_URL}/features/portfolio-grid/:columns`} component={GridCols}/>
-                                <Route path={`${process.env.PUBLIC_URL}/features/portfolio-masonary/:columns`} component={MasonaryGridCols}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/portfolio-grid/:columns`} component={GridCols}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/features/portfolio-masonary/:columns`} component={MasonaryGridCols}/>
 
 								{/*Blog Pages*/}
-                                <Route path={`${process.env.PUBLIC_URL}/blog/right-sidebar`} component={RightSide}/>
-                                <Route path={`${process.env.PUBLIC_URL}/blog/details`} component={Details}/>
-                                <Route path={`${process.env.PUBLIC_URL}/blog/blog-page`} component={BlogPage}/>
+                                <Route exact  path={`${process.env.PUBLIC_URL}/blog/right-sidebar`} component={RightSide}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/blog/details`} component={Details}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/blog/blog-page`} component={BlogPage}/>
 
-                                {/* <Route exact path="*" component={PageNotFound} /> */}
+                                
+                                   
+								{/*Routes For Features (Product Collection) */}
+								{/* <Route path={`${process.env.PUBLIC_URL}/collection/:categoryId`} component={CollectionLeftSidebar}/> */}
+								<Route exact path={`${process.env.PUBLIC_URL}/collection/:id`} component={CollectionNoSidebar}/>
+								{/* <Route path={`${process.env.PUBLIC_URL}/right-sidebar/collection`} component={CollectionRightSidebar}/>
+								<Route path={`${process.env.PUBLIC_URL}/full-width/collection`} component={CollectionFullWidth}/>
+								<Route path={`${process.env.PUBLIC_URL}/metro/collection`} component={CollectionMetro}/> */}
+
                             </Layout>
+                            <Route exact component={PageNotFound}/>
                          </Switch>
 					  </ScrollContext>
 					</BrowserRouter>

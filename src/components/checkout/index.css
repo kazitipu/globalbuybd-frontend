@@ -1,0 +1,6 @@
+.stripe-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+   
+}

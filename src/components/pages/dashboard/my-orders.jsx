@@ -29,8 +29,20 @@ class MyOrders extends Component {
     }
 
     render (){
-        const {Items, symbol} = this.props;
+        const {Items, symbol,ordersArray} = this.props;
+      if (ordersArray)
        
+     
+    { ordersArray.map((order)=>{
+
+    
+            var keys = Object.keys(order.status);
+
+        var filtered = keys.filter((key)=> {
+             return order.status[key]
+});
+console.log(filtered)
+})}
 
 
         return (
@@ -39,6 +51,7 @@ class MyOrders extends Component {
                 
                 
                 {/*Dashboard section*/}
+
                 <section className="section-b-space">
                     <div className="container">
                         <div className="row">
@@ -71,7 +84,7 @@ class MyOrders extends Component {
                             <div className="col-lg-9">
                                 <div className="dashboard-right">
                                     <div className="dashboard">
-                                    {Items.length>0 ?
+                                    {ordersArray?
                 <section className="wishlist-section section-b-space">
                     <div className="container">
                         <div className="row">
@@ -80,52 +93,52 @@ class MyOrders extends Component {
                                     <thead>
                                     <tr className="table-head">
                                         <th scope="col">image</th>
-                                        <th scope="col">product name</th>
+                                        <th scope="col">Order Id</th>
                                         <th scope="col">price</th>
                                         <th scope="col">availability</th>
                                         <th scope="col">action</th>
                                     </tr>
                                     </thead>
-                                    {Items.map((item, index) => {
+                                    {ordersArray.map((order) => {
                                         return (
-                                            <tbody key={index}>
+                                            <tbody key={order.orderId}>
                                             <tr>
-                                                <td style={{'minWidth':'100%'}}>
-                                                    <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
-                                                        <img src={item.pictures[0]} alt="" />
-                                                    </Link>
-                                                </td>
-                                                <td style={{'minWidth':'100%'}}><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
+                                                <div style={{'minWidth':'100%'}}>
+                                                    {order.order.map(item=>
+                                                      <img src={item.pictures[0]} alt="" style={{'width':'10%'}} />)
+                                                    }  
+                                                </div> 
+                                                <td style={{'minWidth':'100%'}}>{order.orderId}
                                                     <div className="mobile-cart-content row">
                                                         {/* <div className="col-xs-3">
                                                             <p>in stock</p>
                                                         </div> */}
                                                         <div className="col-xs-3">
-                                                            <h2 className="td-color">{symbol}{item.salePrice}
-                                                            <del><span className="money">{symbol}{item.price}</span></del></h2>
+                                                            <h2 className="td-color">{symbol}{order.sum}
+                                                            </h2>
                                                         </div>
                                                         <div className="col-xs-3">
                                                             <h2 className="td-color">
-                                                                <a href="javascript:void(0)" className="icon" onClick={() => this.removeFromReduxAndFirestoreWishlist(item)}>
+                                                                <a href="javascript:void(0)" className="icon">
                                                                     <i className="fa fa-times"></i>
                                                                 </a>
-                                                                <a href="javascript:void(0)" className="cart" onClick={() => this.addToCartAndRemoveWishlistFromReduxAndFirestore(item, 1)}>
+                                                                <a href="javascript:void(0)" className="cart" >
                                                                     <i className="fa fa-shopping-cart"></i>
                                                                 </a>
                                                             </h2>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{item.salePrice}
-                                                     <del><span className="money">{symbol}{item.price}</span></del></h2></td>
+                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{order.sum}
+                                                    </h2></td>
                                                 <td style={{'minWidth':'100%'}}>
-                                                    <p>{item.availability}</p>
+                                                    <p>Order Pending</p>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}>
-                                                    <a href="javascript:void(0)" className="icon" onClick={() => this.removeFromReduxAndFirestoreWishlist(item)}>
+                                                    <a href="javascript:void(0)" className="icon" >
                                                         <i className="fa fa-times"></i>
                                                     </a>
-                                                    <a href="javascript:void(0)" className="cart" onClick={() => this.addToCartAndRemoveWishlistFromReduxAndFirestore(item, 1)}>
+                                                    <a href="javascript:void(0)" className="cart" >
                                                         <i className="fa fa-shopping-cart"></i>
                                                     </a>
                                                 </td>
@@ -138,7 +151,7 @@ class MyOrders extends Component {
                         <div className="row wishlist-buttons">
                             <div className="col-12">
                                 <Link to={`${process.env.PUBLIC_URL}/collection/in-stock`} className="btn btn-solid">continue shopping</Link>
-                                <Link to={`${process.env.PUBLIC_URL}/checkout`} className="btn btn-solid">check out</Link>
+                                {/* <Link to={`${process.env.PUBLIC_URL}/checkout`} className="btn btn-solid">check out</Link> */}
                             </div>
                         </div>
                     </div>
@@ -152,7 +165,7 @@ class MyOrders extends Component {
                                     <div className="col-sm-12 empty-cart-cls text-center">
                                         <img src={`${process.env.PUBLIC_URL}/assets/images/empty-wishlist.png`} className="img-fluid mb-4" alt="" />
                                         <h3>
-                                            <strong>WhishList is Empty</strong>
+                                            <strong>Please make an order first</strong>
                                         </h3>
                                         <h4>Explore more shortlist some items.</h4>
                                     </div>
@@ -175,7 +188,7 @@ class MyOrders extends Component {
 }
 const mapStateToProps = (state) =>({
     currentUser: state.user.currentUser,
-    Items: state.wishlist.list,
+    ordersArray:state.user.currentUser.ordersArray,
     symbol: state.data.symbol,
 })
 

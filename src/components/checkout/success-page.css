@@ -3,3 +3,11 @@
     flex-direction: row;
     justify-content: space-between
 }
+
+.success-text h2{
+    color:white!important;
+}
+
+.success-text h3{
+    color: orange!important;
+}

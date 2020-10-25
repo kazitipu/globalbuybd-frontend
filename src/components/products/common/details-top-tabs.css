@@ -1,0 +1,5 @@
+@media only screen and (max-width: 600px) {
+    .review-image img {
+      width:20% !important;
+    }
+  }

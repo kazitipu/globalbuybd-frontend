@@ -10,16 +10,16 @@ class Breadcrumb extends Component {
                     <div className="row">
                         <div className="col-md-6">
                             <div className="page-title">
-                                <h2>{title}</h2>
+                                <h6>{title}</h6>
                             </div>
                         </div>
                         <div className="col-md-6">
                             <nav aria-label="breadcrumb" className="theme-breadcrumb">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item"><Link to={`${process.env.PUBLIC_URL}`}>Home</Link></li>
-                                    {parent?
+                                    {/* {parent?
                                     <li className="breadcrumb-item" aria-current="page">{parent}</li>:''}
-                                    <li className="breadcrumb-item active" aria-current="page">{title}</li>
+                                    <li className="breadcrumb-item active" aria-current="page">{title}</li> */}
                                 </ol>
                             </nav>
                         </div>

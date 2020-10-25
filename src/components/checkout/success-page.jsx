@@ -2,6 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Modal from 'react-responsive-modal';
 import './success-page.css';
+import './index.css'
+import dutchBanglaLogo from './assets/dutch-bangla-rocket.png'
+import bkashLogo from './assets/BKash-bKash-Logo.wine.svg'
+import nogodLogo from './assets/Nagad-Logo.wine.svg'
+import islamiBankLogo from './assets/islamiBank.png'
+import dutchBanglaBankLogo from './assets/dutchBanlgaBank.png'
+import cityBankLogo from './assets/city-bank.png'
+import {uploadImage,uploadPayment} from '../../firebase/firebase.utils'
+
 
 
 class orderSuccess extends Component {
@@ -11,7 +20,14 @@ class orderSuccess extends Component {
         
         this.state = {
             open: false,
-            image: ''
+            image: '',
+            orderId:'',
+            amount:0,
+            pictures:[bkashLogo],
+            file:'',
+            mobileBankingVia:'Bkash',
+            mobileBanking:true,
+            bankDepositeVia:'City Bank'
         }
 
     }
@@ -21,6 +37,87 @@ class orderSuccess extends Component {
     onCloseModal = () => {
         this.setState({ open: false });
     };
+
+    _handleImgChange= async (e, i) => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        const { pictures } = this.state;
+
+        reader.onloadend = () => {
+            pictures[i] = reader.result;
+            this.setState({
+                file: file,
+                pictures,
+            });
+        }
+        if (file){
+            reader.readAsDataURL(file)
+            const imgUrl =await uploadImage(file)
+            pictures[i]  = imgUrl
+            this.setState({
+                pictures
+            })
+            console.log(pictures)
+        }  
+      
+    }
+    handleChange = (event) => {
+        const {name,value} =event.target;
+        this.setState({ [name]:value });
+    }
+
+    handleFormSubmit = async (event) =>{
+        event.preventDefault()
+        if (this.state.mobileBanking){
+            var payment ={
+                orderId:this.state.orderId,
+                paymentVia:this.state.mobileBankingVia,
+                paymentImage:this.state.pictures[0],
+                amount: this.state.amount,
+                paidAt: new Date()
+            }
+            await uploadPayment(payment)
+            this.setState({
+                orderId:'',
+                amount:0,
+                pictures:[bkashLogo],
+                file:'',
+                mobileBankingVia:'Bkash',
+                mobileBanking:true,
+                bankDepositeVia:'City Bank'
+            })
+            this.props.history.push('/')
+        }else{
+            var payment ={
+                orderId:this.state.orderId,
+                paymentVia:this.state.bankDepositeVia,
+                paymentImage:this.state.pictures[0],
+                amount: this.state.amount,
+                paidAt: new Date()
+            }
+            await uploadPayment(payment)
+            this.setState({
+                orderId:'',
+                amount:0,
+                pictures:[bkashLogo],
+                file:'',
+                mobileBankingVia:'Bkash',
+                mobileBanking:true,
+                bankDepositeVia:'City Bank'
+            })
+            this.props.history.push('/')
+        }
+    }
+
+    handleMobileBankingClick =()=>{
+        this.setState({mobileBanking:true,})
+    }
+    handleBankDepositeClick =()=>{
+        this.setState({mobileBanking:false})
+    }
+
 
     render (){
 
@@ -44,24 +141,179 @@ class orderSuccess extends Component {
                                     <p>Order Placed Successfully</p>
                                     <h3>Order Id:  {orderObj.orderId} </h3>
                                     <p>আগামী ৪৮ ঘন্টার মধ্যে পেমেন্ট সম্পন্ন করে আপনার অর্ডারটি কনফার্ম করুন।</p>
-                               
-                        
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+                
+                
+                
+                <div className='payment-header'>
+<h5>বিকাশ,রকেট,নগদ পেমেন্টের ক্ষেত্রে পেমেন্ট দিয়ে ট্রানজেকশনটির স্ক্রীনশট নিচে আপলোড করুন।সরাসরি ব্যংক ডিপোজিট এর ক্ষেত্রে আপনার জমার স্লিপের ছবি তুলে আপলোড করুন। ধন্যবাদ</h5>
+<div className='logo-div'>
+    <img src={bkashLogo} alt="" className="img-fluid payment-logo"/>
+    <img src={dutchBanglaLogo} alt="" className="img-fluid payment-logo"/>
+    <img src={nogodLogo} alt="" className="img-fluid payment-logo"/>
+    <img src={islamiBankLogo} className="img-fluid payment-logo" alt=""/>
+    <img src={dutchBanglaBankLogo} className="img-fluid payment-logo" alt=""/>
+    <img src={cityBankLogo} className="img-fluid payment-logo" alt=""/>
+</div>
+</div>
+{
+    this.state.mobileBanking?
+    <div className='payment-fullbox'>
+    <div className='choose-options'>
+   <div className='payment-option' onClick={this.handleMobileBankingClick}>Mobile Banking</div>
+   <div className='payment-option not-selected'onClick={this. handleBankDepositeClick}>Direct Bank Deposite</div>
+   </div>
+   {/* <div className='payment-options'> */}
+   <div className="row section-t-space payment-description">
 
-                <div className='success-page-payment-buttons'>
-                        <button type='button' className='btn-solid btn' data-toggle="modal" data-target="#exampleModalCenter">Pay now 
-                        </button>
-                        <button type='button' className='btn-solid btn' onClick={() => this.props.history.push('/')}>Pay later
-                        </button>
+       <div className="col-lg-6">
+       <div className="stripe-section payment-box">
+       <div className='successpage-table'>
+           <div className='successpage-table-row'>
+           <img src={bkashLogo}  alt="" className="img-fluid payment-image"/> &nbsp;<br/>
+           <p>
+               বিকাশ করুনঃ 01521503360 <br/>
+                              (পার্সোনাল)
+           </p>
+
+           </div>
+           <div  className='successpage-table-row'>
+               <img src={dutchBanglaLogo}  alt="" className="img-fluid payment-image"/>  &nbsp;<br/>
+           <p>
+               রকেট নাম্বারঃ 01521503360 <br/>
+                              (পার্সোনাল)
+           </p>
+           </div>
+           <div className='successpage-table-row'>
+           <img src={nogodLogo}  alt="" className="img-fluid payment-image"/> &nbsp; <br/>
+           <p>
+                নগদ নাম্বারঃ 01521503360 <br/>
+                              (পার্সোনাল)
+           </p>
+           </div>
+       </div>
+       <div>
+       <form onSubmit={this.handleFormSubmit}>
+           <h3 className="checkout_class">Upload image and submit</h3>
+               <div className="form-group mb-3 row">
+                   <label className="col-xl-3 col-sm-4 mb-0">Order Id :</label>
+                   <div className="col-xl-8 col-sm-7">
+                       <input className="form-control" name="orderId" value={this.state.orderId} type="text" onChange={this.handleChange} required />
+                   </div>
+                   <div className="valid-feedback">Looks good!</div>
+               </div>
+               <div className="form-group mb-3 row">
+                <label className="col-xl-3 col-sm-4 mb-0">Amount :</label>
+                <div className="col-xl-8 col-sm-7">
+                    <input className="form-control" name="amount" value={this.state.amount} type="number" onChange={this.handleChange} required />
                 </div>
-{/* 
-<button type="button" class="btn btn-primary"  >
-  Launch demo modal
-</button> */}
+                <div className="valid-feedback">Looks good!</div>
+            </div>
+               <div className="form-group mb-3 row">
+                                           <label className="col-xl-3 col-sm-4 mb-0" >Via :</label>
+                                           <div className="col-xl-8 col-sm-7">
+                                               <select className="form-control digits" id="exampleFormControlSelect1" name="mobileBankingVia" value={this.state.mobileBankingVia} onChange={this.handleChange}>
+                                                   <option>Bkash</option>
+                                                   <option>Rocket</option>
+                                                   <option>Nagad</option>
+                                               </select>
+                                           </div>
+                                       </div>
+               <div className="box-input-file">
+                   <input className="upload" type="file" onChange={(e) => this._handleImgChange(e, 0)} />
+                   <img src={this.state.pictures[0]} style={{ width: 50, height: 50 }} />                                        
+               </div>
+           <button type='submit' className='btn-solid btn'>Submit</button>
+       </form>
+       </div>
+       </div>
+       </div>
+   </div>
+   </div>
+   :
+   <div className='payment-fullbox'>
+ <div className='choose-options'>
+<div className='payment-option not-selected' onClick={this.handleMobileBankingClick}>Mobile Banking</div>
+<div className='payment-option 'onClick={this. handleBankDepositeClick}>Direct Bank Deposite</div>
+</div>
+{/* <div className='payment-options'> */}
+<div className="row section-t-space payment-description">
+
+    <div className="col-lg-6">
+    <div className="stripe-section payment-box">
+    <div className='successpage-table'>
+        <div className='successpage-table-row'>
+        <img src={cityBankLogo}  alt="" className="img-fluid payment-image"/><br/>
+        <p>city Bank <br/>
+           A/c No. 2302832452001 <br/>
+           MD FAHIM <br/> 
+           Forigen Exchange Branch
+        </p>
+
+        </div>
+        <div  className='successpage-table-row'>
+            <img src={dutchBanglaBankLogo}  alt="" className="img-fluid payment-image"/><br/>
+            <p>
+            Dutch Bangla Bank <br/>
+            A/c No. 1911510090744 <br/>
+            MD FAHIM <br/>
+            Bijoy Nogor Branch
+            </p>
+        </div>
+        <div  className='successpage-table-row'>
+        <img src={islamiBankLogo}  alt="" className="img-fluid payment-image"/><br/>
+        <p>
+        Islami Bank Banladesh Ltd <br/>
+        A/c No. 20502060201992604 <br/>
+        MD FAHIM <br/>
+        Paltan Branch
+        </p>
+        </div>
+    </div>
+    <div>
+    <form onSubmit={this.handleFormSubmit}>
+        <h3 className="checkout_class">Upload image and submit</h3>
+            <div className="form-group mb-3 row">
+                <label className="col-xl-3 col-sm-4 mb-0">Order Id :</label>
+                <div className="col-xl-8 col-sm-7">
+                    <input className="form-control" name="orderId" value={this.state.orderId} type="text" onChange={this.handleChange} required />
+                </div>
+                <div className="valid-feedback">Looks good!</div>
+            </div>
+            <div className="form-group mb-3 row">
+                <label className="col-xl-3 col-sm-4 mb-0">Amount :</label>
+                <div className="col-xl-8 col-sm-7">
+                    <input className="form-control" name="amount" value={this.state.amount} type="number" onChange={this.handleChange} required />
+                </div>
+                <div className="valid-feedback">Looks good!</div>
+            </div>
+            <div className="form-group mb-3 row">
+                                        <label className="col-xl-3 col-sm-4 mb-0" >Via :</label>
+                                        <div className="col-xl-8 col-sm-7">
+                                            <select className="form-control digits" id="exampleFormControlSelect1" name="bankDepositeVia" value={this.state.bankDepositeVia} onChange={this.handleChange}>
+                                                <option>City Bank</option>
+                                                <option>Dutch Bangla Bank</option>
+                                                <option>Islami Bank</option>
+                                            </select>
+                                        </div>
+                                    </div>
+            <div className="box-input-file">
+                <input className="upload" type="file" onChange={(e) => this._handleImgChange(e, 0)} />
+                <img src={this.state.pictures[0]} style={{ width: 50, height: 50 }} />                                        
+            </div>
+        <button type='submit' className='btn-solid btn'>Submit</button>
+    </form>
+    </div>
+    </div>
+    </div>
+</div>
+</div>
+}
+
 
 
 

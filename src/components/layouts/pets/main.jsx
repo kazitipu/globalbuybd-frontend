@@ -23,7 +23,7 @@ class Pets extends Component {
     componentDidMount = async()=> {
         const productsArray = await getAllFirestoreProducts()
         this.props.getAllProductsFirestore(productsArray)
-        document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/color15.css` );
+        // document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/color15.css` );
         console.log(this.props)
     //     axios({
     // "method":"GET",

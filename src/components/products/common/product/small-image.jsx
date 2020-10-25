@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import "./small-image.css"
 
 class SmallImages extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            nav2: null
+            nav2: this.slider2
         }
     }
     componentDidMount() {
@@ -23,9 +24,9 @@ class SmallImages extends Component {
         return (
             <div className="row" >
                 <div className="col-8 p-0">
-                    <Slider {...productsnav} asNavFor={this.props.navOne} ref={slider => (this.slider2 = slider)} className="slider-nav">
+                    <Slider {...productsnav} asNavFor={this.props.navTwo} ref={slider => (this.slider2 = slider)} className="slider-nav">
                         {item.pictures.map((vari, index) =>
-                                <div key={index}>
+                                <div className="small-image" key={index} onClick={()=>this.props.clickOnColorVariant(vari)}>
                                     <img src={`${vari}`} key={index} alt=""  className="img-fluid" />
                                 </div>
                             )}

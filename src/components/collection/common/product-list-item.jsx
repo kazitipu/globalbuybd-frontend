@@ -80,7 +80,7 @@ class ProductListItem extends Component {
                                 <Link to={`${process.env.PUBLIC_URL}/compare`} title="Compare" onClick={onAddToCompareClicked}>
                                     <i className="fa fa-refresh" aria-hidden="true"></i></Link>
                             </div>
-                            {product.variants?
+                            {/* {product.variants?
                             <ul className="product-thumb-list">
                                 {product.variants.map((vari, i) =>
                                     <li className={`grid_thumb_img ${(vari.images === this.state.image)?'active':''}`} key={i}>
@@ -89,7 +89,7 @@ class ProductListItem extends Component {
                                         </a>
                                     </li>)
                                 }
-                            </ul>:''}
+                            </ul>:''} */}
 
                         </div>
                         <div className="product-detail">
@@ -98,36 +98,34 @@ class ProductListItem extends Component {
                                     {RatingStars}
                                 </div>
                                 <Link to={`${process.env.PUBLIC_URL}product/${product.id}`}>
-                                    <h6>{product.name}</h6>
+                                    <h6>{product.name.slice(0,50)}</h6>
                                 </Link>
                                 <h4>{symbol}{product.salePrice}
                             {product.price? <del><span className="money">{symbol}{product.price}</span></del>:''}</h4>
                             </div>
                         </div>
-                    {/* <Modal open={open} onClose={this.onCloseModal} center>
+                    <Modal open={open} onClose={this.onCloseModal} center>
                             <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div className="modal-content quick-view-modal">
                                     <div className="modal-body">
                                         <div className="row">
                                             <div className="col-lg-6  col-xs-12">
                                                 <div className="quick-view-img">
-                                                    <img src={product.variants?
-                                                        this.state.image?this.state.image:product.variants[0].images
-                                                        :product.pictures[0]} alt="" className="img-fluid" />
+                                                    <img src={product.pictures[0]} alt="" className="img-fluid" />
                                                 </div>
                                             </div>
                                             <div className="col-lg-6 rtl-text">
                                                 <div className="product-right">
                                                     <h2> {product.name} </h2>
-                                                    <h3>{symbol}{product.price-(product.price*product.discount/100)}
+                                                    <h3>{symbol}{product.salePrice}
                                                         <del><span className="money">{symbol}{product.price}</span></del>
                                                     </h3>
-                                                    {product.variants?
+                                                    {/* {product.variants.length >0?
                                                     <ul className="color-variant">
                                                         {product.variants.map((vari, i) =>
                                                             <li className={vari.color} key={i} title={vari.color} onClick={() => this.onClickHandle(vari.images)}></li>)
                                                         }
-                                                    </ul>:''}
+                                                    </ul>:''} */}
                                                     <div className="border-product">
                                                         <h6 className="product-title">product details</h6>
                                                         <p>{product.shortDetails}</p>
@@ -136,7 +134,7 @@ class ProductListItem extends Component {
                                                         {product.size?
                                                         <div className="size-box">
                                                             <ul>
-                                                                {product.size.map((size, i) => {
+                                                                {product.size.split(',').map((size, i) => {
                                                                     return <li key={i}><a href="#">{size}</a></li>
                                                                 })}
                                                             </ul>
@@ -160,7 +158,7 @@ class ProductListItem extends Component {
                                                     </div>
                                                     <div className="product-buttons">
                                                         <button  className="btn btn-solid" onClick={() => onAddToCartClicked(product, this.state.quantity)} >add to cart</button>
-                                                        <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`} className="btn btn-solid">view detail</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid">view detail</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -168,7 +166,7 @@ class ProductListItem extends Component {
                                     </div>
                                 </div>
                             </div>
-                    </Modal> */}
+                    </Modal>
                 </div>
         )
     }

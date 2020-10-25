@@ -78,35 +78,35 @@ class NavBar extends Component {
                                     <i className="fa fa-angle-right pl-2" aria-hidden="true"></i>
                                 </div>
                             </li>
-                            <li >
-                                <Link to="/collection/in-stock" className="nav-link" style={{"color":"red"}}>
+                            <li onClick={this.closeNav.bind(this)}>
+                                <Link to="/collection/in-stock" className="nav-link navigation-page" style={{"color":"red"}}>
                                     In Stock
                                 </Link>
                             </li>
-                            <li >
-                                <Link to="/collection/pre-order" className="nav-link new-arrival">
+                            <li onClick={this.closeNav.bind(this)}>
+                                <Link to="/collection/pre-order" className="nav-link new-arrival navigation-page">
                                     Pre Order
                                 </Link>
                             </li>
-                            <li >
-                                <Link to="/" className="nav-link new-arrival">
+                            <li onClick={this.closeNav.bind(this)}>
+                                <Link to="/" className="nav-link navigation-page">
                                     New Arrival
                                 </Link>
-                            </li>
+                            </li> 
                             <li >
-                                <Link to="/" className="nav-link">
+                                <Link to="/" className="nav-link navigation-page">
                                     Best Selling
         
                                 </Link>
-                            </li>
-                            <li >
-                                <Link to="/" className="nav-link blinking-text" style={{'color':"red"}}>
+                            </li> 
+                            <li onClick={this.closeNav.bind(this)} >
+                                <Link to="/" className="nav-link blinking-text navigation-page" style={{'color':"red"}}>
                                 Flash Deals &nbsp;<i className="fa fa-bolt" aria-hidden="true"></i>
                                 </Link>
                                 
                             </li>
                             <li className="mega-menu">
-                                <Link to="#" className="dropdown" onClick={(e) => this.handleSubmenu(e)}>
+                                <Link to="#" className="dropdown navigation-page" onClick={(e) => this.handleSubmenu(e)} >
                                     shop
                                     <span className="sub-arrow"></span>
                                 </Link>
@@ -123,13 +123,13 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content">
                                                         <ul>
-                                                            <li><Link to={'/'} >Dresses</Link></li>
-                                                            <li><Link to={'/'} >Tees</Link></li>
-                                                            <li><Link to={'/'} >Women's Sets</Link></li>
-                                                            <li><Link to={'/'} >Leggings</Link></li>
-                                                            <li><Link to={'/'} >Skirts</Link></li>
-                                                            <li><Link to={'/'} >Jeans</Link></li>
-                                                            <li><Link to={'/'} >Shorts</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Dresses</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Tees</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Women's Sets</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Leggings</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Skirts</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Jeans</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Shorts</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -238,24 +238,24 @@ class NavBar extends Component {
                                 </div>
                             </li>
                             <li>
-                                <Link to="#" className="nav-link" onClick={(e) => this.handleSubmenu(e)}>
+                                <Link to="#" className="nav-link navigation-page" onClick={(e) => this.handleSubmenu(e)} >
                                     pages
                                     <span className="sub-arrow"></span>
                                 </Link>
                                 <ul className="nav-submenu">
-                                    <li><Link to={`${process.env.PUBLIC_URL}/pages/about-us`} >about_us</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/pages/contact`} >contact</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/pages/faq`} >FAQ</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/about-us`} >about_us</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/contact`} >contact</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/faq`} >FAQ</Link></li>
                                 </ul>
                             </li>
                             <li >
-                                <Link to="#" className="nav-link" onClick={(e) => this.handleSubmenu(e)}>
+                                <Link to="#" className="nav-link navigation-page" onClick={(e) => this.handleSubmenu(e)} >
                                     tax & shipping
                                     <span className="sub-arrow"></span>
                                 </Link>
                                 <ul className="nav-submenu">
-                                    <li><Link to={`${process.env.PUBLIC_URL}/blog/blog-page`} >find your tax</Link></li>
-                                    <li><Link to={`${process.env.PUBLIC_URL}/blog/right-sidebar`} >ship with us</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/blog/blog-page`} >find your tax</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/blog/right-sidebar`} >ship with us</Link></li>
                                 </ul>
                             </li>
                         </ul>

@@ -1,0 +1,16 @@
+.image-container{
+    max-width: 95%;
+    height: auto;
+    overflow: hidden;
+    
+  
+}
+.image-container img:hover{
+    cursor: pointer;
+    transform: scale(1.5);
+    overflow: hidden;
+    transition: ease 2s;
+}
+.image-container img{
+    margin-left: 5px !important;
+}

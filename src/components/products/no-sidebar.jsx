@@ -4,6 +4,7 @@ import '../common/index.scss';
 import {connect} from "react-redux";
 
 
+
 // import custom Components
 import RelatedProduct from "../common/related-product";
 import Breadcrumb from "../common/breadcrumb";
@@ -12,18 +13,19 @@ import DetailsTopTabs from "./common/details-top-tabs";
 import { addToCart, addToCartUnsafe, addToWishlist,fetchSingleProduct } from '../../actions'
 import ImageZoom from './common/product/image-zoom'
 import SmallImages from './common/product/small-image'
-import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore} from '../../firebase/firebase.utils'
+import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore, addCartItemsToOrdersFirestore} from '../../firebase/firebase.utils'
 
 
 
 
 class NoSideBar extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            nav1: null,
-            nav2: null
+            nav1: this.slider1,
+            nav2: this.slider2,
+            colorVariantImage:'',
         };
     }
 
@@ -53,7 +55,9 @@ class NoSideBar extends Component {
         addToWishlist(product)
     }
 
-    
+    clickOnColorVariant = (imgUrl)=>{
+       this.setState({colorVariantImage:imgUrl})
+    }
 
     render(){
         const {symbol, item, addToCart, addToCartUnsafe, addToWishlist} = this.props
@@ -72,7 +76,7 @@ class NoSideBar extends Component {
         };
 
         var productsnav = {
-            slidesToShow: 4,
+            slidesToShow: item?item.pictures.length + 1: null,
             swipeToSlide:true,
             arrows:false,
             dots:false,
@@ -83,7 +87,7 @@ class NoSideBar extends Component {
         return (
             <div>
 
-                {item?<Breadcrumb title={' Product / '+item.name} />:''}
+                {item?<Breadcrumb title={item.name} />:''}
 
                 {/*Section Start*/}
                 {(item)?
@@ -92,16 +96,18 @@ class NoSideBar extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-6 product-thumbnail">
-                                    <Slider {...products} asNavFor={this.state.nav2} ref={slider => (this.slider1 = slider)} className="product-slick">
+                                    {
+                                        !this.state.colorVariantImage?<Slider {...products} asNavFor={this.state.nav2} ref={slider => (this.slider1 = slider)} className="product-slick">
                                         {item.pictures.map((vari, index) =>
-                                            <div key={index}>
+                                            <div key={index} className='hover-effect' >
                                                 <ImageZoom image={vari} className="img-fluid image_zoom_cls-0" />
                                             </div>
                                         )}
-                                    </Slider>
-                                    <SmallImages item={item} settings={productsnav} navOne={this.state.nav1} />
+                                    </Slider>:<ImageZoom image={this.state.colorVariantImage} className="img-fluid image_zoom_cls-0" />
+                                    }
+                                    <SmallImages item={item} settings={productsnav} navOne={this.state.nav1} clickOnColorVariant={this.clickOnColorVariant} />
                                 </div>
-                                <DetailsWithPrice symbol={symbol} item={item} navOne={this.state.nav1} addToCartClicked={this.addToReduxAndFirestoreCart} BuynowClicked={addToCartUnsafe} addToWishlistClicked={this.addToReduxAndFirestoreWishlist} />
+                                <DetailsWithPrice {...this.props} symbol={symbol} item={item} navOne={this.state.nav1} clickOnColorVariant={this.clickOnColorVariant} addToCartClicked={this.addToReduxAndFirestoreCart} BuynowClicked={addToCartUnsafe} addToWishlistClicked={this.addToReduxAndFirestoreWishlist} />
                             </div>
                         </div>
                     </div>
@@ -118,7 +124,7 @@ class NoSideBar extends Component {
                     </div>
                 </section>
 
-                <RelatedProduct />
+                {/* <RelatedProduct /> */}
             </div>
         )
     }

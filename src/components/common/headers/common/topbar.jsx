@@ -15,7 +15,7 @@ class TopBar extends Component {
     render() {
         const {currentUser} = this.props
         return (
-            <div className="top-header">
+            <div className="top-header" style={{'maxHeight':'3rem'}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">

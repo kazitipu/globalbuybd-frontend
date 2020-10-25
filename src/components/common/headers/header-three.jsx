@@ -143,7 +143,7 @@ class HeaderThree extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
-                                <div className="main-nav-center">
+                                <div className="main-nav-center" style={{'maxHeight':'3rem'}}>
                                     <NavBar/>
                                 </div>
                             </div>

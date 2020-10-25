@@ -17,7 +17,7 @@ class CartContainer extends React.Component{
     render(){
         const {cartList, total, symbol} = this.props;
         return(
-            <li  className="onhover-div mobile-cart"><div className="cart-qty-cls">{cartList.length}</div>
+            <li  className="onhover-div mobile-cart"><div className="cart-qty-cls" style={{'zIndex':5}}>{cartList.length}</div>
                <Link to={`${process.env.PUBLIC_URL}/cart`}><img src={`${process.env.PUBLIC_URL}/assets/images/icon/cart.png`} className="img-fluid" alt=""/>
                    <i className="fa fa-shopping-cart"></i></Link>
                <ul className="show-div shopping-cart">

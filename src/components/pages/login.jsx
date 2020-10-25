@@ -28,7 +28,12 @@ class Login extends Component {
         try {
           await auth.signInWithEmailAndPassword(email, password);
           this.setState({ email: '', password: '' });
-          this.props.history.push('/')
+          if (this.props.history.location.state.from){
+              this.props.history.push(this.props.history.location.state.from)
+          }else{
+            this.props.history.push('/')
+          }
+          
         } catch (error) {
           alert(error);
         }
@@ -43,7 +48,11 @@ class Login extends Component {
     signInWithGoogle =async ()=>{
         try{
             await signInWithGoogle()
-            this.props.history.push('/')
+            if (this.props.history.location.state.from){
+                this.props.history.push(this.props.history.location.state.from)
+            }else{
+              this.props.history.push('/')
+            }
         }catch(error){
             alert(error)
         }
@@ -52,10 +61,18 @@ class Login extends Component {
     singInWithFacebook = async () =>{
         try{
             await singInWithFacebook()
-            this.props.history.push('/')
+            if (this.props.history.location.state.from){
+                this.props.history.push(this.props.history.location.state.from)
+            }else{
+              this.props.history.push('/')
+            }
         }catch(error){
             alert(error)
         }
+    }
+
+    onRegisterButtonClick =()=>{
+        this.props.history.push('/pages/register', {from:this.props.history.location.state.from})
     }
 
     render(){
@@ -97,7 +114,7 @@ class Login extends Component {
                                     <p>Sign up for a free account at our store. Registration is quick and easy. It
                                         allows you to be able to order from our shop. To start shopping click
                                         register.</p>
-                                    <Link to="/pages/register" className="btn btn-solid">Register</Link>
+                                    <div to="/pages/register" style={{'cursor':'pointer'}} className="btn btn-solid" onClick={this.onRegisterButtonClick}>Register</div>
                                 </div>
                             </div>
                         </div>

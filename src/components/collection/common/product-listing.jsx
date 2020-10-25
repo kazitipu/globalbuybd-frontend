@@ -8,7 +8,7 @@ import { getTotal, getCartProducts } from '../../../reducers'
 import { addToCart, addToWishlist, addToCompare,getAllProductsFirestore } from '../../../actions'
 import {getVisibleproducts} from '../../../services';
 import ProductListItem from "./product-list-item";
-import {auth,addCartItemTofirestore,addWishlistTofirestore,getAllFirestoreProducts} from '../../../firebase/firebase.utils'
+import {auth,addCartItemTofirestore,addWishlistTofirestore,getAllFirestoreProducts,getAllFirestoreAliProductsList} from '../../../firebase/firebase.utils'
 
 class ProductListing extends Component {
 
@@ -18,18 +18,19 @@ class ProductListing extends Component {
         this.state = { limit: 5, hasMoreItems: true };
 
     }
-
-   
     componentDidMount = async()=> {
         const productsArray = await getAllFirestoreProducts()
-        this.props.getAllProductsFirestore(productsArray)
+        const aliProductsArray = await getAllFirestoreAliProductsList()
+        console.log(aliProductsArray)
+        this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])
        
     }
-
+    
     componentWillMount(){
         this.fetchMoreItems();
     }
 
+    
     fetchMoreItems = () => {
        
         // a fake async api call

@@ -7,11 +7,10 @@ import SimpleReactValidator from 'simple-react-validator';
 
 import Breadcrumb from "../common/breadcrumb";
 import {removeFromWishlist, removeCart,setOrderObj} from '../../actions'
-import {auth,removeAllCartItemFromFirestore,addCartItemsToOrdersFirestore, removeCartItemFromFirestore} from '../../firebase/firebase.utils'
+import {auth,removeAllCartItemFromFirestore,addCartItemsToOrdersFirestore, removeCartItemFromFirestore,uploadImage,uploadPayment} from '../../firebase/firebase.utils'
 
 import {getCartTotal} from "../../services";
-import { firestore } from 'firebase';
-import './index.css'
+
 
 class checkOut extends Component {
 
@@ -25,7 +24,8 @@ class checkOut extends Component {
             email:'',
             city:'',
             address:'',
-            create_account: ''
+            create_account: '',
+           
         }
         this.validator = new SimpleReactValidator();
     }
@@ -71,20 +71,10 @@ class checkOut extends Component {
       
     }
 
+   
 
     render (){
         const {cartItems, symbol, total} = this.props;
-
-        // const onCancel = (data) => {
-        //     console.log('The payment was cancelled!', data);
-        // }
-
-        // const onError = (err) => {
-        //     console.log("Error!", err);
-        // }
-
-      
-
 
         return (
             <div>
@@ -97,7 +87,6 @@ class checkOut extends Component {
                 {/*SEO Support End */}
 
                 <Breadcrumb  title={'Checkout'}/>
-
                 <section className="section-b-space">
                     <div className="container padding-cls">
                         <div className="checkout-page">

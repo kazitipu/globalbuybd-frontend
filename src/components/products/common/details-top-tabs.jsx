@@ -2,28 +2,31 @@ import React, {Component} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
 import {Link} from 'react-router-dom'
+import "./details-top-tabs.css";
 
 class DetailsTopTabs extends Component {
     render (){
+        const {item} = this.props
 
         return (
             <section className="tab-product m-0">
+                {item?
                 <div className="row">
                     <div className="col-sm-12 col-lg-12">
                         <Tabs className="tab-content nav-material">
                             <TabList className="nav nav-tabs nav-material">
                                 <Tab className="nav-item">
                                     <span className="nav-link active">
-                                        <i className="icofont icofont-ui-home"></i>Description</span>
+                                        <i className="icofont icofont-ui-home"></i>Specifications</span>
                                     <div className="material-border"></div>
                                 </Tab>
                                 <Tab className="nav-item">
-                                    <span className="nav-link" ><i className="icofont icofont-man-in-glasses"></i>Details</span>
+                                    <span className="nav-link" ><i className="icofont icofont-man-in-glasses"></i>Overview</span>
                                     <div className="material-border"></div>
                                 </Tab>
                                 <Tab className="nav-item">
                                     <span className="nav-link" >
-                                        <i className="icofont icofont-contacts"></i>Video</span>
+                                        <i className="icofont icofont-contacts"></i>Reviews({item.feedback?item.feedback.length:''})</span>
                                     <div className="material-border"></div>
                                 </Tab>
                                 <Tab className="nav-item">
@@ -33,62 +36,48 @@ class DetailsTopTabs extends Component {
                                 </Tab>
                             </TabList>
                             <TabPanel className="tab-pane fade mt-4 show active">
+                               
                                 <table className="table table-striped mb-0">
                                     <tbody>
-                                    <tr>
-                                        <th>Ideal For :</th>
-                                        <td>Women's</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Pattern :</th>
-                                        <td>Embroidered</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dress Fabric :</th>
-                                        <td>Silk</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Type :</th>
-                                        <td>Ghagra, Choli, Dupatta Set</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Neck :</th>
-                                        <td>Round Neck</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sleeve :</th>
-                                        <td>3/4 Sleeve</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Work :</th>
-                                        <td>N/A</td>
-                                    </tr>
+                                    {item.specs? item.specs.map((item,i)=>(<tr key={i}>
+                                        <th>{item.attrName}:</th>
+                                        <td>{item.attrValue}</td>
+                                    </tr>)
+                                    )
+                                    :
+                                    ''      
+                            }
                                     </tbody>
                                 </table>
                             </TabPanel>
                             <TabPanel>
                                 <p className="mt-4 p-0">
-                                    Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry. Lorem Ipsum has been the industry's
-                                    standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a
-                                    type specimen book. It has survived not only five centuries,
-                                    but also the leap into electronic typesetting, remaining
-                                    essentially unchanged. It was popularised in the 1960s with
-                                    the release of Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop publishing software
-                                    like Aldus PageMaker including versions of Lorem Ipsum.
+                                   {item.description?<div dangerouslySetInnerHTML={{__html: item.description}} /> :''}
                                 </p>
                             </TabPanel>
                             <TabPanel>
                                 <div className="mt-4 text-center">
-                                    <div className="embed-responsive embed-responsive-16by9">
-                                        <iframe
-                                            src="https://www.youtube.com/embed/BUWzX78Ye_8"
-                                            allow="autoplay; encrypted-media"
-                                            allowFullScreen>
-                                        </iframe>
-                                    </div>
+                                   {item.feedback && item.feedback.length >0? item.feedback.map((feedback,index)=> (<div class="media" key={index}>
+                    <div class="pull-left"><i className="fa fa-user"></i></div>
+                    <div class="media-body review-image">
+                        <h4 class="media-heading" style={{"textAlign":"start"}}>{feedback.displayName}</h4>
+                        <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><i class="fa fa-calendar"></i>{feedback.date}</li>
+                            <li><i class="fa fa-thumbs-up"></i> &nbsp;{feedback.country}</li>
+                        </ul>
+                        <p style={{'marginBottom':'1rem'}}>{feedback.content}</p>
+                        <ul class="list-unstyled list-inline media-detail pull-left">
+                            {feedback.info.Color?<li>Color:{feedback.info.Color}</li>:''}
+                            {feedback.info.Logistics?<li>Logistics:{feedback.info.Logistics}</li>:''}
+                            {feedback.info.Size?<li>Size:{feedback.info.Size}</li>:''}
+                        </ul>
+                        {feedback.photos.length > 0? feedback.photos.map((photo,index)=><img key={index} style={{'width':'10%'}} src={photo}></img>):''}
+                        <ul class="list-unstyled list-inline media-detail pull-right">
+                            <li class="">rating :</li>
+                            <li class="">{feedback.rating}</li>
+                        </ul>
+                    </div>
+                </div>)):<h2 style={{'textAlign':'center'}}>No reviews yet for this product</h2>}
                                 </div>
                             </TabPanel>
                             <TabPanel>
@@ -132,7 +121,7 @@ class DetailsTopTabs extends Component {
                             </TabPanel>
                         </Tabs>
                     </div>
-                </div>
+                </div>:''}
             </section>
         )
     }

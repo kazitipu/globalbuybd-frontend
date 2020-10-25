@@ -71,7 +71,7 @@ export const addToCart = (product,qty) => (dispatch) => {
 export const addToCartAndRemoveWishlist = (product,qty) => (dispatch) => {
     toast.success("Item Added to Cart");
     dispatch(addToCartUnsafe(product, qty));
-    dispatch(removeFromWishlist(product));
+    // dispatch(removeFromWishlist(product));
 }
 export const addToCartUnsafe = (product, qty) => ({
     type: types.ADD_TO_CART,

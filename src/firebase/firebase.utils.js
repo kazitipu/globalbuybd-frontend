@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage"
 import { v4 as uuidv4 } from 'uuid'
 import collection from "../components/layouts/pets/collection";
 import { getCartTotal } from "../services";
@@ -25,6 +26,7 @@ facebookProvider.setCustomParameters({ prompt: "select_account", display: 'popup
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+export const storage = firebase.storage();
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -58,20 +60,20 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
   if (!snapShot.exists){
     try {
       await cartRef.set({
-        cart:[{...product, qty, sum: (product.price*product.discount/100)*(qty)}]
+        cart:[{...product, qty, sum: product.salePrice * qty}]
       });
     } catch (error) {
       console.log("error creating cartProduct", error.message);
     }
   }else {
-    if (snapShot.data().cart.findIndex(item => item.id === product.id) !== -1) {
-      const cart = snapShot.data().cart.reduce((cartAcc, item) => {
-          if (item.id === product.id) {
-              cartAcc.push({ ...item, qty: item.qty+parseInt(qty), sum: (item.price*item.discount/100)*(item.qty+parseInt(qty)) }) // Increment qty
-          } else {
-              cartAcc.push(item)
+    if (snapShot.data().cart.findIndex(item => item.id === product.id) !== -1) { 
+        const cart = snapShot.data().cart.reduce((cartAcc, item) => {
+         
+          if (item.id === product.id ) {
+            cartAcc.push({ ...item, qty: item.qty+parseInt(qty), sum: item.salePrice * (item.qty+parseInt(qty)) }) // Increment qty           
+          }else{
+            cartAcc.push(item)
           }
-
           return cartAcc
       }, [])
       try{
@@ -81,11 +83,13 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
 
       }catch(error){
         alert(error)
-      }   
+      }
+      
+      
     }else{
       try{
         await cartRef.update({
-        cart:[...snapShot.data().cart,{...product, qty, sum: (product.price*product.discount/100)*(qty)}]
+        cart:[...snapShot.data().cart,{...product, qty, sum: product.salePrice * qty }]
         })
       }catch(error){
         alert(error)
@@ -104,7 +108,7 @@ export const decrementCartItemFromFirestore = async (userAuth,product) =>{
     if (snapShot.data().cart.findIndex(item=>item.id === product.id) !== -1){
       const cart = snapShot.data().cart.reduce((cartAcc, item)=>{
         if (item.id === product.id && item.qty >= 1){
-          cartAcc.push({...item, qty:item.qty-1,sum:(item.price*item.discount/100)*(item.qty-1)})
+          cartAcc.push({...item, qty:item.qty-1,sum: item.salePrice*(item.qty-1)})
         }
         else{
           cartAcc.push(item)
@@ -175,7 +179,7 @@ export const removeFromWishlistFirestore = async (userAuth, product) =>{
 
 export const addToCartAndRemoveWishlistFirestore = async (userAuth,product,qty)=>{
   await addCartItemTofirestore(userAuth,product,qty)
-  await removeFromWishlistFirestore(userAuth,product)
+  // await removeFromWishlistFirestore(userAuth,product)
 
 }
 
@@ -200,16 +204,8 @@ export const addCartItemsToOrdersFirestore=async(userAuth,ordersArray,billingAdd
     otherInformation: billingAddress,
     order:ordersArray,
     sum,
-    status:{
-      order_pending: true,
-      payment_approved:false,
-      ordered:false,
-      china_warehouse:false,
-      in_shipping:false,
-      in_stock:false,
-      ready_to_ship:false,
-      delivered:false
-    },
+    status:'order_pending'
+    ,
     paymentStatus:{
       paid,
       due:parseInt(sum) - parseInt(paid),
@@ -252,17 +248,130 @@ export const getAllFirestoreProducts = async()=>{
   }
 }
 
-// getting single product from firestore 
-export const getSingleProduct = async (id) =>{
-  const productRef = firestore.doc(`products/${id}`)
-  try {
-    const product = await productRef.get()
-    return product.data()
+export const getAllFirestoreAliProductsList = async()=>{
+  const aliProductsCollectionRef = firestore.collection('aliproducts')
+  try{
+    const products =await aliProductsCollectionRef.get()
+    const aliProductsArray = []
+    products.forEach((doc)=>{
+      console.log(doc.id, " => ", doc.data())
+      var originalPrice =[]
+      if (doc.data().originalPrice.min == doc.data().originalPrice.max){
+        originalPrice.push(Math.round(doc.data().originalPrice.min * 90))
+      } else{
+        originalPrice.push(`${Math.round(doc.data().originalPrice.min * 90)}- ${Math.round(doc.data().originalPrice.max * 90)}`)
+      }
+      var salePrice =[]
+      if (doc.data().salePrice.min == doc.data().salePrice.max){
+        salePrice.push(Math.round(doc.data().salePrice.min * 90))
+      } else{
+        salePrice.push(`${Math.round(doc.data().salePrice.min * 90)}- ${Math.round(doc.data().salePrice.max * 90)}`)
+      }
+      const newObj ={
+          id:doc.data().productId,
+          name:doc.data().title,
+          price: originalPrice[0],
+          salePrice:salePrice[0],
+          pictures:[...doc.data().images],
+          availability:doc.data().availability,
+          rating:doc.data().ratings.averageStar,
+          categoryId: doc.data().categoryId,
+          description: doc.data().description,
+          specs: doc.data().specs,
+          feedback: doc.data().feedback,
+          orders: doc.data().orders,
+          totalAvailableQuantity: doc.data().totalAvailableQuantity,
+          variants: doc.data().variants
+      }
+      aliProductsArray.push(newObj)
+      originalPrice=[]
+      salePrice=[]
+    })
+    return aliProductsArray;
   }catch(error){
     alert(error)
   }
 }
 
+// getting single product from firestore 
+export const getSingleProduct = async (id) =>{
+  const productRef = firestore.doc(`products/${id}`)
+  try {
+    const product = await productRef.get()
+    if (!product.exists){
+      const aliProductRef = firestore.doc(`aliproducts/${id}`)
+      try{
+        const aliProduct = await aliProductRef.get()
+      var originalPrice =[]
+      if (aliProduct.data().originalPrice.min == aliProduct.data().originalPrice.max){
+        originalPrice.push(Math.round(aliProduct.data().originalPrice.min * 90))
+      } else{
+        originalPrice.push(`${Math.round(aliProduct.data().originalPrice.min * 90)}- ${Math.round(aliProduct.data().originalPrice.max * 90)}`)
+      }
+      var salePrice =[]
+      if (aliProduct.data().salePrice.min == aliProduct.data().salePrice.max){
+        salePrice.push(Math.round(aliProduct.data().salePrice.min * 90))
+      } else{
+        salePrice.push(`${Math.round(aliProduct.data().salePrice.min * 90)}- ${Math.round(aliProduct.data().salePrice.max * 90)}`)
+      }
+        const aliProductObj ={
+          id:aliProduct.data().productId,
+          name:aliProduct.data().title,
+          price: originalPrice[0],
+          salePrice:salePrice[0],
+          pictures:[...aliProduct.data().images],
+          availability:aliProduct.data().availability,
+          rating:aliProduct.data().ratings.averageStar,
+          categoryId: aliProduct.data().categoryId,
+          description: aliProduct.data().description,
+          specs: aliProduct.data().specs,
+          feedback: aliProduct.data().feedback,
+          orders: aliProduct.data().orders,
+          totalAvailableQuantity: aliProduct.data().totalAvailableQuantity,
+          variants: aliProduct.data().variants
+        }
+        return aliProductObj
+      }catch(error){
+        alert(error)
+      }
+
+    }else{
+      return product.data()
+    }
+   
+  }catch(error){
+    alert(error)
+  }
+}
+
+//  upload image of bank slip or bkash slip transaction 
+export const uploadImage = async (file) =>{
+  const imageRef = storage.ref(`payments/${GenerateUniqueID()}`)
+ 
+  await imageRef.put(file)
+  var imgUrl = []
+  await imageRef.getDownloadURL().then((url)=>{
+      imgUrl.push(url)
+    })  
+  return imgUrl[0] 
+}
+// upload payment with image of the slip 
+export const uploadPayment =async (payment) =>{
+  const paymentRef =firestore.doc(`payments/${payment.orderId}`)
+  const snapShot = await paymentRef.get()
+  if (snapShot.exists){
+    const previousPayments =await snapShot.data().payments
+    console.log(snapShot.data())
+    paymentRef.update({
+      payments:[...previousPayments, payment],
+    }
+    )
+  }else{
+    paymentRef.set({
+      payments:[payment]
+    })
+  }
+}
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 export const singInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 

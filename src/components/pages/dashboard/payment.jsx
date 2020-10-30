@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Modal from 'react-responsive-modal';
-import './success-page.css';
-import './index.css'
-import dutchBanglaLogo from './assets/dutch-bangla-rocket.png'
-import bkashLogo from './assets/BKash-bKash-Logo.wine.svg'
-import nogodLogo from './assets/Nagad-Logo.wine.svg'
-import islamiBankLogo from './assets/islamiBank.png'
-import dutchBanglaBankLogo from './assets/dutchBanlgaBank.png'
-import cityBankLogo from './assets/city-bank.png'
-import {uploadImage,uploadPayment} from '../../firebase/firebase.utils'
+import './payment.css';
+import dutchBanglaLogo from '../../checkout/assets/dutch-bangla-rocket.png'
+import bkashLogo from '../../checkout/assets/BKash-bKash-Logo.wine.svg'
+import nogodLogo from '../../checkout/assets/Nagad-Logo.wine.svg'
+import islamiBankLogo from '../../checkout/assets/islamiBank.png'
+import dutchBanglaBankLogo from '../../checkout/assets/dutchBanlgaBank.png'
+import cityBankLogo from '../../checkout/assets/city-bank.png'
+import {uploadImage,uploadPayment} from '../../../firebase/firebase.utils'
+import { toast  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 
 
-class orderSuccess extends Component {
+class Payment extends Component {
 
     constructor (props) {
         super (props)
@@ -70,7 +71,7 @@ class orderSuccess extends Component {
 
     GenerateUniqueID =()=> {
         return ('0000'+(Math.random() * (100000 - 101) + 101)).slice(-5);
-    }
+      }
 
     handleFormSubmit = async (event) =>{
         event.preventDefault()
@@ -93,9 +94,12 @@ class orderSuccess extends Component {
                 file:'',
                 mobileBankingVia:'Bkash',
                 mobileBanking:true,
-                bankDepositeVia:'City Bank'
+                bankDepositeVia:'City Bank',
+               
             })
-            this.props.history.push('/')
+            toast.success('your payment will be verified by one of our admins')
+            this.props.history.push('/pages/dashboard/my-orders')
+            
         }else{
             var payment ={
                 orderId:this.props.orderObj.orderId,
@@ -116,7 +120,8 @@ class orderSuccess extends Component {
                 mobileBanking:true,
                 bankDepositeVia:'City Bank'
             })
-            this.props.history.push('/')
+            toast.success('your payment will be verified by one of our admins')
+            this.props.history.push('/pages/dashboard/my-orders')
         }
     }
 
@@ -140,24 +145,7 @@ class orderSuccess extends Component {
         return (
             <div>
                 {
-                    orderObj?<div><section className="section-b-space dark-layout">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="success-text">
-                                    <i className="fa fa-check-circle" aria-hidden="true"></i>
-                                    <h2>thank you</h2>
-                                    <p>Order Placed Successfully</p>
-                                    <h3>Order Id:  {orderObj.orderId} </h3>
-                                    <p>আগামী ৪৮ ঘন্টার মধ্যে পেমেন্ট সম্পন্ন করে আপনার অর্ডারটি কনফার্ম করুন।</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
-                
-                
+                    orderObj?<div>    
                 <div className='payment-header'>
 <h5>বিকাশ,রকেট,নগদ পেমেন্টের ক্ষেত্রে পেমেন্ট দিয়ে ট্রানজেকশনটির স্ক্রীনশট নিচে আপলোড করুন।সরাসরি ব্যংক ডিপোজিট এর ক্ষেত্রে আপনার জমার স্লিপের ছবি তুলে আপলোড করুন। ধন্যবাদ</h5>
 <div className='logo-div'>
@@ -289,7 +277,7 @@ class orderSuccess extends Component {
             <div className="form-group mb-3 row">
                 <label className="col-xl-3 col-sm-4 mb-0">Order Id :</label>
                 <div className="col-xl-8 col-sm-7">
-                    <input className="form-control" name="orderId" value={orderObj.orderId} readOnly type="text" required />
+                    <input className="form-control" name="orderId" value={orderObj.orderId} type="text" readOnly required />
                 </div>
                 <div className="valid-feedback">Looks good!</div>
             </div>
@@ -368,13 +356,13 @@ class orderSuccess extends Component {
                                     })}
                                     <div className="total-sec">
                                         <ul>
-                                            <li>subtotal <span>{symbol}{orderObj.sum}</span></li>
-                                            <li>shipping <span>Tk 0</span></li>
-                                            <li>tax(GST) <span>Tk 0</span></li>
+                                            <li>subtotal <span>{symbol}{orderObj.paymentStatus.total}</span></li>
+                                            <li>Paid <span>Tk {orderObj.paymentStatus.paid}</span></li>
+                                            <li>Due <span>Tk {orderObj.paymentStatus.due}</span></li>
                                         </ul>
                                     </div>
                                     <div className="final-total">
-                                        <h3>total <span>{symbol}{orderObj.sum}</span></h3>
+                                        <h3>total due <span>{symbol}{orderObj.paymentStatus.due}</span></h3>
                                     </div>
                                 </div>
                             </div>
@@ -398,12 +386,7 @@ class orderSuccess extends Component {
                                         <p>Pay on Delivery (Cash/Card). Cash on delivery (COD) available. Card/Net
                                             banking acceptance subject to device availability.</p>
                                     </div>
-                                    <div className="col-md-12">
-                                        <div className="delivery-sec">
-                                            <h3>expected date of delivery</h3>
-                                            <h2>{deliveryDate}</h2>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -434,11 +417,11 @@ class orderSuccess extends Component {
     }
 }
 
-const mapStateToProps =(state)=>{
+const mapStateToProps =(state, ownProps)=>{
     return{
-        orderObj:state.orders.orders[state.orders.orders.length - 1],
         currentUser:state.user.currentUser,
+        orderObj:state.user.currentUser.ordersArray?state.user.currentUser.ordersArray.find(order=>order.orderId === ownProps.match.params.id):null,
         symbol: state.data.symbol,
     }
 }
-export default connect(mapStateToProps)(orderSuccess)
+export default connect(mapStateToProps)(Payment)

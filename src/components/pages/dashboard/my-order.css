@@ -1,0 +1,21 @@
+.product-detail-div{
+    padding: 3rem !important;
+    position: fixed;
+    z-index: 5;
+}
+
+.order-details-flexbox{
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid rgb(223, 220, 220);
+}
+.order-details-flexbox div{
+    max-width: 50%;
+
+}
+
+.popover-body-container{
+    max-height: 50vh;
+    overflow-y: scroll;
+}

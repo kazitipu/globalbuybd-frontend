@@ -78,11 +78,11 @@ export const addToCartUnsafe = (product, qty) => ({
     product,
     qty
 });
-export const removeFromCart = product_id => (dispatch) => {
+export const removeFromCart = product => (dispatch) => {
     toast.error("Item Removed from Cart");
     dispatch({
         type: types.REMOVE_FROM_CART,
-        product_id
+        product
     })
 };
 export const removeCart =()=>{
@@ -95,12 +95,12 @@ export const incrementQty = (product,qty) => (dispatch) => {
     dispatch(addToCartUnsafe(product, qty))
 
 }
-export const decrementQty = productId => (dispatch) => {
+export const decrementQty = product => (dispatch) => {
     toast.warn("Item Decrement Qty to Cart");
 
     dispatch({
     type: types.DECREMENT_QTY,
-    productId})
+    product})
 };
 
 
@@ -143,9 +143,9 @@ export const addToCompareUnsafe= (product) => ({
     type: types.ADD_TO_COMPARE,
     product
 });
-export const removeFromCompare = product_id => ({
+export const removeFromCompare = product => ({
     type: types.REMOVE_FROM_COMPARE,
-    product_id
+    product
 });
 
 

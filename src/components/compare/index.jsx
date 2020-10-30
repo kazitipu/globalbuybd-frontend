@@ -70,7 +70,7 @@ class Compare extends Component {
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                                 <div className="img-secton">
-                                                    <Link to={`${process.env.PUBLIC_URL}/left-sidebar/product/${item.id}`}>
+                                                    <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
                                                     <img src={item.pictures[0]} className="img-fluid" alt="" />
                                                     <h5>{item.name}</h5></Link>
                                                     <h5>{symbol}{(item.salePrice)}
@@ -108,9 +108,9 @@ class Compare extends Component {
                                                         <p>{item.availability}</p>
                                                     </div>
                                                 </div>
-                                                <div className="btn-part">
-                                                    <a href="javascript:void(0)" className="btn btn-solid" onClick={() =>  this.addToReduxAndFirestoreCart(item, 1)}>add to cart</a>
-                                                </div>
+                                                <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
+                                                    <a href="javascript:void(0)" className="btn btn-solid">add to cart</a>
+                                                </Link>
                                             </div>
                                         </div>
                                     )}

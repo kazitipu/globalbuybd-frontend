@@ -87,10 +87,10 @@ class ProductItem extends Component {
                             </Link>
                         </div>
                         <div className="cart-info cart-wrap">
-                            <button title="Add to cart" onClick={() => this.onOpenCartModal()}>
+                            <Link to={`/product/${product.id}`} title="Add to cart" >
                                 <i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                            </button>
-                            <a href="javascript:void(0)" title="Add to Wishlist" onClick={onAddToWishlistClicked}>
+                            </Link>
+                            <a onClick={onAddToWishlistClicked} title="Add to Wishlist" style={{cursor:'pointer'}}>
                                 <i className="fa fa-heart" aria-hidden="true"></i>
                             </a>
                             <a href="javascript:void(0)" data-toggle="modal"
@@ -141,15 +141,15 @@ class ProductItem extends Component {
                                                     <p>{product.shortDetails}</p>
                                                 </div>
                                                 <div className="product-description border-product">
-                                                    {product.size?
+                                                    {/* {product.size?
                                                     <div className="size-box">
                                                         <ul>
                                                             {product.size.split(',').map((size, i) => {
                                                                 return <li key={i}><a href="#">{size}</a></li>
                                                             })}
                                                         </ul>
-                                                    </div>:''}
-                                                    <h6 className="product-title">quantity</h6>
+                                                    </div>:''} */}
+                                                    {/* <h6 className="product-title">quantity</h6>
                                                     <div className="qty-box">
                                                         <div className="input-group">
                                                                   <span className="input-group-prepend">
@@ -164,10 +164,10 @@ class ProductItem extends Component {
                                                                     </button>
                                                                    </span>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                                 <div className="product-buttons">
-                                                    <button  className="btn btn-solid" onClick={() => onAddToCartClicked(product, this.state.quantity)} >add to cart</button>
+                                                    <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid" onClick={onAddToWishlistClicked} >add to wishlits</Link>
                                                     <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid">view detail</Link>
                                                 </div>
                                             </div>

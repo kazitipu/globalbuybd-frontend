@@ -144,7 +144,7 @@ class checkOut extends Component {
                                                     </div>
                                                     <ul className="qty">
                                                         {cartItems.map((item, index) => {
-                                                            return <li key={index}>{item.name} × {item.qty} <span>{symbol} {(item.qty * item.salePrice)}</span></li> })
+                                                            return <li key={index}>{item.name} × {item.qty} <span>{symbol} {item.sum}</span></li> })
                                                         }
                                                     </ul>
                                                   
@@ -169,9 +169,9 @@ class checkOut extends Component {
                                             cartItems.map((item,index) =>{
                                  return(<div className="col-lg-6" key={index}>
                                             <div className="stripe-section">
-                                                <h5><img style={{'width':'25%'}} src={item.pictures[0]} alt={item.name} /></h5>
+                                                <h5><img style={{'width':'25%'}} src={item.colorUrl?item.colorUrl:item.pictures[0]} alt={item.name} /></h5>
                                                 <div>
-                                                    <h5 className="checkout_class">{item.name}</h5>
+                                                    <p className="checkout_class">{item.name}</p>
                                                     <table>
                                                         <tbody>
                                                             <tr>
@@ -180,12 +180,12 @@ class checkOut extends Component {
                                                             </tr>
                                                             <tr>
                                                                 {
-                                                                    item.colors? <> <td>color</td> <td>{item.colors.split(',')[0]}</td> </>:''
+                                                                    item.color? <> <td>color</td> <td>{item.color}</td> </>:''
                                                                 }
                                                             </tr>
                                                             <tr>
                                                                 {
-                                                                    item.size? <> <td>size</td> <td>{item.size.split(',')[0]}</td> </>:''
+                                                                    item.sizeOrShipsFrom? <> <td>sizeOrShipsFrom</td> <td>{item.sizeOrShipsFrom}</td> </>:''
                                                                 }    
                                                             </tr>
                                                         </tbody>

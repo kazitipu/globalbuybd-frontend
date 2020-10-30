@@ -4,6 +4,9 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { addToCartAndRemoveWishlistFirestore, removeFromWishlistFirestore,auth } from '../../../firebase/firebase.utils';
 import { addToCartAndRemoveWishlist, removeFromWishlist } from '../../../actions';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover from 'react-bootstrap/Popover'
+import './my-order.css'
 
 class MyOrders extends Component {
 
@@ -73,6 +76,7 @@ console.log(filtered)
                                             <li className='active' ><Link to="/pages/dashboard/my-orders">My Orders</Link></li>
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
@@ -92,22 +96,18 @@ console.log(filtered)
                                 <table className="table cart-table table-responsive-xs">
                                     <thead>
                                     <tr className="table-head">
-                                        <th scope="col">image</th>
                                         <th scope="col">Order Id</th>
-                                        <th scope="col">price</th>
-                                        <th scope="col">availability</th>
-                                        <th scope="col">action</th>
+                                        <th scope="col">Products</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">status</th>
+                                        <th scope="col">paymentStatus</th>
+                                        <th scope="col">pay</th>
                                     </tr>
                                     </thead>
                                     {ordersArray.map((order) => {
                                         return (
                                             <tbody key={order.orderId}>
                                             <tr>
-                                                <div style={{'minWidth':'100%'}}>
-                                                    {order.order.map(item=>
-                                                      <img src={item.pictures[0]} alt="" style={{'width':'10%'}} />)
-                                                    }  
-                                                </div> 
                                                 <td style={{'minWidth':'100%'}}>{order.orderId}
                                                     <div className="mobile-cart-content row">
                                                         {/* <div className="col-xs-3">
@@ -129,19 +129,63 @@ console.log(filtered)
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td style={{'minWidth':'100%'}}><OverlayTrigger
+                trigger="click"
+                placement='bottom'
+                overlay={
+                  <Popover id={`popover-positioned-bottom`}   style={{minWidth:'30%'}}>
+                    <Popover.Title as="h3">{`Order Id: ${order.orderId}`}</Popover.Title>
+                    <Popover.Content className='popover-body-container'>
+                        {
+                            order.order.length >0?order.order.map(order=><div className='order-details-flexbox' key={order.id}>
+                            <div>
+                                <img style={{maxWidth:'25%'}} src={order.colorUrl?order.colorUrl:order.pictures[0]}/> <br/>
+                               <strong>{`${order.salePrice} × ${order.qty}`} = {order.sum} tk</strong><br/>
+                          </div>
+                          <div>
+                          product Id:{order.id} <br/>
+                           {order.color?`color: ${order.color},`:''} {order.sizeOrShipsFrom?`sizeOrShipsfrom: ${order.sizeOrShipsFrom}`:''} <br/>
+                          </div>
+                          </div>):''
+                        }
+                        
+                       
+                    </Popover.Content>
+                  </Popover>
+                }
+              >
+                <button className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}
+                      >view</button>
+              </OverlayTrigger>
+            </td>
                                                 <td style={{'minWidth':'100%'}}><h2>{symbol}{order.sum}
                                                     </h2></td>
                                                 <td style={{'minWidth':'100%'}}>
-                                                    <p>Order Pending</p>
+                                                    <p>{order.status}</p>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}>
-                                                    <a href="javascript:void(0)" className="icon" >
-                                                        <i className="fa fa-times"></i>
-                                                    </a>
-                                                    <a href="javascript:void(0)" className="cart" >
-                                                        <i className="fa fa-shopping-cart"></i>
-                                                    </a>
+                                                <OverlayTrigger
+                trigger="click"
+                placement='bottom'
+                overlay={
+                  <Popover id={`popover-positioned-bottom`}   style={{minWidth:'20%'}}>
+                    <Popover.Title as="h3">{`Order Id: ${order.orderId}`}</Popover.Title>
+                    <Popover.Content className='popover-body-container'>
+                       Paid: {order.paymentStatus.paid} tk <br/>
+                       Total: {order.paymentStatus.total} tk <br/>
+                       Due: {order.paymentStatus.due} tk <br/>
+                    </Popover.Content>
+                  </Popover>
+                }
+              >
+                <button className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}
+                      >view</button>
+              </OverlayTrigger>
                                                 </td>
+                                                {order.paymentStatus.due == 0?<td style={{'minWidth':'100%'}}><div  className='btn btn-warning' style={{padding:'3px',color:'white',backgroundColor:'darkgreen'}}>paid</div>
+                                                    </td>:<td style={{'minWidth':'100%'}}><Link to={`/order-success/${order.orderId}` } className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}>pay</Link>
+                                                </td>}
+                                                
                                             </tr>
                                             </tbody> )
                                     })}
@@ -150,7 +194,7 @@ console.log(filtered)
                         </div>
                         <div className="row wishlist-buttons">
                             <div className="col-12">
-                                <Link to={`${process.env.PUBLIC_URL}/collection/in-stock`} className="btn btn-solid">continue shopping</Link>
+                                <Link to={`${process.env.PUBLIC_URL}/collection/in-stock`} className="btn btn-solid" style={{backgroundColor:'darkorange'}}>continue shopping</Link>
                                 {/* <Link to={`${process.env.PUBLIC_URL}/checkout`} className="btn btn-solid">check out</Link> */}
                             </div>
                         </div>

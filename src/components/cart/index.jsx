@@ -24,7 +24,7 @@ class cartComponent extends Component {
 
     decrementReduxAndFirestoreQty = (item) =>{
         auth.onAuthStateChanged(async userAuth=>await decrementCartItemFromFirestore(userAuth,item))
-        this.props.decrementQty(item.id)
+        this.props.decrementQty(item)
     }
 
     incrementReduxAndFirestoreQty = (item, qty) =>{
@@ -57,6 +57,7 @@ class cartComponent extends Component {
                                     <tr className="table-head">
                                         <th scope="col">image</th>
                                         <th scope="col">product name</th>
+                                        <th scope="col">variant</th>
                                         <th scope="col">price</th>
                                         <th scope="col">quantity</th>
                                         <th scope="col">action</th>
@@ -69,7 +70,7 @@ class cartComponent extends Component {
                                             <tr>
                                                 <td>
                                                     <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
-                                                        <img src={item.pictures[0]} alt="" />
+                                                        <img src={item.colorUrl?item.colorUrl:item.pictures[0]} alt="" />
                                                     </Link>
                                                 </td>
                                                 <td><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
@@ -94,6 +95,7 @@ class cartComponent extends Component {
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td style={{display:'flex',flexDirection:'column',justifyContent:'space-around'}}><p style={{marginTop:'1rem'}}>{item.color?`color: ${item.color}`:''}</p><p style={{marginTop:'1rem'}}>{item.sizeOrShipsFrom?` ${item.sizeOrShipsFrom}`:''}</p></td>
                                                 <td><h2>{symbol}{item.salePrice}</h2></td>
                                                 <td>
                                                     <div className="qty-box">
@@ -118,7 +120,7 @@ class cartComponent extends Component {
                                                         <i className="fa fa-times"></i>
                                                     </div>
                                                 </td>
-                                                <td><h2 className="td-color">{symbol}{item.salePrice * item.qty}</h2></td>
+                                                <td><h2 className="td-color">{symbol}{item.sum}</h2></td>
                                             </tr>
                                         </tbody> )
                                     })}

@@ -60,17 +60,27 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
   if (!snapShot.exists){
     try {
       await cartRef.set({
-        cart:[{...product, qty, sum: product.salePrice * qty}]
+        cart:[{...product, qty, sum:(typeof product.salePrice == 'string'? product.salePrice.includes('-')?product.salePrice.split('-')[1]:parseInt(product.salePrice):product.salePrice) * parseInt(qty)}]
       });
     } catch (error) {
       console.log("error creating cartProduct", error.message);
     }
   }else {
-    if (snapShot.data().cart.findIndex(item => item.id === product.id) !== -1) { 
-        const cart = snapShot.data().cart.reduce((cartAcc, item) => {
+    var sameVariant =snapShot.data().cart.filter(item=>{
+      if (item.id=== product.id &&  (item.sizeOrShipsFrom?item.sizeOrShipsFrom === product.sizeOrShipsFrom:true)){
+        if (item.color?item.color === product.color:true){
+          return item
+        }
+      }})
+
+    if ((snapShot.data().cart.findIndex(item => item.id === product.id) !== -1) && sameVariant.length >0) { 
+        var cart = snapShot.data().cart.reduce((cartAcc, item) => {
          
-          if (item.id === product.id ) {
-            cartAcc.push({ ...item, qty: item.qty+parseInt(qty), sum: item.salePrice * (item.qty+parseInt(qty)) }) // Increment qty           
+          if (item.id === product.id && (item.color?item.color === product.color:true)) {
+            if (item.sizeOrShipsFrom?item.sizeOrShipsFrom === product.sizeOrShipsFrom:true ){
+              cartAcc.push({ ...item, qty: parseInt(item.qty)+parseInt(qty), sum:(typeof item.salePrice == 'string'? (item.salePrice.includes('-')? item.salePrice.split('-')[1]:parseInt(item.salePrice)):item.salePrice )* parseInt(parseInt(item.qty)+parseInt(qty)) }) // Increment qty           
+            }
+
           }else{
             cartAcc.push(item)
           }
@@ -82,19 +92,20 @@ export const addCartItemTofirestore =async (userAuth,product,qty)=>{
         })
 
       }catch(error){
-        alert(error)
+        alert(error, 'error in the first block')
       }
       
       
     }else{
       try{
         await cartRef.update({
-        cart:[...snapShot.data().cart,{...product, qty, sum: product.salePrice * qty }]
+        cart:[...snapShot.data().cart,{...product, qty, sum:(typeof product.salePrice == 'string'? (product.salePrice.includes('-')? product.salePrice.split('-')[1]:parseInt(product.salePrice)):product.salePrice) * parseInt(qty) }]
         })
       }catch(error){
-        alert(error)
+        alert(error,'error in the else block')
       }
     }
+    sameVariant=[]
   }    
 }
 
@@ -105,10 +116,19 @@ export const decrementCartItemFromFirestore = async (userAuth,product) =>{
   if (!snapShot.exists){
     return
   }else{
-    if (snapShot.data().cart.findIndex(item=>item.id === product.id) !== -1){
+    var sameVariant =snapShot.data().cart.filter(item=>{
+      if (item.id=== product.id &&  (item.sizeOrShipsFrom?item.sizeOrShipsFrom === product.sizeOrShipsFrom:true)){
+        if (item.color?item.color === product.color:true){
+          return item
+        }
+      }})
+    if ((snapShot.data().cart.findIndex(item=>item.id === product.id) !== -1) && sameVariant.length >0){
       const cart = snapShot.data().cart.reduce((cartAcc, item)=>{
         if (item.id === product.id && item.qty >= 1){
-          cartAcc.push({...item, qty:item.qty-1,sum: item.salePrice*(item.qty-1)})
+          if ((item.color?item.color === product.color:true) && (item.sizeOrShipsFrom?item.sizeOrShipsFrom === product.sizeOrShipsFrom:true)){
+            cartAcc.push({...item, qty:item.qty-1,sum:(typeof item.salePrice == 'string'? (item.salePrice.includes('-')? item.salePrice.split('-')[1]:parseInt(item.salePrice)):item.salePrice)*(parseInt(item.qty)-1)})
+          }
+          
         }
         else{
           cartAcc.push(item)
@@ -134,7 +154,20 @@ export const removeCartItemFromFirestore =async (userAuth,product) =>{
   if (!snapShot.exists){
     return
   }else{
-    const cart = snapShot.data().cart.filter((item)=>item.id !== product.id)
+    var cart =[]
+     snapShot.data().cart.forEach((cartItem)=>{
+      if (cartItem.id !== product.id){
+          cart.push(cartItem)
+      }else{
+          if (cartItem.color !== product.color){
+              cart.push(cartItem)
+          }else{
+              if (cartItem.sizeOrShipsFrom !== product.sizeOrShipsFrom){
+                  cart.push(cartItem)
+              }}
+      }
+  
+  })
     try{
       await cartRef.update({cart})
     }catch(error){
@@ -204,7 +237,8 @@ export const addCartItemsToOrdersFirestore=async(userAuth,ordersArray,billingAdd
     otherInformation: billingAddress,
     order:ordersArray,
     sum,
-    status:'order_pending'
+    status:'order_pending',
+    orderedAt: new Date()
     ,
     paymentStatus:{
       paid,
@@ -215,7 +249,7 @@ export const addCartItemsToOrdersFirestore=async(userAuth,ordersArray,billingAdd
   const snapShot = await orderRef.get()
   const userRef = firestore.doc(`users/${userAuth.uid}`);
   const userSnapShot =await userRef.get()
-  const previousOrdersArray = userSnapShot.data().ordersArray
+  const previousOrdersArray = userSnapShot.data().ordersArray?userSnapShot.data().ordersArray:[]
   try{
     await userRef.update({
       ordersArray:[...previousOrdersArray, {...snapShot.data(),orderId:uniqueId}]
@@ -356,21 +390,32 @@ export const uploadImage = async (file) =>{
   return imgUrl[0] 
 }
 // upload payment with image of the slip 
-export const uploadPayment =async (payment) =>{
+export const uploadPayment =async (payment,user) =>{
   const paymentRef =firestore.doc(`payments/${payment.orderId}`)
-  const snapShot = await paymentRef.get()
-  if (snapShot.exists){
-    const previousPayments =await snapShot.data().payments
-    console.log(snapShot.data())
-    paymentRef.update({
-      payments:[...previousPayments, payment],
+  try{
+    const snapShot = await paymentRef.get()
+    if (snapShot.exists){
+      const previousPayments =await snapShot.data().payments
+      console.log(snapShot.data())
+      paymentRef.update({
+        payments:[...previousPayments, payment],
+      }
+      )
+    }else{
+      paymentRef.set({
+        payments:[payment]
+      })
     }
-    )
-  }else{
-    paymentRef.set({
-      payments:[payment]
+    const userRef = firestore.doc(`users/${user.id}`)
+    const userSnapShot =await userRef.get()
+    userRef.update({
+      paymentsArray:userSnapShot.data().paymentsArray?[...userSnapShot.data().paymentsArray, payment]:[payment]
     })
+  }catch(error){
+    alert(error)
   }
+
+  
 }
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 export const singInWithFacebook = () => auth.signInWithPopup(facebookProvider);

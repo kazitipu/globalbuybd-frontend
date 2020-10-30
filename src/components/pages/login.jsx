@@ -48,7 +48,7 @@ class Login extends Component {
     signInWithGoogle =async ()=>{
         try{
             await signInWithGoogle()
-            if (this.props.history.location.state.from){
+            if (this.props.history.location && this.props.history.location.state.from){
                 this.props.history.push(this.props.history.location.state.from)
             }else{
               this.props.history.push('/')
@@ -61,7 +61,7 @@ class Login extends Component {
     singInWithFacebook = async () =>{
         try{
             await singInWithFacebook()
-            if (this.props.history.location.state.from){
+            if (this.props.history.location && this.props.history.location.state.from){
                 this.props.history.push(this.props.history.location.state.from)
             }else{
               this.props.history.push('/')
@@ -72,7 +72,7 @@ class Login extends Component {
     }
 
     onRegisterButtonClick =()=>{
-        this.props.history.push('/pages/register', {from:this.props.history.location.state.from})
+        this.props.history.push('/pages/register', {from:this.props.history.location?this.props.history.location.state.from:'/'})
     }
 
     render(){

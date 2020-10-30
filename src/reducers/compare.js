@@ -25,8 +25,22 @@ export default function compareReducer(state = {
             return { ...state, items: [...state.items, action.product] }
 
         case REMOVE_FROM_COMPARE:
+            var items =[]
+            state.items.forEach((compareItem)=>{
+             if (compareItem.id !== action.product.id){
+                 items.push(compareItem)
+             }else{
+                 if (compareItem.color?compareItem.color !== action.product.color:true){
+                     items.push(compareItem)
+                 }else{
+                     if (compareItem.sizeOrShipsFrom?compareItem.sizeOrShipsFrom !== action.product.sizeOrShipsFrom:true){
+                         items.push(compareItem)
+                     }}
+             }
+         
+         })
             return {
-                items: state.items.filter(id => id !== action.product_id)
+                items: items
             }
 
         default:

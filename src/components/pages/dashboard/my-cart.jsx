@@ -61,6 +61,7 @@ class MyCart extends Component {
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
                                             <li className="active"><Link to="/pages/dashboard/my-cart">My Cart</Link></li>
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
@@ -94,7 +95,7 @@ class MyCart extends Component {
                                             <tr>
                                                 <td style={{'minWidth':'100%'}}>
                                                     <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
-                                                        <img src={item.pictures[0]} alt="" />
+                                                        <img src={item.colorUrl?item.colorUrl:item.pictures[0]} alt="" />
                                                     </Link>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>

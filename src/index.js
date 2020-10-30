@@ -41,6 +41,7 @@ import Compare from './components/compare/index'
 import wishList from './components/wishlist/wishlist'
 import checkOut from './components/checkout'
 import orderSuccess from './components/checkout/success-page'
+import Payment from './components/pages/dashboard/payment'
 
 // Extra Pages
 import aboutUs from './components/pages/about-us'
@@ -56,6 +57,7 @@ import Dashboard from './components/pages/dashboard/dashboard'
 import MyCart from './components/pages/dashboard/my-cart'
 import MyWishlist from './components/pages/dashboard/my-wishlist.jsx'
 import MyOrders from './components/pages/dashboard/my-orders'
+import MyPayments from './components/pages/dashboard/my-payments'
 import Faq from './components/pages/faq'
 
 // Blog Pages
@@ -107,6 +109,7 @@ class Root extends React.Component {
 								<Route exact path={`${process.env.PUBLIC_URL}/compare`} component={Compare}/>
 								<Route exact path={`${process.env.PUBLIC_URL}/checkout`} component={checkOut}/>
 								<Route exact path={`${process.env.PUBLIC_URL}/order-success`} component={orderSuccess}/>
+								<Route exact path={`${process.env.PUBLIC_URL}/order-success/:id`} component={Payment}/>
 
 								<Route exact path={`${process.env.PUBLIC_URL}/sales/orders`} component={aboutUs}/>
 
@@ -140,6 +143,7 @@ class Root extends React.Component {
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-cart`} component={MyCart}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-wishlist`} component={MyWishlist}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-orders`} component={MyOrders}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-payments`} component={MyPayments}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}/>
 
 								{/*Features*/}

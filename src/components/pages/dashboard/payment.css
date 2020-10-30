@@ -1,0 +1,75 @@
+.stripe-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+}
+
+.successpage-table {
+    margin: 1rem;
+}
+
+.payment-header .logo-div{
+    margin-left: 30rem;
+}
+.payment-header h5{
+    margin-left: 2rem;
+    color: gray;
+}
+
+.payment-fullbox{
+    margin-left: 20rem;
+    margin-top: 1rem;
+}
+.payment-options{
+    display: flex;
+    flex-direction: row;
+}
+
+.choose-options{
+    display: flex;
+    flex-direction: row;
+}
+
+.payment-option{
+    padding: 1rem;
+    background: #f9f9f9;
+    text-align: center;
+    cursor: pointer;
+    color:darkgray;
+   
+}
+.payment-option.not-selected{
+    background: white !important;
+}
+.payment-box{
+    border: none !important;
+}
+.payment-description{
+    padding-top: 0% !important;
+}
+
+.payment-image{
+    max-width: 20% !important;
+}
+.payment-logo{
+    max-width: 5% !important;
+    padding: .3rem;
+}
+
+.cityBank{
+    max-width:50% !important;
+}
+.succes-page-payment-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between
+}
+
+.success-text h2{
+    color:white!important;
+}
+
+.success-text h3{
+    color: orange!important;
+}

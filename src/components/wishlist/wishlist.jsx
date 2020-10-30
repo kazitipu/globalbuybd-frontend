@@ -20,8 +20,10 @@ class wishList extends Component {
     }
 
     addToCartAndRemoveWishlistFromReduxAndFirestore =(item,qty)=>{
-        auth.onAuthStateChanged(async userAuth=>addToCartAndRemoveWishlistFirestore(userAuth,item,qty))
-        this.props.addToCartAndRemoveWishlist(item,qty)
+        const {history} = this.props
+        // auth.onAuthStateChanged(async userAuth=>addToCartAndRemoveWishlistFirestore(userAuth,item,qty))
+        // this.props.addToCartAndRemoveWishlist(item,qty)
+        history.push(`/product/${item.id}`)
     }
 
     render (){

@@ -46,6 +46,7 @@ class Dashboard extends Component {
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
                                             <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}

@@ -14,6 +14,7 @@ class DetailsWithPrice extends Component {
             open:false,
             quantity:1,
             selectedColor:'',
+            colorUrl:'',
             selectedSize:'',
             stock: 'InStock',
             nav3: null,
@@ -54,12 +55,87 @@ class DetailsWithPrice extends Component {
     }
 
     clickOnColorVariant =(image,selectedColor)=>{
-        this.props.clickOnColorVariant(image)
-        this.setState({selectedColor:selectedColor})
+        if (image){
+            this.props.clickOnColorVariant(image)
+            this.setState({colorUrl:image})
+        }
+      
+        console.log(selectedColor)
+        this.setState({selectedColor})
     }
 
     clickOnSizeVariant =(sizeName,sizeCm) =>{
         this.setState({selectedSize:`${sizeName}(${sizeCm})`})
+    }
+
+    BuynowClicked =(item)=>{
+        const {BuynowClicked,history,currentUser} = this.props
+        if (!currentUser){
+            history.push('/pages/login', { from: `/product/${this.props.match.params.id}` })
+            return
+        }
+        const cartItemObj ={
+            id:item.id,
+            name:item.name,
+            price:item.price,
+            salePrice:item.salePrice,
+            availability:item.availability,
+            pictures:item.pictures,
+            variants: false
+        }
+        if (!item.variants){
+            BuynowClicked(cartItemObj, this.state.quantity)
+            this.setState({
+                open:false,
+                quantity:1,
+                selectedColor:'',
+                selectedSize:'',
+                stock: 'InStock',
+                nav3: null,
+                warningMessage:false,
+                colorUrl:''
+            })
+            history.push(`${process.env.PUBLIC_URL}/checkout`)
+
+        }else{
+            if (item.variants.options[0] && item.variants.options[1]){
+                if (this.state.selectedColor==='' || this.state.selectedSize ===''){
+                    this.setState({warningMessage:true})
+                }else{
+                    BuynowClicked({...cartItemObj,variants:true, color:this.state.selectedColor,colorUrl:this.state.colorUrl, sizeOrShipsFrom:this.state.selectedSize}, this.state.quantity)
+                    this.setState({
+                        open:false,
+                        quantity:1,
+                        selectedColor:'',
+                        selectedSize:'',
+                        stock: 'InStock',
+                        nav3: null,
+                        warningMessage:false,
+                        colorUrl:''
+                    })
+                    history.push(`${process.env.PUBLIC_URL}/checkout`)
+                }
+            }else if (item.variants.options[0]){
+                if (this.state.selectedColor ===''){
+                    this.setState({warningMessage:true})
+                }else{
+                    BuynowClicked({...cartItemObj,variants:true, color:this.state.selectedColor,colorUrl:this.state.colorUrl}, this.state.quantity)
+                    this.setState({
+                        open:false,
+                        quantity:1,
+                        selectedColor:'',
+                        selectedSize:'',
+                        stock: 'InStock',
+                        nav3: null,
+                        warningMessage:false,
+                        colorUrl:''
+                    })
+                    history.push(`${process.env.PUBLIC_URL}/checkout`)
+                }
+            }
+           
+        }
+      
     }
 
 
@@ -76,26 +152,57 @@ class DetailsWithPrice extends Component {
             salePrice:item.salePrice,
             availability:item.availability,
             pictures:item.pictures,
-            variants:false
+            variants: false
         }
         if (!item.variants){
             addToCartClicked(cartItemObj, this.state.quantity)
+            this.setState({
+                open:false,
+                quantity:1,
+                selectedColor:'',
+                selectedSize:'',
+                stock: 'InStock',
+                nav3: null,
+                warningMessage:false,
+                colorUrl:''
+            })
         }else{
             if (item.variants.options[0] && item.variants.options[1]){
                 if (this.state.selectedColor==='' || this.state.selectedSize ===''){
                     this.setState({warningMessage:true})
                 }else{
-                    addToCartClicked({...cartItemObj,variants:true, [item.variants.options[0].name]:this.state.selectedColor, [item.variants.options[1].name]:this.state.selectedSize}, this.state.quantity)
+                    addToCartClicked({...cartItemObj,variants:true, color:this.state.selectedColor,colorUrl:this.state.colorUrl, sizeOrShipsFrom:this.state.selectedSize}, this.state.quantity)
+                    this.setState({
+                        open:false,
+                        quantity:1,
+                        selectedColor:'',
+                        selectedSize:'',
+                        stock: 'InStock',
+                        nav3: null,
+                        warningMessage:false,
+                        colorUrl:''
+                    })
                 }
             }else if (item.variants.options[0]){
                 if (this.state.selectedColor ===''){
                     this.setState({warningMessage:true})
                 }else{
-                    addToCartClicked({...cartItemObj,variants:true, [item.variants.options[0].name]:this.state.selectedColor}, this.state.quantity)
+                    addToCartClicked({...cartItemObj,variants:true, color:this.state.selectedColor,colorUrl:this.state.colorUrl}, this.state.quantity)
+                    this.setState({
+                        open:false,
+                        quantity:1,
+                        selectedColor:'',
+                        selectedSize:'',
+                        stock: 'InStock',
+                        nav3: null,
+                        warningMessage:false,
+                        colorUrl:''
+                    })
                 }
             }
            
         }
+        
     }
 
     render (){
@@ -121,8 +228,8 @@ class DetailsWithPrice extends Component {
                     <ul ><h6 className="product-title size-text">select {item.variants.options[0].name}: </h6>
                         <Slider {...colorsnav} asNavFor={this.props.navTwo} ref={slider => (this.slider3= slider)} className="color-variant flex-color-variant">
                            { item.variants.options[0].values.map((vari, i) => {
-                                return <div key={i} className={this.state.selectedColor == vari.name?'border-red':''} onClick={()=>this.clickOnColorVariant(vari.image,vari.name)}>
-                              <img src={`${vari.image}`} key={i} alt={vari.name}  className="img-fluid color-variant-image" />
+                                return <div key={i} style={{cursor:"pointer"}} className={this.state.selectedColor == vari.displayName?'border-red':''} onClick={()=>this.clickOnColorVariant(vari.image,vari.displayName)}>
+                              <img src={`${vari.image}`} key={i} alt={vari.displayName}  className="img-fluid color-variant-image" />
                             </div>
                             })}
                         </Slider>
@@ -169,21 +276,21 @@ class DetailsWithPrice extends Component {
                                                         <div className="col-xl-9 col-sm-7">
                                                             <select className="form-control digits" id="exampleFormControlSelect1" name="category" value={this.state.category} onChange={this.handleChange}>
                                                                 <option>Alg cargos and logistics(700-1200/kgs)</option>
-                                                                <option>Aliexpress standard shipping</option>
-                                                                <option>via e-EMS</option>
+                                                                {/* <option>Aliexpress standard shipping</option>
+                                                                <option>via e-EMS</option> */}
                                                             </select>
                                                         </div>
                                                     </div>
                                                     </div>
-                   {this.state.warningMessage?<div class="alert alert-danger" role="alert">
+                   {this.state.warningMessage?<div class="alert alert-danger" role="alert" style={{color:'white',backgroundColor:'orange'}}>
                          Please fill the missing information first
                     </div>:''} 
-                    {!currentUser?<div class="alert alert-danger" role="alert">
+                    {!currentUser?<div className="alert alert-danger" role="alert" style={{color:'white',backgroundColor:'orange'}}>
                          You must login first
                     </div>:''} 
                     <div className="product-buttons" >
                         <a className="btn btn-solid" onClick={() => this.addToCartClicked(item)}>add to cart</a>
-                        <Link to={`${process.env.PUBLIC_URL}/checkout`} className="btn btn-solid" onClick={() => this.BuynowClicked(item, this.state.quantity)} >buy now</Link>
+                        <a  className="btn btn-solid" onClick={() => this.BuynowClicked(item)} >buy now</a>
                     </div>
                    
                     <div className="border-product">

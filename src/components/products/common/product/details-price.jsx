@@ -289,8 +289,15 @@ class DetailsWithPrice extends Component {
                          You must login first
                     </div>:''} 
                     <div className="product-buttons" >
-                        <a className="btn btn-solid" onClick={() => this.addToCartClicked(item)}>add to cart</a>
-                        <a  className="btn btn-solid" onClick={() => this.BuynowClicked(item)} >buy now</a>
+                        {
+                            currentUser?<>
+                            <a className="btn btn-solid" onClick={() => this.addToCartClicked(item)}>add to cart</a>
+                            <a  className="btn btn-solid" onClick={() => this.BuynowClicked(item)} >buy now</a>
+                            </>
+                            :
+                            <a className="btn btn-solid" onClick={() => this.props.history.push('/pages/login', { from: `/product/${this.props.match.params.id}` })}>Login</a>
+                        }
+                       
                     </div>
                    
                     <div className="border-product">

@@ -28,11 +28,11 @@ class Login extends Component {
         try {
           await auth.signInWithEmailAndPassword(email, password);
           this.setState({ email: '', password: '' });
-          if (this.props.history.location.state.from){
-              this.props.history.push(this.props.history.location.state.from)
-          }else{
-            this.props.history.push('/')
-          }
+            if (this.props.history.location.state.from){
+                this.props.history.push(this.props.history.location.state.from)
+        }else{
+          this.props.history.push('/')
+        }
           
         } catch (error) {
           alert(error);
@@ -48,8 +48,9 @@ class Login extends Component {
     signInWithGoogle =async ()=>{
         try{
             await signInWithGoogle()
-            if (this.props.history.location && this.props.history.location.state.from){
-                this.props.history.push(this.props.history.location.state.from)
+            console.log(this.props.history.location)
+            if (this.props.history.location.state){
+                this.props.history.push(this.props.history.location.state.from)   
             }else{
               this.props.history.push('/')
             }
@@ -61,8 +62,9 @@ class Login extends Component {
     singInWithFacebook = async () =>{
         try{
             await singInWithFacebook()
-            if (this.props.history.location && this.props.history.location.state.from){
-                this.props.history.push(this.props.history.location.state.from)
+        
+                if (this.props.history.location.state){
+                    this.props.history.push(this.props.history.location.state.from)  
             }else{
               this.props.history.push('/')
             }
@@ -72,7 +74,7 @@ class Login extends Component {
     }
 
     onRegisterButtonClick =()=>{
-        this.props.history.push('/pages/register', {from:this.props.history.location?this.props.history.location.state.from:'/'})
+        this.props.history.push('/pages/register')
     }
 
     render(){
@@ -114,7 +116,7 @@ class Login extends Component {
                                     <p>Sign up for a free account at our store. Registration is quick and easy. It
                                         allows you to be able to order from our shop. To start shopping click
                                         register.</p>
-                                    <div to="/pages/register" style={{'cursor':'pointer'}} className="btn btn-solid" onClick={this.onRegisterButtonClick}>Register</div>
+                                    <div style={{'cursor':'pointer'}} className="btn btn-solid" onClick={this.onRegisterButtonClick}>Register</div>
                                 </div>
                             </div>
                         </div>

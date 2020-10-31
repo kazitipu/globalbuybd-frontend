@@ -11,8 +11,9 @@ import {auth,addCartItemTofirestore,addWishlistTofirestore} from '../../../fireb
 
 class CollectionTwo extends Component {
     componentDidMount(){
-        console.log(this.props)
+        // console.log(this.props)
     }
+    
     addToReduxAndFirestoreCart =(product,qty)=>{
         const {addToCart} = this.props;
         auth.onAuthStateChanged(async(userAuth)=>await addCartItemTofirestore(userAuth,product,qty));
@@ -28,7 +29,7 @@ class CollectionTwo extends Component {
 
     render(){
         const {items,topCollectionItems, symbol, addToCompare, title, subtitle} = this.props;
-        console.log(this.props)
+        // console.log(this.props)
         return (
             <div>
                 {/*Paragraph*/}

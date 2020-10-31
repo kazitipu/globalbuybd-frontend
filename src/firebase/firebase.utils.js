@@ -273,7 +273,7 @@ export const getAllFirestoreProducts = async()=>{
     const products =await productsCollectionRef.get()
     const productsArray = []
     products.forEach((doc)=>{
-      console.log(doc.id, " => ", doc.data())
+      // console.log(doc.id, " => ", doc.data())
       productsArray.push(doc.data())
     })
     return productsArray;
@@ -288,7 +288,7 @@ export const getAllFirestoreAliProductsList = async()=>{
     const products =await aliProductsCollectionRef.get()
     const aliProductsArray = []
     products.forEach((doc)=>{
-      console.log(doc.id, " => ", doc.data())
+      // console.log(doc.id, " => ", doc.data())
       var originalPrice =[]
       if (doc.data().originalPrice.min == doc.data().originalPrice.max){
         originalPrice.push(Math.round(doc.data().originalPrice.min * 90))

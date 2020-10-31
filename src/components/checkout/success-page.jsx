@@ -10,6 +10,8 @@ import islamiBankLogo from './assets/islamiBank.png'
 import dutchBanglaBankLogo from './assets/dutchBanlgaBank.png'
 import cityBankLogo from './assets/city-bank.png'
 import {uploadImage,uploadPayment} from '../../firebase/firebase.utils'
+import { toast  } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 
 
@@ -118,6 +120,7 @@ class orderSuccess extends Component {
             })
             this.props.history.push('/')
         }
+        toast.success('your payment will be verified by one of our admins')
     }
 
     handleMobileBankingClick =()=>{

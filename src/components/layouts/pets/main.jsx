@@ -24,7 +24,7 @@ class Pets extends Component {
         const productsArray = await getAllFirestoreProducts()
         this.props.getAllProductsFirestore(productsArray)
         // document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/color15.css` );
-        console.log(this.props)
+        // console.log(this.props)
     //     axios({
     // "method":"GET",
     // "url":"https://ali-express1.p.rapidapi.com/search",

@@ -67,7 +67,7 @@ class ProductItem extends Component {
             RatingStars.push(<i className="fa fa-star" key={i}></i>)
         }
         const image = product.pictures[0]
-        console.log(product)
+        // console.log(product)
         return (
             <div>
                 <div className="product-box">

@@ -98,9 +98,9 @@ class MyPayments extends Component {
                                             <tbody key={index}>
                                             <tr>
                                                 <td style={{'minWidth':'80%'}}>
-                                                    <Link target='_blank' to={`${payment.paymentImage}`}>
+                                                    <a target='_blank' href={`${payment.paymentImage}`}>
                                                         <img src={payment.paymentImage} alt="" />
-                                                    </Link>
+                                                    </a>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}>{payment.orderId}
                                                     <div className="mobile-cart-content row">

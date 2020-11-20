@@ -41,7 +41,7 @@ class Register extends Component {
             password: '',
             confirmPassword: ''
           });
-          if (this.props.history.location.state.from){
+          if (this.props.history.location.state){
             this.props.history.push(this.props.history.location.state.from)
         }else{
           this.props.history.push('/')

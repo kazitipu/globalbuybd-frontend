@@ -84,7 +84,7 @@ import ElementProductTab from "./components/features/product/element-product-tab
 import GridCols from "./components/features/portfolio/grid-cols"
 import MasonaryGridCols from "./components/features/portfolio/masonary-grid-cols"
 
-
+import FbMessenger from './components/facebookMessenger/facebookMessenger'
 
 class Root extends React.Component {
 
@@ -101,6 +101,7 @@ class Root extends React.Component {
 						<Switch>
                             
                             <Layout>
+                            <FbMessenger />
                             <Route exact path={`${process.env.PUBLIC_URL}/`} component={Pets}/>
 
                             {/*Routes For custom Features*/}

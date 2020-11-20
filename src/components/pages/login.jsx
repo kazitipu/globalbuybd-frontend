@@ -28,7 +28,7 @@ class Login extends Component {
         try {
           await auth.signInWithEmailAndPassword(email, password);
           this.setState({ email: '', password: '' });
-            if (this.props.history.location.state.from){
+            if (this.props.history.location.state){
                 this.props.history.push(this.props.history.location.state.from)
         }else{
           this.props.history.push('/')

@@ -19,3 +19,11 @@
     font-size: 150%;
     cursor: pointer;
 }
+
+.password-field{
+    margin-bottom: 0 !important;
+}
+
+.password-input-field{
+    margin-bottom: 5px !important;
+}

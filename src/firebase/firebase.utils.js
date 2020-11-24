@@ -252,7 +252,8 @@ export const addCartItemsToOrdersFirestore=async(userAuth,ordersArray,billingAdd
   const previousOrdersArray = userSnapShot.data().ordersArray?userSnapShot.data().ordersArray:[]
   try{
     await userRef.update({
-      ordersArray:[...previousOrdersArray, {...snapShot.data(),orderId:uniqueId}]
+      ordersArray:[...previousOrdersArray, {...snapShot.data(),orderId:uniqueId}],
+      shippingAddress:billingAddress
     })
   }catch(error){
     alert('error creating order. try again later', error)

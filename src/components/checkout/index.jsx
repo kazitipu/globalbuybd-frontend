@@ -28,6 +28,13 @@ class checkOut extends Component {
         this.validator = new SimpleReactValidator();
     }
 
+    componentDidMount=()=>{
+        const {currentUser} = this.props
+        if (currentUser && currentUser.shippingAddress){
+            this.mapShippingInformationToState(currentUser.shippingAddress)
+        }
+    }
+
     setStateFromInput = (event) => {
         var obj = {};
         obj[event.target.name] = event.target.value;
@@ -69,10 +76,22 @@ class checkOut extends Component {
       
     }
 
+    mapShippingInformationToState =(shippingInformation)=>{
+       this.setState({
+        first_name:shippingInformation.first_name,
+        last_name:shippingInformation.last_name,
+        phone:shippingInformation.phone,
+        email:shippingInformation.email,
+        city:shippingInformation.city,
+        address:shippingInformation.address,
+       })
+    }
+
    
 
     render (){
-        const {cartItems, symbol, total} = this.props;
+        const {cartItems, symbol, total,currentUser} = this.props;
+       
 
         return (
             <div>
@@ -93,7 +112,7 @@ class checkOut extends Component {
                                     <div className="checkout row">
                                         <div className="col-lg-6 col-sm-12 col-xs-12">
                                             <div className="checkout-title">
-                                                <h3>Billing Details</h3>
+                                                <h3>Shipping Information</h3>
                                             </div>
                                             <div className="row check-out">
                                                 <div className="form-group col-md-6 col-sm-6 col-xs-12">
@@ -197,6 +216,7 @@ class checkOut extends Component {
     }
 }
 const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser,
     cartItems: state.cartList.cart,
     symbol: state.data.symbol,
     total: getCartTotal(state.cartList.cart)

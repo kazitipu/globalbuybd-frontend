@@ -96,12 +96,13 @@ class Login extends Component {
                                             <input type="text" name="email" className="form-control" id="email" placeholder="Email" value={this.state.email} onChange={this.handleChange}
                                                    required="" />
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group password-field">
                                             <label htmlFor="review">Password</label>
-                                            <input type="password" name="password" className="form-control" id="review" value={this.state.password} onChange={this.handleChange}
+                                            <input type="password" name="password" className="form-control password-input-field" id="review" value={this.state.password} onChange={this.handleChange}
                                                    placeholder="Enter your password" required="" />
                                         </div>
-                                        <div className='buttons'>
+                                        <Link to ="/pages/forget-password" style={{color:'darkred' ,marginBottom:'1rem'}}>forgot password?</Link>
+                                        <div className='buttons' style={{marginTop:'1rem'}}>
                                         <button type="submit" className="btn btn-solid" htmlFor='login'>Login</button> 
                                        <div className='social-link'><span> or sign in with: </span>
                                        <i onClick={this.singInWithFacebook} className='fa fa-facebook-official fb-button' aria-hidden='true'>

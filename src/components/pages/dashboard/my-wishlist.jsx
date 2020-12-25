@@ -9,6 +9,10 @@ class MyWishlist extends Component {
 
     constructor (props) {
         super (props)
+        this.state={
+            adminNav:false,
+            style:{left:'-350px'}
+        }
     }
     handleLogOutClick =() =>{
         auth.signOut()
@@ -16,6 +20,14 @@ class MyWishlist extends Component {
     }
     changeQty = (e) => {
         this.setState({ quantity: parseInt(e.target.value) })
+    }
+
+    closeAdminNav =()=>{
+        this.setState({adminNav:false, style:{left:'-350px'}})
+    }
+
+    openAdminNav =()=>{
+        this.setState({adminNav:true, style:{left:'-10px'}})
     }
 
     removeFromReduxAndFirestoreWishlist =(item)=>{
@@ -44,27 +56,27 @@ class MyWishlist extends Component {
                         <div className="row">
                             <div className="col-lg-3">
                                 <div className="account-sidebar">
-                                    <a className="popup-btn">
+                                    <a className="popup-btn" onClick={this.openAdminNav}>
                                         my account
                                     </a>
                                 </div>
-                                <div className="dashboard-left">
+                                <div className="dashboard-left" style={this.state.style}>
                                     <div className="collection-mobile-back">
-                                    <span className="filter-back">
+                                    <span className="filter-back" onClick={this.closeAdminNav}>
                                         <i className="fa fa-angle-left" aria-hidden="true"></i> back
                                     </span>
                                     </div>
                                     <div className="block-content">
                                         <ul>
-                                            <li  style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
-                                            <li style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
-                                            <li style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
-                                            <li className='active' style={{'color':'orange'}}><Link to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
+                                            <li  style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li className='active' style={{'color':'orange'}} onClick={this.closeAdminNav}><Link to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
-                                            <li className="last"  style={{'color':'orange'}}><div  style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
+                                            <li className="last"  style={{'color':'orange'}} onClick={this.closeAdminNav}><div  style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -97,25 +109,7 @@ class MyWishlist extends Component {
                                                     </Link>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}><Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>{item.name}</Link>
-                                                    <div className="mobile-cart-content row">
-                                                        {/* <div className="col-xs-3">
-                                                            <p>in stock</p>
-                                                        </div> */}
-                                                        <div className="col-xs-3">
-                                                            <h2 className="td-color">{symbol}{item.salePrice}
-                                                            <del><span className="money">{symbol}{item.price}</span></del></h2>
-                                                        </div>
-                                                        <div className="col-xs-3">
-                                                            <h2 className="td-color">
-                                                                <a href="javascript:void(0)" className="icon" onClick={() => this.removeFromReduxAndFirestoreWishlist(item)}>
-                                                                    <i className="fa fa-times"></i>
-                                                                </a>
-                                                                <a href="javascript:void(0)" className="cart" onClick={() => this.addToCartAndRemoveWishlistFromReduxAndFirestore(item, 1)}>
-                                                                    <i className="fa fa-shopping-cart"></i>
-                                                                </a>
-                                                            </h2>
-                                                        </div>
-                                                    </div>
+                                
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}><h2>{symbol}{item.salePrice}
                                                      <del><span className="money">{symbol}{item.price}</span></del></h2></td>

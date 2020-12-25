@@ -19,3 +19,20 @@
     max-height: 50vh;
     overflow-y: scroll;
 }
+
+@media(max-width:1200px){
+    .dashboard-right .dashboard {
+     min-width: 110%;
+    }
+}
+@media(max-width:580px){
+    .dashboard-right .dashboard {
+     min-width: 100%;
+    }
+}
+
+@media(min-width:760px){
+    .mobile-payment-button{
+       display: none !important;
+    }
+}

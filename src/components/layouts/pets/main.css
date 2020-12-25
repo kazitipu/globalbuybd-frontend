@@ -1,0 +1,68 @@
+.searchbar-container{
+    width: 70%;
+    text-align: center !important;
+    padding-bottom: 0rem;
+}
+
+.searchbar-container .form_search{
+    width: 100%;
+    text-align: center !important;
+    margin-left: 12rem;
+}
+
+@media (max-width: 768px){
+    .searchbar-container .form_search {
+        display: block !important;
+        margin-left: 0rem !important;
+    }
+}
+
+@media (max-width: 790px){
+    .searchbar-container{
+        width: 100%;
+        display: block !important;
+        padding: 1rem;
+    }
+}
+@media (min-width: 790px){
+    .searchbar-container .form_search{
+        display: block !important;
+        width: 100%;
+        margin-left: 10rem;
+    }
+}
+@media (min-width: 1190px){
+    .searchbar-container .form_search{
+        display: block !important;
+        width: 100%;
+        margin-left: 12rem;
+    }
+}
+@media (min-width: 1490px){
+    .searchbar-container .form_search{
+        display: block !important;
+        width: 100%;
+        margin-left: 15rem;
+    }
+}
+@media (min-width: 1060px){
+    .search-bar-logo{
+        margin: 50px;
+    }
+    .header-h4{
+        font-size: 150% !important;
+    }
+}
+@media (max-width: 1060px){
+    .search-bar-logo{
+        margin: 20px;
+    }
+}
+
+.taobao-support{
+    text-transform: none !important;
+}
+
+.header-text-box{
+    padding: 0 !important;
+}

@@ -59,6 +59,11 @@ import MyWishlist from './components/pages/dashboard/my-wishlist.jsx'
 import MyOrders from './components/pages/dashboard/my-orders'
 import MyPayments from './components/pages/dashboard/my-payments'
 import Faq from './components/pages/faq'
+import HowToOrder from './components/pages/howToOrder'
+import Privacy from './components/pages/privacy'
+import Refund from './components/pages/refund'
+import TermsAndCondition from './components/pages/termsAndCondition'
+import TaxAndShipping from './components/pages/taxAndShipping'
 
 // Blog Pages
 import RightSide from './components/blogs/right-sidebar'
@@ -132,7 +137,13 @@ class Root extends React.Component {
 
 								{/*Routes For Extra Pages*/}
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/about-us`} component={aboutUs}/>
-                                
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/refund-policy`} component={Refund}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/terms-and-coditions`} component={TermsAndCondition}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/how-to-order`} component={HowToOrder}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/tax-and-Shipping`} component={TaxAndShipping}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/pages/privacy-policy`} component={Privacy}/>
+
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/lookbook`} component={lookbook}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/login`} component={Login}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/register`} component={Register}/>
@@ -145,7 +156,7 @@ class Root extends React.Component {
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-wishlist`} component={MyWishlist}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-orders`} component={MyOrders}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/pages/dashboard/my-payments`} component={MyPayments}/>
-                                <Route exact path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}/>
+                               
 
 								{/*Features*/}
 								{/*Theme Elements*/}

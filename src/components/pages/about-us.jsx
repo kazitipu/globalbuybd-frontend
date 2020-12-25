@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 
 import Breadcrumb from "../common/breadcrumb";
 import {Slider2, Team4} from "../../services/script"
+import greentickMark from './tickmark.png'
+import './about-us.css'
 
 class aboutUs extends Component {
 
@@ -65,30 +67,27 @@ class aboutUs extends Component {
                                     <img src={`${process.env.PUBLIC_URL}/assets/images/about/about%20us.jpg`} className="img-fluid" alt=""/>
                                 </div>
                             </div>
-                            <div className="col-sm-12">
-                                <h4>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                    doloremque laudantium</h4>
-                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                    laudantium,</p>
-                                <p>On the other hand, we denounce with righteous indignation and dislike men who are so
-                                    beguiled and demoralized by the charms of pleasure of the moment, so blinded by
-                                    desire, that they cannot foresee the pain and trouble that are bound to ensue; and
-                                    equal blame belongs to those who fail in their duty through weakness of will, which
-                                    is the same as saying through shrinking from toil and pain. These cases are
-                                    perfectly simple and easy to distinguish. In a free hour, when our power of choice
-                                    is untrammelled and when nothing prevents our being able to do what we like best,
-                                    every pleasure is to be welcomed and every pain avoided. But in certain
-                                    circumstances and owing to the claims of duty or the obligations of business it will
-                                    frequently occur that pleasures have to be repudiated and annoyances accepted. The
-                                    wise man therefore always holds in these matters to this principle of selection: he
-                                    rejects pleasures to secure other greater pleasures, or else he endures pains to
-                                    avoid worse pains.</p>
+                            <div className="col-sm-12" style={{marginBottom:'3rem'}}>
+                                <h2 style={{marginTop:'3rem'}}>About Us</h2>
+                                <p>GlobalBuyBd.com is an online wholesale marketplace in Bangladesh based on chinese alibaba,1688,taobao,aliexpress.com which brings the latest local and international goods to your doorstep in wholesale rate. You can purchase here any product of 1688,taobao in wholesale rate by Bangladeshi currency. We offer a wide selection of products from renowned brands with a promise of the fast, safe and easy online purchase experience. Wholesalecartbd.com offers Nationwide free shipping and returns! For your convenience we have several payment options including credit/debit cards, mobile banking, internet banking and cash on delivery.</p>
+                                <h2 style={{marginTop:'3rem'}}>Why chose GlobalBuyBd?</h2>
+                                <p><span>&#10003;</span> 24/7 online services for our customers via wechat,whatsapp, hotline and facebook. <br/>
+                                <span>&#10003;</span> You just order leave the rest upon us. <br/>
+                                <span>&#10003;</span> live tracking your product 24/7.<br/>
+                                <span>&#10003;</span> 100% Secure payment with us. <br/>
+                                <span>&#10003;</span> Choose from debit card/credit card, Mobile banking, Internet banking, EMI and Direct bank deposite<br/>
+                                <span>&#10003;</span> Fastest product shipping with us. <br/>
+                                <span>&#10003;</span> A convenient online purchase experience.<br/>
+                                <span>&#10003;</span> The best wholesale prices and a vast variety of goods.<br/>
+                                <span>&#10003;</span> Cheapest shipping charges around the country.<br/>
+                                <span>&#10003;</span> 100 millions+ of products available.<br/>
+                                <span>&#10003;</span> Claiming 100% refund facility.<br/> </p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/*Testimonial*/}
+                {/* Testimonial
                 <section className="testimonial small-section">
                     <div className="container">
                         <div className="row">
@@ -182,10 +181,10 @@ class aboutUs extends Component {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/*Team Section*/}
-                <section id="team" className="team section-b-space">
+                {/* <section id="team" className="team section-b-space">
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12">
@@ -220,7 +219,7 @@ class aboutUs extends Component {
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
 
                 {/*service layout*/}
                 <div className="container about-cls section-b-space">
@@ -230,8 +229,8 @@ class aboutUs extends Component {
                                 <div className="media">
                                     <div dangerouslySetInnerHTML={{ __html: svgFreeShipping }} />
                                     <div className="media-body">
-                                        <h4>free shipping</h4>
-                                        <p>free shipping world wide</p>
+                                        <h4>fast shipping</h4>
+                                        <p>fast shipping around Bangladesh</p>
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +239,7 @@ class aboutUs extends Component {
                                     <div dangerouslySetInnerHTML={{ __html: svgservice }} />
                                     <div className="media-body">
                                         <h4>24 X 7 service</h4>
-                                        <p>online service for new customer</p>
+                                        <p>24/7 online service for every customer</p>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +248,7 @@ class aboutUs extends Component {
                                     <div dangerouslySetInnerHTML={{ __html: svgoffer }} />
                                     <div className="media-body">
                                         <h4>festival offer</h4>
-                                        <p>new online special festival offer</p>
+                                        <p>stay connected to get special festival offer</p>
                                     </div>
                                 </div>
                             </div>

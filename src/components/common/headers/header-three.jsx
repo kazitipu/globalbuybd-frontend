@@ -98,10 +98,12 @@ class HeaderThree extends Component {
                                     <div>
                                         <form className="form_search" role="form">
                                             <input id="query search-autocomplete" type="search"
-                                                   placeholder="Search any products here"
+                                                   placeholder="Search 100+ millions of products from taobao,1688,tmall"
                                                    className="nav-search nav-search-field" aria-expanded="true" />
-                                                <button type="submit" name="nav-submit-button" className="btn-search">
+                                                <button type="submit" name="nav-submit-button" className="btn-search" style={{width:"80px"}}>
+                                                <i className="fa fa-camera" style={{marginRight:'5px'}}></i>
                                                     <i className="fa fa-search"></i>
+                                                   
                                                 </button>
                                         </form>
                                     </div>

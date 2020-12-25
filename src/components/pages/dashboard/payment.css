@@ -21,6 +21,44 @@
     margin-left: 20rem;
     margin-top: 1rem;
 }
+@media(max-width:600px){
+    .payment-fullbox{
+        margin-left: 0rem !important;
+        margin-top: 0rem !important;
+    }
+
+    .upload{
+        max-width: 60%;
+    }
+    .upload img{
+        display: none;
+    }
+
+    .payment-fullbox form{
+        max-width: 200px;
+    }
+
+    .payment-header .logo-div {
+        margin-left:5px !important;
+    }
+    .payment-logo {
+        max-width: 15% !important;
+        padding: .3rem;
+    }
+}
+
+@media(max-width:450px){
+    .payment-fullbox form {
+        max-width: 150px !important;
+    }
+}
+@media(max-width:800px){
+    .payment-logo {
+        max-width: 10%;
+        padding: .3rem;
+    }
+}
+
 .payment-options{
     display: flex;
     flex-direction: row;
@@ -53,7 +91,7 @@
     max-width: 20% !important;
 }
 .payment-logo{
-    max-width: 5% !important;
+    max-width: 5%;
     padding: .3rem;
 }
 

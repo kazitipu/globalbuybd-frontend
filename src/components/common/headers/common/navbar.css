@@ -18,3 +18,18 @@
 .navigation-page{
     font-size: 12px !important;
 }
+
+@media (min-width: 1199px){
+    header .main-navbar .nav-menu > li:hover .mega-menu-container {
+      top: 3rem !important;
+    }
+
+    header .main-navbar .nav-menu > li:hover .nav-submenu {
+        top: 5rem !important;
+    }
+}
+@media (max-width: 1199px){
+    header .main-navbar .nav-menu > li .mega-menu-container {
+     position: relative;
+    }
+}

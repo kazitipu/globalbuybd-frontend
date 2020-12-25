@@ -55,7 +55,7 @@ class FooterOne extends Component {
                         <div className="row footer-theme partition-f">
                             <div className="col-lg-4 col-md-6">
                                 <div className="footer-title footer-mobile-title">
-                                    <h4>about</h4>
+                                    <h4 style={{textTransform:'none'}}>About</h4>
                                 </div>
                                 <div className="footer-contant">
                                     <div className="footer-logo">
@@ -89,14 +89,14 @@ class FooterOne extends Component {
                             <div className="col offset-xl-1">
                                 <div className="sub-title">
                                     <div className="footer-title">
-                                        <h4>Shop with us</h4>
+                                        <h4 style={{textTransform:'none'}}>Why Choose us</h4>
                                     </div>
                                     <div className="footer-contant">
                                         <ul>
-                                            <li><Link to={`${process.env.PUBLIC_URL}/left-sidebar/collection`} >womens</Link></li>
-                                            <li><Link to={`${process.env.PUBLIC_URL}/left-sidebar/collection`} >clothing</Link></li>
-                                            <li><Link to={`${process.env.PUBLIC_URL}/left-sidebar/collection`} >accessories</Link></li>
-                                            <li><Link to={`${process.env.PUBLIC_URL}/left-sidebar/collection`} >featured</Link></li>
+                                            <li><Link to={`${process.env.PUBLIC_URL}/pages/about-us`} >About us</Link></li>
+                                            <li><Link to={`${process.env.PUBLIC_URL}/pages/privacy-policy`} >Privacy Policy</Link></li>
+                                            <li><Link to={`${process.env.PUBLIC_URL}/pages/refund-policy`} >Return & Refunds</Link></li>
+                                            <li><Link to={`${process.env.PUBLIC_URL}/pages/terms-and-coditions`} >Terms & conditions</Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -104,15 +104,14 @@ class FooterOne extends Component {
                             <div className="col">
                                 <div className="sub-title">
                                     <div className="footer-title">
-                                        <h4>why choose us</h4>
+                                        <h4 style={{textTransform:'none'}}>Help Center</h4>
                                     </div>
                                     <div className="footer-contant">
                                         <ul>
-                                            <li><a href="#">shipping & return</a></li>
-                                            <li><a href="#">secure shopping</a></li>
-                                            <li><a href="#">terms & conditions</a></li>
-                                            <li><a href="#">refund policy</a></li>
-                                            <li><a href="#">support</a></li>
+                                        <li><Link to={`${process.env.PUBLIC_URL}/pages/faq`} >FAQ</Link></li>
+                                        <li><Link to={`${process.env.PUBLIC_URL}/pages/how-to-order`} >How to Order</Link></li>
+                                        <li><Link to={`${process.env.PUBLIC_URL}/pages/tax-and-shipping`} >Tax & Shipping</Link></li>
+                                        <li><Link to={`${process.env.PUBLIC_URL}/pages/contact`} >Contact us</Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@ class FooterOne extends Component {
                             <div className="col">
                                 <div className="sub-title">
                                     <div className="footer-title">
-                                        <h4>store information</h4>
+                                        <h4 style={{textTransform:'none'}}>store information</h4>
                                     </div>
                                     <div className="footer-contant">
                                         <ul className="contact-list">

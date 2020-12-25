@@ -12,6 +12,10 @@ class MyOrders extends Component {
 
     constructor (props) {
         super (props)
+        this.state={
+            adminNav:false,
+            style:{left:'-350px'}
+        }
     }
     handleLogOutClick =() =>{
         auth.signOut()
@@ -19,6 +23,14 @@ class MyOrders extends Component {
     }
     changeQty = (e) => {
         this.setState({ quantity: parseInt(e.target.value) })
+    }
+
+    closeAdminNav =()=>{
+        this.setState({adminNav:false, style:{left:'-350px'}})
+    }
+
+    openAdminNav =()=>{
+        this.setState({adminNav:true, style:{left:'-10px'}})
     }
 
     removeFromReduxAndFirestoreWishlist =(item)=>{
@@ -60,27 +72,27 @@ console.log(filtered)
                         <div className="row">
                             <div className="col-lg-3">
                                 <div className="account-sidebar">
-                                    <a className="popup-btn">
+                                    <a className="popup-btn" onClick={this.openAdminNav}>
                                         my account
                                     </a>
                                 </div>
-                                <div className="dashboard-left">
+                                <div className="dashboard-left" style={this.state.style}>
                                     <div className="collection-mobile-back">
-                                    <span className="filter-back">
+                                    <span className="filter-back" onClick={this.closeAdminNav}>
                                         <i className="fa fa-angle-left" aria-hidden="true"></i> back
                                     </span>
                                     </div>
                                     <div className="block-content">
                                         <ul>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
-                                            <li className='active' ><Link to="/pages/dashboard/my-orders">My Orders</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li className='active' onClick={this.closeAdminNav} ><Link to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav} ><Link style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav} ><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav} ><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
-                                            <li className="last" style={{'color':'orange'}}><div  style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
+                                            <li className="last" style={{'color':'orange'}} onClick={this.closeAdminNav}><div  style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -109,15 +121,15 @@ console.log(filtered)
                                             <tbody key={order.orderId}>
                                             <tr>
                                                 <td style={{'minWidth':'100%'}}>{order.orderId}
-                                                    <div className="mobile-cart-content row">
+                                                   
                                                         {/* <div className="col-xs-3">
                                                             <p>in stock</p>
                                                         </div> */}
-                                                        <div className="col-xs-3">
+                                                        {/* <div className="col-xs-3">
                                                             <h2 className="td-color">{symbol}{order.sum}
                                                             </h2>
-                                                        </div>
-                                                        <div className="col-xs-3">
+                                                        </div> */}
+                                                        {/* <div className="col-xs-3">
                                                             <h2 className="td-color">
                                                                 <a href="javascript:void(0)" className="icon">
                                                                     <i className="fa fa-times"></i>
@@ -126,8 +138,8 @@ console.log(filtered)
                                                                     <i className="fa fa-shopping-cart"></i>
                                                                 </a>
                                                             </h2>
-                                                        </div>
-                                                    </div>
+                                                        </div> */}
+                                                   
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}><OverlayTrigger
                 trigger="click"
@@ -154,11 +166,13 @@ console.log(filtered)
                   </Popover>
                 }
               >
-                <button className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}
+                <button className='btn btn-warning' style={{padding:'4px', color:'white',backgroundColor:'darkorange'}}
                       >view</button>
               </OverlayTrigger>
             </td>
-                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{order.sum}
+                                                <td style={{'minWidth':'100%'}}><h2>{symbol}{order.sum} <span className='mobile-payment-button'> {order.paymentStatus.due == 0?<div style={{'minWidth':'100%'}}><div  className='btn btn-warning' style={{textTransform:'capitalize', padding:'0px',color:'white',backgroundColor:'darkgreen',fontFamily:'initial'}}>&#10003;paid</div>
+                                                    </div>:<div style={{'minWidth':'100%'}}><Link to={`/order-success/${order.orderId}` } className='btn btn-warning' style={{padding:'0px', color:'white', backgroundColor:'darkorange',maxWidth:'50%',marginLeft:'1.7rem'}}>pay</Link>
+                                                </div>}</span>
                                                     </h2></td>
                                                 <td style={{'minWidth':'100%'}}>
                                                     <p>{order.status}</p>
@@ -178,14 +192,13 @@ console.log(filtered)
                   </Popover>
                 }
               >
-                <button className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}
+                <button className='btn btn-warning' style={{padding:'4px', color:'white', backgroundColor:'darkorange'}}
                       >view</button>
               </OverlayTrigger>
                                                 </td>
-                                                {order.paymentStatus.due == 0?<td style={{'minWidth':'100%'}}><div  className='btn btn-warning' style={{padding:'3px',color:'white',backgroundColor:'darkgreen'}}>paid</div>
-                                                    </td>:<td style={{'minWidth':'100%'}}><Link to={`/order-success/${order.orderId}` } className='btn btn-warning' style={{color:'white',backgroundColor:'darkorange'}}>pay</Link>
+                                                {order.paymentStatus.due == 0?<td style={{'minWidth':'100%'}}><div  className='btn btn-warning' style={{padding:'0px',color:'white',backgroundColor:'darkgreen',fontFamily:'initial',textTransform:'capitalize'}}>&#10003;paid</div>
+                                                    </td>:<td style={{'minWidth':'100%'}}><Link to={`/order-success/${order.orderId}` } className='btn btn-warning' style={{padding:'4px', color:'white',backgroundColor:'darkorange'}}>pay</Link>
                                                 </td>}
-                                                
                                             </tr>
                                             </tbody> )
                                     })}

@@ -5,6 +5,9 @@ import Slider from 'react-slick';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getAllProductsFirestore} from '../../../actions'
+import axios from 'axios'
+import https from 'http';
+import request from 'request'
 
 // Import custom components
 import Collection from "./collection";
@@ -13,39 +16,73 @@ import BlogSection from "../common/blogsection";
 import HeaderThree from "../../common/headers/header-three"
 import FooterTwo from "../../common/footers/footer-two"
 import ThemeSettings from "../../common/theme-settings"
-import axios from 'axios'
 import CollectionTwo from './collection2'
-import {getAllFirestoreProducts} from '../../../firebase/firebase.utils'
+import {getAllFirestoreProducts,getAllFirestoreAliProductsList} from '../../../firebase/firebase.utils'
+import './main.css'
 
 
 class Pets extends Component {
-
+    constructor(props){
+        super(props)
+        this.state={
+            searchBarValue:''
+        }
+    }
     componentDidMount = async()=> {
         const productsArray = await getAllFirestoreProducts()
-        this.props.getAllProductsFirestore(productsArray)
-        // document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/color15.css` );
-        // console.log(this.props)
-    //     axios({
-    // "method":"GET",
-    // "url":"https://ali-express1.p.rapidapi.com/search",
-    // "headers":{
-    // "content-type":"application/octet-stream",
-    // "x-rapidapi-host":"ali-express1.p.rapidapi.com",
-    // "x-rapidapi-key":"5c1d96e00emsh9bedadd36c08532p1ac2a8jsn5aad4eb79ad7",
-    // "useQueryString":true
-    // },"params":{
-    // "from":"0",
-    // "limit":"20",
-    // "country":"BD",
-    // "query":"umbrella"
-    // }
-    // })
-    // .then((response)=>{
-    //   console.log(response)
-    // })
-    // .catch((error)=>{
-    //   console.log(error)
-    // })
+        const aliProductsArray = await getAllFirestoreAliProductsList()  
+        this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])
+                  
+    }
+
+    handleChange=(event)=>{
+        const {name,value} =event.target
+        this.setState({[name]:value})
+    }
+    handleSearchBarSubmit=(event)=>{
+        event.preventDefault()
+        console.log(this.state.searchBarValue)
+        const _EXTERNAL_URL = `http://api24.be/1688/index.php?route=api_tester/call&api_name=item_get&lang=zh-CN&num_iid=${this.state.searchBarValue}&is_promotion=1&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`;
+
+            request(_EXTERNAL_URL, { json: true },(err, res, body)=>{
+            if (err) { 
+                console.log(err)
+             }else{
+                console.log(res)
+                console.log(body)
+             }
+            });
+        
+
+        // https.get(`http://api24.be/1688/index.php?route=api_tester/call&api_name=item_get&lang=zh-CN&num_iid=${this.state.searchBarValue}&is_promotion=1&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`, (resp) => {
+        //   let data = '';
+        
+        //   // A chunk of data has been recieved.
+        //   resp.on('data', (chunk) => {
+        //     data += chunk;
+        //   });
+        
+        //   // The whole response has been received. Print out the result.
+        //   resp.on('end', () => {
+        //     console.log(JSON.parse(data).explanation);
+        //   });
+        
+        // }).on("error", (err) => {
+        //   console.log("Error: " + err.message);
+        // });
+//         axios.get(`https://api24.be/1688/index.php?route=api_tester/call&api_name=item_search&lang=en&q=${this.state.searchBarValue}&start_price=0&end_price=0&page=1&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`)
+//   .then(function (response) {
+//     // handle success
+//     console.log(response.data());
+//     // console.log(response)
+//   })
+//   .catch(function (error) {
+//     // handle error
+//     console.log(error);
+//   })
+//   .then(function () {
+//     // always executed
+//   });
     }
 
     render(){
@@ -95,13 +132,49 @@ class Pets extends Component {
                         </div>
                     </Slider>
                 </section>
+               
+                <div className='search-bar-logo'>
+                <section className="section-b-space j-box pets-box ratio_square header-text-box">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <div className="title1 title5">
+                                    <h4 className='header-h4'>Order Right Now</h4>
+                                    <h2 className="title-inner1 taobao-support">Supports taobao,1688,tmall links.</h2>
+                                    <hr role="tournament6" />
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div className='searchbar-container'>
+                 <form className="form_search" role="form" onSubmit={this.handleSearchBarSubmit}>
+                    <input id="query search-autocomplete" type="search"
+                           placeholder="Paste link from taobao,1688,tmall"
+                           value={this.state.searchBarValue}
+                           onChange={this.handleChange}
+                           name="searchBarValue"
+                           className="nav-search nav-search-field" aria-expanded="true" />
+                        <button type="submit" className="btn-search" style={{width:"80px"}}>
+                            <i className="fa fa-camera" style={{marginRight:'5px'}}></i>
+                            <i className="fa fa-search"></i>
+                        </button>
+                </form>                     
+                </div>
+                 <LogoBlock />
+                </div>
+                
+               
+            
+               
 
-                {/*Logo Block section*/}
-                <LogoBlock />
-                {/*Logo Block section end*/}
+                {/*Product Section*/}
+                <CollectionTwo type={'others'} status={'in-stock'} title="NEW COLLECTION" subtitle="In Stock"/>
+                {/*Product Section End*/}
 
-                {/*Banner Section*/}
-                <section className="pt-0 banner-6 ratio2_1">
+                 {/*Banner Section*/}
+                 <section className="pt-0 banner-6 ratio2_1" style={{marginBottom:'3rem'}}>
                     <div className="container">
                         <div className="row partition3">
                             <div className="col-md-4">
@@ -201,10 +274,6 @@ class Pets extends Component {
                 </section>
                 {/*Banner Section End*/}
 
-                {/*Product Section*/}
-                <CollectionTwo type={'others'} status={'new'} title="NEW COLLECTION" subtitle="choose yours"/>
-                {/*Product Section End*/}
-
                 {/*Parallax banner*/}
                 <section className="p-0 pet-parallax">
                     <div className="full-banner parallax parallax-banner19  text-center p-center">
@@ -227,25 +296,8 @@ class Pets extends Component {
                 {/*Parallax banner end*/}
 
                 {/*Product Slider*/}
-                <CollectionTwo type={'Kids'} status={'sale'} title="SAVE AND EXTRA" subtitle="special offer" />
+                <CollectionTwo type={'Kids'} status={'pre-order'} title="SAVE AND EXTRA" subtitle="Pre Order" />
                 {/*Product Slider End*/}
-
-                {/* Blog Section Section*/}
-                <div className="container ">
-                    <div className="row">
-                        <div className="col">
-                            <div className="title1 title5">
-                                <h4>Recent Story</h4>
-                                <h2 className="title-inner1">from the blog</h2>
-                                <hr role="tournament6" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <section className="section-b-space p-t-0 ratio2_3">
-                    <BlogSection />
-                </section>
-                {/* Blog Section End*/}
                 {/* <ThemeSettings/> */}
                 {/* <FooterTwo logoName={'logo/14.png'}/> */}
             </div>

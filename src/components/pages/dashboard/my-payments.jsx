@@ -5,16 +5,30 @@ import {Link} from 'react-router-dom'
 import { addToCartAndRemoveWishlistFirestore, removeFromWishlistFirestore,auth } from '../../../firebase/firebase.utils';
 import { addToCartAndRemoveWishlist, removeFromWishlist } from '../../../actions';
 import payment from './payment';
+import "./my-payments.css"
 
 class MyPayments extends Component {
 
     constructor (props) {
         super (props)
+        this.state={
+            adminNav:false,
+            style:{left:'-350px'}
+        }
     }
     handleLogOutClick =() =>{
         auth.signOut()
         this.props.history.push('/')
     }
+
+    closeAdminNav =()=>{
+        this.setState({adminNav:false, style:{left:'-350px'}})
+    }
+
+    openAdminNav =()=>{
+        this.setState({adminNav:true, style:{left:'-10px'}})
+    }
+
     changeQty = (e) => {
         this.setState({ quantity: parseInt(e.target.value) })
     }
@@ -41,7 +55,7 @@ class MyPayments extends Component {
 
         return (
             <div>
-                <Breadcrumb title={'Dashboard/My wishlist'}/>
+                <Breadcrumb title={'Dashboard/Recent Payments'}/>
                 
                 
                 {/*Dashboard section*/}
@@ -50,23 +64,23 @@ class MyPayments extends Component {
                         <div className="row">
                             <div className="col-lg-3">
                                 <div className="account-sidebar">
-                                    <a className="popup-btn">
+                                    <a className="popup-btn" onClick={this.openAdminNav}>
                                         my account
                                     </a>
                                 </div>
-                                <div className="dashboard-left">
+                                <div className="dashboard-left" style={this.state.style}>
                                     <div className="collection-mobile-back">
-                                    <span className="filter-back">
+                                    <span className="filter-back" onClick={this.closeAdminNav}>
                                         <i className="fa fa-angle-left" aria-hidden="true"></i> back
                                     </span>
                                     </div>
                                     <div className="block-content">
                                         <ul>
-                                            <li  style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
-                                            <li style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
-                                            <li style={{'color':'orange'}}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
-                                            <li className='active' style={{'color':'orange'}}><Link to="/pages/dashboard/my-payments">My Payments</Link></li>
+                                            <li  style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link  style={{'color':'orange'}} to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li className='active' style={{'color':'orange'}} onClick={this.closeAdminNav}><Link to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
@@ -82,7 +96,7 @@ class MyPayments extends Component {
                 <section className="wishlist-section section-b-space">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-12">
+                            <div className="col-sm-12 mobile-content-view">
                                 <table className="table cart-table table-responsive-xs">
                                     <thead>
                                     <tr className="table-head">
@@ -103,26 +117,15 @@ class MyPayments extends Component {
                                                     </a>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}>{payment.orderId}
-                                                    <div className="mobile-cart-content row">
-                                                        {/* <div className="col-xs-3">
-                                                            <p>in stock</p>
-                                                        </div> */}
-                                                        <div className="col-xs-3">
-                                                            <h2 className="td-color">{payment.paymentId}
-                                                           </h2>
-                                                        </div>
-                                                        <div className="col-xs-3">
-                                                            <h2 className="td-color">
-                                                               {payment.paymentStatus}
-                                                            </h2>
-                                                        </div>
-                                                    </div>
+                                                    <span> {
+                                                       payment.paymentStatus == 'Verified'?<p style={{color:'white',padding:'1px',backgroundColor:'darkgreen'}}>&#10003;{payment.paymentStatus}</p>:<p style={{color:'white',padding:'1px',backgroundColor:'darkorange'}}>{payment.paymentStatus}</p>
+                                                   } </span>
                                                 </td>
                                                 <td style={{'minWidth':'100%'}}>{payment.paymentId}
                                                    </td>
                                                 <td style={{'minWidth':'100%'}}>
                                                    {
-                                                       payment.paymentStatus == 'Verified'?<p style={{color:'white',padding:'2px',backgroundColor:'darkgreen'}}>{payment.paymentStatus}</p>:<p style={{color:'white',padding:'2px',backgroundColor:'darkorange'}}>{payment.paymentStatus}</p>
+                                                       payment.paymentStatus == 'Verified'?<p style={{color:'white',padding:'2px',backgroundColor:'darkgreen'}}>&#10003;{payment.paymentStatus}</p>:<p style={{color:'white',padding:'2px',backgroundColor:'darkorange'}}>{payment.paymentStatus}</p>
                                                    } 
                                                 </td>
                                                 <td style={{'minWidth':'80%'}}>

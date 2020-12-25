@@ -10,11 +10,24 @@ class MyCart extends Component {
 
     constructor (props) {
         super (props)
+        this.state={
+            adminNav:false,
+            style:{left:'-350px'}
+        }
+    
     }
 
     removeFromReduxAndFirestoreCart = (item) =>{
         auth.onAuthStateChanged(async userAuth=>await removeCartItemFromFirestore(userAuth,item))
         this.props.removeFromCart(item)      
+    }
+
+    closeAdminNav =()=>{
+        this.setState({adminNav:false, style:{left:'-350px'}})
+    }
+
+    openAdminNav =()=>{
+        this.setState({adminNav:true, style:{left:'-10px'}})
     }
 
     decrementReduxAndFirestoreQty = (item) =>{
@@ -45,27 +58,27 @@ class MyCart extends Component {
                         <div className="row">
                             <div className="col-lg-3">
                                 <div className="account-sidebar">
-                                    <a className="popup-btn">
+                                    <a className="popup-btn" onClick={this.openAdminNav}>
                                         my account
                                     </a>
                                 </div>
-                                <div className="dashboard-left">
+                                <div className="dashboard-left" style={this.state.style}>
                                     <div className="collection-mobile-back">
-                                    <span className="filter-back">
+                                    <span className="filter-back" onClick={this.closeAdminNav}>
                                         <i className="fa fa-angle-left" aria-hidden="true"></i> back
                                     </span>
                                     </div>
                                     <div className="block-content">
                                         <ul>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
-                                            <li className="active"><Link to="/pages/dashboard/my-cart">My Cart</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
-                                            <li style={{'color':'orange'}}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard">Account Info</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard/my-orders">My Orders</Link></li>
+                                            <li className="active" onClick={this.closeAdminNav}><Link to="/pages/dashboard/my-cart">My Cart</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard/my-wishlist">My Wishlist</Link></li>
+                                            <li style={{'color':'orange'}} onClick={this.closeAdminNav}><Link style={{'color':'orange'}} to="/pages/dashboard/my-payments">My Payments</Link></li>
                                             {/* <li><a href="#">Newsletter</a></li>
                                             <li><a href="#">My Account</a></li>
                                             <li><a href="#">Change Password</a></li> */}
-                                            <li className="last" style={{'color':'orange'}}><div style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
+                                            <li className="last" style={{'color':'orange'}} onClick={this.closeAdminNav}><div style={{'color':'orange'}} style={{'cursor':'pointer'}} onClick={this.handleLogOutClick}>Log Out</div></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -149,14 +162,14 @@ class MyCart extends Component {
                                         </tbody> )
                                     })}
                                 </table>
-                                <table className="table cart-table table-responsive-md">
+                                {/* <table className="table cart-table table-responsive-md">
                                     <tfoot>
                                     <tr>
                                         <td >total price :</td>
                                         <td className='cart-total-black' style={{'paddingRight':'0px'}}><h2>{symbol} {total} </h2></td>
                                     </tr>
                                     </tfoot>
-                                </table>
+                                </table> */}
                             </div>
                         </div>
                         <div className="row cart-buttons">

@@ -1,0 +1,14 @@
+@media(max-width:760px){
+    .mobile-content-view{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .mobile-content-view img{
+        max-width: 100px;
+    }
+}
+@media(min-width:760px){
+    .mobile-content-view span{
+        display:none;
+    }
+}

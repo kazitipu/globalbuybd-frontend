@@ -1,0 +1,14 @@
+.section-b-space{
+    padding: 20px !important;
+}
+
+.logo-block img{
+    filter: grayscale(0) !important;
+    opacity: 1!important;
+    cursor: pointer;
+}
+@media(max-width:890px){
+    .section-b-space{
+        padding: 0px !important;
+    }
+}

@@ -110,7 +110,7 @@ class NavBar extends Component {
                                     shop
                                     <span className="sub-arrow"></span>
                                 </Link>
-                                <div className="mega-menu-container" >
+                                <div className="mega-menu-container">
                                     <div className="container">
                                         <div className="row">
                                             <div className="col mega-box">
@@ -242,7 +242,7 @@ class NavBar extends Component {
                                     pages
                                     <span className="sub-arrow"></span>
                                 </Link>
-                                <ul className="nav-submenu">
+                                <ul className="nav-submenu" >
                                     <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/about-us`} >about_us</Link></li>
                                     <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/contact`} >contact</Link></li>
                                     <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/faq`} >FAQ</Link></li>

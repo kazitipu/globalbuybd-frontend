@@ -74,8 +74,8 @@ class CollectionTwo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    items: getTrendingCollection(state.data.products, ownProps.type),
-    topCollectionItems: getTopCollectionItems(state.data.products, ownProps.status),
+    items: state.data.products.filter(item=>item.availability == ownProps.status).slice(0,12),
+    topCollectionItems: state.data.products.filter(item=>item.availability == ownProps.status).slice(12,30),
     symbol: state.data.symbol,
     cartItems: state.cartList
 })

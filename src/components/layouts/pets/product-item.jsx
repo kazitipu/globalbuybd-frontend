@@ -107,9 +107,9 @@ class ProductItem extends Component {
                                 {RatingStars}
                             </div>
                             <Link to={`/product/${product.id}`}>
-                                <h6>{product.name}</h6>
+                                <h6>{product.name.slice(0,50)}</h6>
                             </Link>
-                            <h4>{symbol}{Math.round(product.salePrice)}
+                            <h4>{symbol}{(product.salePrice)}
                                 {product.price? <del><span className="money">{symbol}{product.price}</span></del>:''}
                             </h4>
                         </div>

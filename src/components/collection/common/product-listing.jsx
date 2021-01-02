@@ -2,36 +2,60 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-
 import { getTotal, getCartProducts } from '../../../reducers'
-import { addToCart, addToWishlist, addToCompare,getAllProductsFirestore } from '../../../actions'
+import { addToCart, addToWishlist, addToCompare,getAllProductsFirestore,setSearchedProductsArray } from '../../../actions'
 import {getVisibleproducts} from '../../../services';
 import ProductListItem from "./product-list-item";
 import {auth,addCartItemTofirestore,addWishlistTofirestore,getAllFirestoreProducts,getAllFirestoreAliProductsList} from '../../../firebase/firebase.utils'
+import axios from 'axios'
+import {Helmet} from 'react-helmet'
+import themeSettings from '../../common/theme-settings';
 
 class ProductListing extends Component {
 
     constructor (props) {
         super (props)
 
-        this.state = { limit: 5, hasMoreItems: true };
+        this.state = { limit: 5, hasMoreItems: true,page:1,notFound:false };
 
     }
     componentDidMount = async()=> {
-        const productsArray = await getAllFirestoreProducts()
-        const aliProductsArray = await getAllFirestoreAliProductsList()
-        console.log(aliProductsArray)
-        this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])
-       
+        
+        console.log(this.props.match.params.id)
+        if (this.props.match.params.id == 'in-stock' || this.props.match.params.id == 'pre-order'){
+            const productsArray = await getAllFirestoreProducts()
+            const aliProductsArray = await getAllFirestoreAliProductsList()
+            console.log(aliProductsArray)
+            this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])    
+        }else{
+            const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/collection/${this.props.match.params.id},${this.state.page}`;
+             
+            const response = await axios.get(_EXTERNAL_URL)
+            console.log(response)
+            if (response.data.items){
+                this.props.setSearchedProductsArray(response.data.items.item)
+            }else{
+                this.props.setSearchedProductsArray([])
+            }
+        }
+        setTimeout(
+            ()=> {
+                this.setState({ notFound: true });
+            },
+            30000
+        );     
     }
     
     componentWillMount(){
         this.fetchMoreItems();
     }
 
+    componentWillUnmount(){
+        this.props.setSearchedProductsArray([])
+    }
+
     
-    fetchMoreItems = () => {
+    fetchMoreItems = async() => {
        
         // a fake async api call
         setTimeout(() => {
@@ -39,7 +63,19 @@ class ProductListing extends Component {
                 limit: this.state.limit + 5
             });
         }, 3000);
-        if (this.state.limit > 200) {
+        
+        // if ((this.state.limit < 200 && this.props.match.params.id !=='in-stock') && this.props.match.params.id !=='pre-order'){
+        //     this.setState({ hasMoreItems: true });
+        //     this.setState({page:this.state.page+1})
+        //     const _EXTERNAL_URL = `http://localhost:5000/${this.props.match.params.id},${this.state.page}`;
+        
+        //     const response = await axios.get(_EXTERNAL_URL)
+        //     console.log(response)
+        //     if (response.data){
+        //         this.props.setSearchedProductsArray(response.data.items.item)
+        //     }  
+        // }
+        if (this.state.limit < 200) {
             this.setState({ hasMoreItems: true });
             return;
         }
@@ -61,8 +97,13 @@ class ProductListing extends Component {
 
     render(){
         const {products, symbol, addToCompare} = this.props;
+        console.log(products)
         return (
             <div>
+                 <Helmet>
+                    <title>{this.props.match.params.id}</title>
+                </Helmet>
+               
                 <div className="product-wrapper-grid">
                     <div className="container-fluid">
                         {products.length > 0 ?
@@ -89,15 +130,18 @@ class ProductListing extends Component {
                                     }
                                 </div>
                             </InfiniteScroll>
-                            :
-                            <div className="row">
-                                <div className="col-sm-12 text-center section-b-space mt-5 no-found" >
-                                    <img src={`${process.env.PUBLIC_URL}/assets/images/empty-search.jpg`} className="img-fluid mb-4" />
-                                    <h3>Sorry! Couldn't find the product you were looking For!!!    </h3>
-                                    <p>Please check if you have misspelt something or try searching with other words.</p>
-                                    <Link to={`${process.env.PUBLIC_URL}/`} className="btn btn-solid">continue shopping</Link>
-                                </div>
+                            :this.state.notFound?(<div className="row">
+                            <div className="col-sm-12 text-center section-b-space mt-5 no-found" >
+                                <img src={`${process.env.PUBLIC_URL}/assets/images/empty-search.jpg`} className="img-fluid mb-4" />
+                                <h3>Sorry! Couldn't find the product you were looking For!!!    </h3>
+                                <p>Please check if you have misspelt something or try searching with other words.</p>
+                                <Link to={`${process.env.PUBLIC_URL}/`} className="btn btn-solid">continue shopping</Link>
                             </div>
+                        </div>)
+                        :
+                        (<div className="loader-wrapper" style={{display:'block',left:'0',height:'80vh',bottom:'0',top:'20vh'}}>
+                        <div className="loader"></div>
+                        </div>)
                         }
                     </div>
                 </div>
@@ -105,11 +149,19 @@ class ProductListing extends Component {
         )
     }
 }
-const mapStateToProps = (state,ownProps) => ({
-    products: state.data.products.filter(product=>product.availability === ownProps.match.params.id),
+const mapStateToProps = (state,ownProps) => {
+    console.log(state.searchedProducts.products)
+    let products;
+    if (ownProps.match.params.id == 'in-stock' || ownProps.match.params.id == 'pre-order'){
+        products = state.data.products.filter(product=>product.availability === ownProps.match.params.id)
+    }else{
+        products = state.searchedProducts.products
+    }
+    return {   
+    products,
     symbol: state.data.symbol,
-})
+}}
 
 export default connect(
-    mapStateToProps, {addToCart, addToWishlist, addToCompare,getAllProductsFirestore}
+    mapStateToProps, {addToCart, addToWishlist, addToCompare,getAllProductsFirestore,setSearchedProductsArray}
 )(ProductListing)

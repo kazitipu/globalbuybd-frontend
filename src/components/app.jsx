@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 // Custom Components
-import HeaderOne from './common/headers/header-one';
-import HeaderTwo from './common/headers/header-two';
 import HeaderThree from './common/headers/header-three';
 
 import FooterOne from "./common/footers/footer-one";
-import FooterTwo from "./common/footers/footer-two";
-import FooterThree from "./common/footers/footer-three";
 import {auth, createUserProfileDocument,firestore} from '../firebase/firebase.utils'
 import {connect} from 'react-redux'
 import {setCurrentUser,setReduxCart,setReduxWishlist,getAllProductsFirestore} from '../actions'

@@ -103,9 +103,16 @@ class FilterBar extends Component {
     }
 }
 
-const mapStateToProps = (state,ownProps) => ({
-    products: state.data.products.filter(product=>product.availability == ownProps.match.params.id),
-    filters: state.filters
-})
+const mapStateToProps = (state,ownProps) => {
+    let products;
+    if (ownProps.match.params.id == 'in-stock' || ownProps.match.params.id == 'pre-order'){
+        products = state.data.products.filter(product=>product.availability === ownProps.match.params.id)
+    }else{
+        products = state.searchedProducts.products
+    }
+    return {   
+    products,
+    symbol: state.data.symbol,
+}}
 
 export default connect(mapStateToProps, {filterSort})(FilterBar);

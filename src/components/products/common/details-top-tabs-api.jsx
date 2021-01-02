@@ -4,7 +4,7 @@ import 'react-tabs/style/react-tabs.scss';
 import {Link} from 'react-router-dom'
 import "./details-top-tabs.css";
 
-class DetailsTopTabs extends Component {
+class DetailsTopTabsApi extends Component {
     render (){
         const {item} = this.props
 
@@ -40,8 +40,8 @@ class DetailsTopTabs extends Component {
                                 <table className="table table-striped mb-0">
                                     <tbody>
                                     {item.specs? item.specs.map((item,i)=>(<tr key={i}>
-                                        <th>{item.attrName}:</th>
-                                        <td>{item.attrValue}</td>
+                                        <th>{item.name}:</th>
+                                        <td>{item.value}</td>
                                     </tr>)
                                     )
                                     :
@@ -127,4 +127,4 @@ class DetailsTopTabs extends Component {
     }
 }
 
-export default DetailsTopTabs;
+export default DetailsTopTabsApi;

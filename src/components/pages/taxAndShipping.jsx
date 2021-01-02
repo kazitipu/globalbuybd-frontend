@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Breadcrumb from "../common/breadcrumb";
-
+import {Helmet} from 'react-helmet'
 class TaxAndShipping extends Component {
 
     constructor (props) {
@@ -12,6 +12,9 @@ class TaxAndShipping extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>GlobalbuyBD | tax & shipping</title>
+                </Helmet>
                 <Breadcrumb title={'Tax and Shipping'}/>
                 {/*about section*/}
                 <section className="about-page  section-b-space">

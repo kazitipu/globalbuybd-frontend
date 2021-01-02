@@ -4,7 +4,7 @@ import Breadcrumb from "../common/breadcrumb";
 import {auth, createUserProfileDocument} from '../../firebase/firebase.utils'
 import {Link} from 'react-router-dom'
 import './register.css'
-
+import {Helmet} from 'react-helmet'
 class Register extends Component {
     constructor() {
         super();
@@ -63,6 +63,9 @@ class Register extends Component {
 
         return (
             <div>
+               <Helmet>
+                    <title>GlobalbuyBD | register</title>
+                </Helmet>
                 <Breadcrumb title={'create account'}/>
                 
                 

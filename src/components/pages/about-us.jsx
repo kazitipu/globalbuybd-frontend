@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Slider from 'react-slick';
-
+import {Helmet} from 'react-helmet'
 import Breadcrumb from "../common/breadcrumb";
 import {Slider2, Team4} from "../../services/script"
 import greentickMark from './tickmark.png'
@@ -57,6 +57,9 @@ class aboutUs extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>About us</title>
+                </Helmet>
                 <Breadcrumb title={'About Us'}/>
                 {/*about section*/}
                 <section className="about-page  section-b-space">
@@ -86,140 +89,6 @@ class aboutUs extends Component {
                         </div>
                     </div>
                 </section>
-
-                {/* Testimonial
-                <section className="testimonial small-section">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <Slider {...Slider2} className="slide-2 testimonial-slider no-arrow">
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/avtar.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/2.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/avtar.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/avtar.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/avtar.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="media">
-                                            <div className="text-center">
-                                                <img src={`${process.env.PUBLIC_URL}/assets/images/avtar.jpg`} alt="#" />
-                                                    <h5>Mark Jecno</h5>
-                                                    <h6>Designer</h6>
-                                            </div>
-                                            <div className="media-body">
-                                                <p>you how all this mistaken idea of denouncing pleasure and praising
-                                                    pain was born and I will give you a complete account of the system,
-                                                    and expound the actual teachings.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Slider>
-                            </div>
-                        </div>
-                    </div>
-                </section> */}
-
-                {/*Team Section*/}
-                {/* <section id="team" className="team section-b-space">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <h2>Our Team</h2>
-                                <Slider {...Team4} className="team-4">
-                                    <div>
-                                        <img src={`${process.env.PUBLIC_URL}/assets/images/team/1.jpg`} className="img-fluid" alt=""/>
-                                        <h4>Hileri Keol</h4>
-                                        <h6>CEo & Founder At Company</h6>
-                                    </div>
-                                    <div>
-                                        <img src={`${process.env.PUBLIC_URL}/assets/images/team/2.jpg`} className="img-fluid" alt=""/>
-                                        <h4>Hileri Keol</h4>
-                                        <h6>CEo & Founder At Company</h6>
-                                    </div>
-                                    <div>
-                                        <img src={`${process.env.PUBLIC_URL}/assets/images/team/3.jpg`} className="img-fluid" alt=""/>
-                                        <h4>Hileri Keol</h4>
-                                        <h6>CEo & Founder At Company</h6>
-                                    </div>
-                                    <div>
-                                        <img src={`${process.env.PUBLIC_URL}/assets/images/team/4.jpg`} className="img-fluid" alt=""/>
-                                        <h4>Hileri Keol</h4>
-                                        <h6>CEo & Founder At Company</h6>
-                                    </div>
-                                    <div>
-                                        <img src={`${process.env.PUBLIC_URL}/assets/images/team/1.jpg`} className="img-fluid" alt=""/>
-                                        <h4>Hileri Keol</h4>
-                                        <h6>CEo & Founder At Company</h6>
-                                    </div>
-                                </Slider>
-                            </div>
-                        </div>
-                    </div>
-                </section> */}
 
                 {/*service layout*/}
                 <div className="container about-cls section-b-space">

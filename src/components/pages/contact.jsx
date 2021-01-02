@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Breadcrumb from "../common/breadcrumb";
-
+import {Helmet} from 'react-helmet'
 class Contact extends Component {
 
     constructor (props) {
@@ -12,6 +12,9 @@ class Contact extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>Contact us</title>
+                </Helmet>
                 <Breadcrumb title={'Contact Us'}/>
                 
                 

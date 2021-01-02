@@ -4,7 +4,7 @@ import '../../common/index.scss';
 import Slider from 'react-slick';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getAllProductsFirestore} from '../../../actions'
+import {getAllProductsFirestore, setSearchedProductsArray} from '../../../actions'
 import axios from 'axios'
 import https from 'http';
 import request from 'request'
@@ -34,6 +34,9 @@ class Pets extends Component {
         this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])
                   
     }
+    componentWillUnmount =()=>{
+        this.setState({searchBarValue:''})
+    }
 
     handleChange=(event)=>{
         const {name,value} =event.target
@@ -41,48 +44,27 @@ class Pets extends Component {
     }
     handleSearchBarSubmit=(event)=>{
         event.preventDefault()
-        console.log(this.state.searchBarValue)
-        const _EXTERNAL_URL = `http://api24.be/1688/index.php?route=api_tester/call&api_name=item_get&lang=zh-CN&num_iid=${this.state.searchBarValue}&is_promotion=1&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`;
-
-            request(_EXTERNAL_URL, { json: true },(err, res, body)=>{
-            if (err) { 
-                console.log(err)
-             }else{
-                console.log(res)
-                console.log(body)
-             }
-            });
-        
-
-        // https.get(`http://api24.be/1688/index.php?route=api_tester/call&api_name=item_get&lang=zh-CN&num_iid=${this.state.searchBarValue}&is_promotion=1&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`, (resp) => {
-        //   let data = '';
-        
-        //   // A chunk of data has been recieved.
-        //   resp.on('data', (chunk) => {
-        //     data += chunk;
-        //   });
-        
-        //   // The whole response has been received. Print out the result.
-        //   resp.on('end', () => {
-        //     console.log(JSON.parse(data).explanation);
-        //   });
-        
-        // }).on("error", (err) => {
-        //   console.log("Error: " + err.message);
-        // });
-//         axios.get(`https://api24.be/1688/index.php?route=api_tester/call&api_name=item_search&lang=en&q=${this.state.searchBarValue}&start_price=0&end_price=0&page=1&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&key=globalbuybd.com-kazi.tipu.nxt@gmail.com-taobao-1688`)
-//   .then(function (response) {
-//     // handle success
-//     console.log(response.data());
-//     // console.log(response)
-//   })
-//   .catch(function (error) {
-//     // handle error
-//     console.log(error);
-//   })
-//   .then(function () {
-//     // always executed
-//   });
+       if (this.state.searchBarValue.length < 35){
+        this.props.history.push(`${process.env.PUBLIC_URL}/collection/${this.state.searchBarValue}`)
+       }else{
+           if (this.state.searchBarValue.includes('1688')){
+               let productId = this.state.searchBarValue.split('/')[4].split('.')[0]
+               console.log(productId)
+               this.props.history.push(`${process.env.PUBLIC_URL}/1688/${productId}`)
+           }else{
+               let indexOfid = this.state.searchBarValue.search('id')
+               let subString = this.state.searchBarValue.slice(indexOfid, parseInt(indexOfid+20))
+               let productId = subString.split('=')[1]
+               console.log(productId)
+               if (productId.includes('&')){
+                   let exactProductId = productId.split('&')[0]
+                   console.log(exactProductId)
+                this.props.history.push(`${process.env.PUBLIC_URL}/searched-product/${exactProductId}`)
+               }else{
+                this.props.history.push(`${process.env.PUBLIC_URL}/searched-product/${productId}`)
+               }
+           }  
+       } 
     }
 
     render(){
@@ -178,7 +160,7 @@ class Pets extends Component {
                     <div className="container">
                         <div className="row partition3">
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/womens fashion`}>
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/1.jpg`}
@@ -193,7 +175,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/mobile accessories`}>
                                     <div className="collection-banner p-right text-right">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/2.jpg`}
@@ -208,7 +190,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/kids fashion`}>
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/3.jpg`}
@@ -225,7 +207,7 @@ class Pets extends Component {
                         </div>
                         <div className="row partition3 banner-top-cls">
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/womens beauty`}>
                                     <div className="collection-banner p-right">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/4.jpg`}
@@ -240,7 +222,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/womens shoes`}>
                                     <div className="collection-banner p-left text-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/5.jpg`}
@@ -255,7 +237,7 @@ class Pets extends Component {
                                 </Link>
                             </div>
                             <div className="col-md-4">
-                                <Link to="/">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/womens & mens watches`}>
                                     <div className="collection-banner p-left">
                                         <div className="img-part">
                                             <img src={`${process.env.PUBLIC_URL}/assets/images/pets/banner/6.jpg`}
@@ -306,4 +288,4 @@ class Pets extends Component {
 }
 
 
-export default connect(null,{getAllProductsFirestore})(Pets);
+export default connect(null,{getAllProductsFirestore, setSearchedProductsArray})(Pets);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Slider from 'react-slick';
-
+import {Helmet} from 'react-helmet'
 import Breadcrumb from "../common/breadcrumb";
 
 class PageNotFound extends Component {
@@ -14,6 +14,9 @@ class PageNotFound extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>404-Page not found</title>
+                </Helmet>
                 <Breadcrumb title={'404 Page'}/>
 
                 <section className="p-0">

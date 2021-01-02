@@ -12,6 +12,7 @@ import TopBar from "./common/topbar";
 import {changeCurrency} from '../../../actions'
 import {connect} from "react-redux";
 import LogoImage from "./common/logo";
+import { withRouter } from "react-router-dom";
 
 class HeaderThree extends Component {
 
@@ -19,7 +20,8 @@ class HeaderThree extends Component {
         super(props);
 
         this.state = {
-            isLoading:false
+            isLoading:false,
+            searchBarValue:''
         }
     }
 
@@ -37,6 +39,7 @@ class HeaderThree extends Component {
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
+        
     }
 
     handleScroll = () => {
@@ -78,6 +81,39 @@ class HeaderThree extends Component {
         })
     };
 
+    
+    handleChange=(event)=>{
+        const {name,value} =event.target
+        this.setState({[name]:value})
+    }
+
+    handleSearchBarSubmit=(event)=>{
+        event.preventDefault()
+       if (this.state.searchBarValue.length < 35){
+        this.props.history.push(`${process.env.PUBLIC_URL}/collection/${this.state.searchBarValue}`)
+       
+       }else{
+           if (this.state.searchBarValue.includes('1688')){
+               let productId = this.state.searchBarValue.split('/')[4].split('.')[0]
+               console.log(productId)
+               this.props.history.push(`${process.env.PUBLIC_URL}/1688/${productId}`)
+           }else{
+               let indexOfid = this.state.searchBarValue.search('id')
+               let subString = this.state.searchBarValue.slice(indexOfid, parseInt(indexOfid+20))
+               let productId = subString.split('=')[1]
+               console.log(productId)
+               if (productId.includes('&')){
+                   let exactProductId = productId.split('&')[0]
+                   console.log(exactProductId)
+                this.props.history.push(`${process.env.PUBLIC_URL}/searched-product/${exactProductId}`)
+               }else{
+                this.props.history.push(`${process.env.PUBLIC_URL}/searched-product/${productId}`)
+               }
+           }  
+       } 
+       this.setState({searchBarValue:''})
+    }
+
     render() {
 
         return (
@@ -96,9 +132,12 @@ class HeaderThree extends Component {
                                         <LogoImage logo={this.props.logoName} />
                                     </div>
                                     <div>
-                                        <form className="form_search" role="form">
+                                        <form className="form_search" role="form" onSubmit={this.handleSearchBarSubmit}>
                                             <input id="query search-autocomplete" type="search"
                                                    placeholder="Search 100+ millions of products from taobao,1688,tmall"
+                                                   value={this.state.searchBarValue}
+                                                   onChange={this.handleChange}
+                                                   name="searchBarValue"
                                                    className="nav-search nav-search-field" aria-expanded="true" />
                                                 <button type="submit" name="nav-submit-button" className="btn-search" style={{width:"80px"}}>
                                                 <i className="fa fa-camera" style={{marginRight:'5px'}}></i>
@@ -179,6 +218,6 @@ class HeaderThree extends Component {
 
 
 
-export default connect(null,
+export default withRouter(connect(null,
     { changeCurrency }
-)(HeaderThree);
+)(HeaderThree));

@@ -61,15 +61,25 @@ class ProductListItem extends Component {
                     <div className="product-box">
                         <div className="img-wrapper">
                             <div className="front">
-                                <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} ><img
-                                    src={product.pictures[0]}
-                                    className="img-fluid"
-                                    alt="" /></Link>
+                               {
+                                   product.availability == 'searched-products'? <Link to={`${process.env.PUBLIC_URL}/searched-product/${product.id}`} ><img
+                                   src={product.pictures[0]}
+                                   className="img-fluid"
+                                   alt="" /></Link>:<Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} ><img
+                                   src={product.pictures[0]}
+                                   className="img-fluid"
+                                   alt="" /></Link>
+                               } 
                             </div>
                             <div className="cart-info cart-wrap">
-                                <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} title="Add to cart">
+                                {
+                                    product.availability == 'searched-products'?<Link to={`${process.env.PUBLIC_URL}/searched-product/${product.id}`} title="Add to cart">
+                                    <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                                </Link>:<Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} title="Add to cart">
                                     <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                                 </Link>
+                                }
+                                
                                 <a onClick={onAddToWishlistClicked} title="Add to Wishlist" style={{cursor:'pointer'}}>
                                     <i className="fa fa-heart" aria-hidden="true"></i>
                                 </a>
@@ -97,9 +107,12 @@ class ProductListItem extends Component {
                                 <div className="rating">
                                     {RatingStars}
                                 </div>
-                                <Link to={`${process.env.PUBLIC_URL}product/${product.id}`}>
+                                {product.availability =='searched-products'? <Link to={`${process.env.PUBLIC_URL}/searched-product/${product.id}`}>
                                     <h6>{product.name.slice(0,50)}</h6>
-                                </Link>
+                                </Link>: <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`}>
+                                    <h6>{product.name.slice(0,50)}</h6>
+                                </Link>}
+                               
                                 <h4>{symbol}{product.salePrice}
                             {product.price? <del><span className="money">{symbol}{product.price}</span></del>:''}</h4>
                             </div>
@@ -158,7 +171,7 @@ class ProductListItem extends Component {
                                                     </div>
                                                     <div className="product-buttons">
                                                         <button  className="btn btn-solid" onClick={onAddToWishlistClicked} >add to wishlist</button>
-                                                        <Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid">view detail</Link>
+                                                        {product.availability =='searched-products'?<Link to={`${process.env.PUBLIC_URL}/searched-product/${product.id}`} className="btn btn-solid">view detail</Link>:<Link to={`${process.env.PUBLIC_URL}/product/${product.id}`} className="btn btn-solid">view detail</Link>}                                                        
                                                     </div>
                                                 </div>
                                             </div>

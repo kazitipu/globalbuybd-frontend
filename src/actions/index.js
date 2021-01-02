@@ -26,6 +26,18 @@ export const setReduxWishlist = (wishlistArray) =>{
         payload: wishlistArray,
     }
 }
+export const setSearchedProductsArray = (productsArray) =>{
+    return{
+        type:'SET_SEARCHED_PRODUCTS_ARRAY',
+        payload: productsArray,
+    }
+}
+export const setSearchedProductDetail = (product) =>{
+    return{
+        type:'SET_SEARCHED_PRODUCT_DETAIL',
+        payload: product,
+    }
+}
 
 // export const fetchProductsBegin = () => ({
 //     type: types.FETCH_PRODUCTS_BEGIN

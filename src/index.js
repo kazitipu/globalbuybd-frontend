@@ -9,30 +9,20 @@ import './index.scss';
 // Import custom components
 import store from './store';
 import translations from './constants/translations'
-import { getAllProducts } from './actions'
 
 // Layouts
 import Pets from './components/layouts/pets/main';
 
 
 //Collection Pages
-import CollectionLeftSidebar from "./components/collection/collection-left-sidebar";
 import CollectionNoSidebar from "./components/collection/collection-no-sidebar";
-import CollectionRightSidebar from "./components/collection/collection-right-sidebar";
-import CollectionFullWidth from "./components/collection/collection-full-width";
-import CollectionMetro from "./components/collection/collection-metro";
+
 
 // Product Pages
-// import LeftSideBar from "./components/products/left-sidebar";
-import RightSideBar from "./components/products/right-sidebar";
 import NoSideBar from "./components/products/no-sidebar";
-import LeftImage from "./components/products/left-image";
-import RightImage from "./components/products/right-image";
-import Accordian from "./components/products/accordian";
-import ColumnLeft from "./components/products/column-left";
-import ColumnRight from "./components/products/column-right";
-import Column from "./components/products/column";
-import Vertical from "./components/products/vertical";
+import SearchedProduct from "./components/products/searchedProduct";
+import Product1688 from "./components/products/product1688";
+
 
 // Features
 import Layout from './components/app'
@@ -121,17 +111,9 @@ class Root extends React.Component {
 
                           
 								{/*Routes For Single Product*/}
-								{/* <Route exact path={`${process.env.PUBLIC_URL}/product/:id`} component={LeftSideBar}/> */}
                                 <Route exact path={`${process.env.PUBLIC_URL}/product/:id`} component={NoSideBar}/>
-								{/* <Route path={`${process.env.PUBLIC_URL}/right-sidebar/product/:id`} component={RightSideBar}/>
-								<Route path={`${process.env.PUBLIC_URL}/col-left/product/:id`} component={ColumnLeft}/>
-								<Route path={`${process.env.PUBLIC_URL}/col-right/product/:id`} component={ColumnRight}/>
-								<Route path={`${process.env.PUBLIC_URL}/accordian/product/:id`} component={Accordian}/>
-								<Route path={`${process.env.PUBLIC_URL}/column/product/:id`} component={Column}/>
-								<Route path={`${process.env.PUBLIC_URL}/left-image/product/:id`} component={LeftImage}/>
-								<Route path={`${process.env.PUBLIC_URL}/right-image/product/:id`} component={RightImage}/>
-								<Route path={`${process.env.PUBLIC_URL}/vertical/product/:id`} component={Vertical}/>
-								 */}
+                                <Route exact path={`${process.env.PUBLIC_URL}/searched-product/:id`} component={SearchedProduct}/>
+                                <Route exact path={`${process.env.PUBLIC_URL}/1688/:id`} component={Product1688}/>
 
 								
 
@@ -183,14 +165,7 @@ class Root extends React.Component {
                                 <Route exact path={`${process.env.PUBLIC_URL}/blog/details`} component={Details}/>
                                 <Route exact path={`${process.env.PUBLIC_URL}/blog/blog-page`} component={BlogPage}/>
 
-                                
-                                   
-								{/*Routes For Features (Product Collection) */}
-								{/* <Route path={`${process.env.PUBLIC_URL}/collection/:categoryId`} component={CollectionLeftSidebar}/> */}
 								<Route exact path={`${process.env.PUBLIC_URL}/collection/:id`} component={CollectionNoSidebar}/>
-								{/* <Route path={`${process.env.PUBLIC_URL}/right-sidebar/collection`} component={CollectionRightSidebar}/>
-								<Route path={`${process.env.PUBLIC_URL}/full-width/collection`} component={CollectionFullWidth}/>
-								<Route path={`${process.env.PUBLIC_URL}/metro/collection`} component={CollectionMetro}/> */}
 
                             </Layout>
                             <Route exact component={PageNotFound}/>

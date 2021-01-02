@@ -89,18 +89,17 @@ class NavBar extends Component {
                                 </Link>
                             </li>
                             <li onClick={this.closeNav.bind(this)}>
-                                <Link to="/" className="nav-link navigation-page">
+                                <Link to={`${process.env.PUBLIC_URL}/collection/new arrival`} className="nav-link navigation-page">
                                     New Arrival
                                 </Link>
                             </li> 
                             <li >
-                                <Link to="/" className="nav-link navigation-page">
-                                    Best Selling
-        
+                                <Link to={`${process.env.PUBLIC_URL}/collection/best selling`} className="nav-link navigation-page">
+                                    Best Selling       
                                 </Link>
                             </li> 
                             <li onClick={this.closeNav.bind(this)} >
-                                <Link to="/" className="nav-link blinking-text navigation-page" style={{'color':"red"}}>
+                                <Link to={`${process.env.PUBLIC_URL}/collection/deals`} className="nav-link blinking-text navigation-page" style={{'color':"red"}}>
                                 Flash Deals &nbsp;<i className="fa fa-bolt" aria-hidden="true"></i>
                                 </Link>
                                 
@@ -123,13 +122,13 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content">
                                                         <ul>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Dresses</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Tees</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Women's Sets</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Leggings</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Skirts</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Jeans</Link></li>
-                                                            <li onClick={this.closeNav.bind(this)}><Link to={'/'} >Shorts</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens dress`} >Dress</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens tees`} >Tees</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens sets`} >Women's Set</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens leggings`} >Leggings</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens skirt`} >Skirt</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens jeans`} >Jeans</Link></li>
+                                                            <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/collection/womens shorts`} >Shorts</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -144,12 +143,12 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content">
                                                         <ul>
-                                                            <li><Link to={'/'} >Shirts</Link></li>
-                                                            <li><Link to={'/'} >T-shirts</Link></li>
-                                                            <li><Link to={'/'} >Men's Sets</Link></li>
-                                                            <li><Link to={'/'} >Casual Pants</Link></li>
-                                                            <li><Link to={'/'} >Jeans</Link></li>
-                                                            <li><Link to={'/'} >Boxers</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens shirts`} >Shirts</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens t-shirts`} >T-shirts</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens sets`} >Men's Sets</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens casual pant`} >Casual Pants</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens jeans`} >Jeans</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens boxers`} >Boxers</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -164,12 +163,12 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content" >
                                                         <ul>
-                                                            <li className="up-text"><Link to={'/'} >Mobile Phones</Link></li>
-                                                            <li><Link to={'/'} >Mobile Phone Accessories</Link></li>
-                                                            <li><Link to={'/'} >Hot Brands</Link></li>
-                                                            <li><Link to={'/'} >Hot Cases {`&`} Covers</Link></li>
-                                                            <li><Link to={'/'} >Featured Accessories</Link></li>
-                                                            <li><Link to={'/'} >Mobile Phone Parts</Link></li>
+                                                            <li className="up-text"><Link to={`${process.env.PUBLIC_URL}/collection/mobile phone`}>Mobile Phones</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mobile phone accessories`} >Mobile Phone Accessories</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mobile phone hot Brands`} >Hot Brands</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mobile phone hot cases & covers`}>Hot Cases {`&`} Covers</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/moible featured accessories`} >Featured Accessories</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mobile phone parts`} >Mobile Phone Parts</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -184,11 +183,11 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content" >
                                                         <ul>
-                                                            <li><Link to={`${process.env.PUBLIC_URL}/`}>Fine Jewelry</Link></li>
-                                                            <li><Link to={`${process.env.PUBLIC_URL}/`}>Wedding {`&`} Engagement</Link></li>
-                                                            <li><Link to={`${process.env.PUBLIC_URL}/`}>Fashion Jewelry</Link></li>
-                                                            <li><Link to={`${process.env.PUBLIC_URL}/`}>Men's Watches</Link></li>
-                                                            <li><Link to={`${process.env.PUBLIC_URL}/`}>Women's Watches</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/fine jewelry`}>Fine Jewelry</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/wedding & engagement`}>Wedding & Engagement</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/fashion jewelry`}>Fashion Jewelry</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens watches`}>Men's Watches</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/womens watches`}>Women's Watches</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -203,12 +202,12 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content" >
                                                         <ul>
-                                                            <li><Link to="/">Women's Shoes</Link></li>
-                                                            <li><Link to="/">Men's Shoes</Link></li>
-                                                            <li><Link to="/">Best selling Shoes</Link></li>
-                                                            <li><Link to="/">Women's Luggage {`&`} Bags</Link></li>
-                                                            <li><Link to="/">Men's Luggage {`&`} Bags</Link></li>
-                                                            <li><Link to="/">Other Bags {`&`} Accessories</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/womens shoes`}>Women's Shoes</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens shoes`}>Men's Shoes</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/best selling shoes`}>Best selling Shoes</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/womens luggage & bags`}>Women's Luggage {`&`} Bags</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/mens luggage & bags`}>Men's Luggage {`&`} Bags</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/bags & accessories`}>Other Bags {`&`} Accessories</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -223,12 +222,12 @@ class NavBar extends Component {
                                                     </div>
                                                     <div className="menu-content" >
                                                         <ul>
-                                                            <li><Link to="/">Baby Clothing {`&`} Shoes</Link></li>
-                                                            <li><Link to="/">Boy's Clothing</Link></li>
-                                                            <li><Link to="/">Girl's Clothing</Link></li>
-                                                            <li><Link to="/">Toys {`&`} Hobbies</Link></li>
-                                                            <li><Link to="/">Shoes and Bags</Link></li>
-                                                            <li><Link to="/">Accessories</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/baby clothing & shoes`}>Baby Clothing {`&`} Shoes</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/boys clothing`}>Boy's Clothing</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/girls clothing`}>Girl's Clothing</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/toys & hobbies`}>Toys {`&`} Hobbies</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/kids shoes & bags`}>Shoes and Bags</Link></li>
+                                                            <li><Link to={`${process.env.PUBLIC_URL}/collection/kids accessories`}>Accessories</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -239,7 +238,7 @@ class NavBar extends Component {
                             </li>
                             <li>
                                 <Link to="#" className="nav-link navigation-page" onClick={(e) => this.handleSubmenu(e)} >
-                                    pages
+                                    information
                                     <span className="sub-arrow"></span>
                                 </Link>
                                 <ul className="nav-submenu" >
@@ -254,8 +253,8 @@ class NavBar extends Component {
                                     <span className="sub-arrow"></span>
                                 </Link>
                                 <ul className="nav-submenu">
-                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/blog/blog-page`} >find your tax</Link></li>
-                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/blog/right-sidebar`} >ship with us</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/tax-and-Shipping`}>find your tax</Link></li>
+                                    <li onClick={this.closeNav.bind(this)}><Link to={`${process.env.PUBLIC_URL}/pages/tax-and-Shipping`}>ship with us</Link></li>
                                 </ul>
                             </li>
                         </ul>

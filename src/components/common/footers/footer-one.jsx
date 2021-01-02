@@ -125,7 +125,7 @@ class FooterOne extends Component {
                                         <ul className="contact-list">
                                             <li><i className="fa fa-map-marker"></i>GlobalbuyBD,pritom zaman tower,level-10
                                             </li>
-                                            <li><i className="fa fa-phone"></i>Call Us: +88-01620-327185</li>
+                                            <li><i className="fa fa-phone"></i>Call Us: +88-01608-064952</li>
                                             <li><i className="fa fa-envelope-o "></i>Email Us: <a
                                                 href="#" className='style-email'>globalbuybd@gmail.com</a></li>
                                             

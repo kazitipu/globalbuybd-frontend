@@ -6,7 +6,7 @@ import './details-price.css'
 import {connect} from 'react-redux'
 
 
-class DetailsWithPrice extends Component {
+class DetailsWithPriceApi extends Component {
 
     constructor (props) {
         super (props)
@@ -64,8 +64,8 @@ class DetailsWithPrice extends Component {
         this.setState({selectedColor})
     }
 
-    clickOnSizeVariant =(sizeName,sizeCm) =>{
-        this.setState({selectedSize:`${sizeName}(${sizeCm})`})
+    clickOnSizeVariant =(size) =>{
+        this.setState({selectedSize:`${size}`})
     }
 
     BuynowClicked =(item)=>{
@@ -215,6 +215,15 @@ class DetailsWithPrice extends Component {
             dots: false,
             focusOnSelect: true
         };
+        var totalAvailableQuantity = 0
+        if (item.variants.length >0){
+            item.variants.map(item=> totalAvailableQuantity += parseInt(item.quantity))
+        }
+        let sizeArray = []
+        if (item.props_list){
+            sizeArray = Object.values(item.props_list).filter(value=>value.includes('size') || value.includes('Size')).map(size=>size.split(':')[1])
+        }
+        console.log(sizeArray)
 
         return (
             <div className="col-lg-6 rtl-text">
@@ -222,7 +231,7 @@ class DetailsWithPrice extends Component {
                     <h6> {item.name} </h6>
                     <div>
                         <del>{symbol}{item.price}</del>
-                        <span>{item.discount}% off</span> &nbsp; <h6>orders: {item.orders}</h6><h6>available: {item.totalAvailableQuantity}</h6></div>
+                        &nbsp; <h6>orders: {item.orders}</h6><h6>available: {totalAvailableQuantity}</h6></div>
                     <h3>{symbol}{item.salePrice} </h3>
                     <p className='service-list'><span>&#10003;</span> 24/7 online services for our customers via wechat,whatsapp, hotline and facebook. <br/>
                     <span>&#10003;</span> The best wholesale prices and a vast variety of goods.<br/>
@@ -231,34 +240,35 @@ class DetailsWithPrice extends Component {
                                 <span>&#10003;</span> Fastest product delivery(around 15-20 working days). <br/>
                                 <span>&#10003;</span> Cheapest shipping charges around the country.<br/>
                                 <span>&#10003;</span> Claiming 100% refund facility. <Link to={`${process.env.PUBLIC_URL}/pages/refund-policy`} style={{fontSize:'80%',color:'orange'}} >see refund policy</Link><br/> </p>
-                    {item.variants?
-                    <ul ><h6 className="product-title size-text">select {item.variants.options[0].name}: </h6>
+                    {item.props_imgs?
+                    (<>{item.props_imgs.prop_img.length > 0?
+                    <ul ><h6 className="product-title size-text">select color: </h6>
                         <Slider {...colorsnav} asNavFor={this.props.navTwo} ref={slider => (this.slider3= slider)} className="color-variant flex-color-variant">
-                           { item.variants.options[0].values.map((vari, i) => {
-                                return <div key={i} style={{cursor:"pointer"}} className={this.state.selectedColor == vari.displayName?'border-red':''} onClick={()=>this.clickOnColorVariant(vari.image,vari.displayName)}>
-                              <img src={`${vari.image}`} key={i} alt={vari.displayName}  className="img-fluid color-variant-image" />
+                           { item.props_imgs.prop_img.map((item, i) => {
+                                return <div key={i} style={{cursor:"pointer"}} className={this.state.selectedColor == item.properties?'border-red':''} onClick={()=>this.clickOnColorVariant(item.url,item.properties)}>
+                              <img src={`${item.url}`} key={i} alt={item.properties}  className="img-fluid color-variant-image" />
                             </div>
                             })}
                         </Slider>
-                    </ul>:''}
+                    </ul>:''}</>):''}
                    
                     <div className="product-description border-product">
                         {item?
                             <div>
-                                {item.variants?<>{item.variants.options[1]?<h6 className="product-title size-text">select {item.variants.options[1].name}
-                                    </h6>:''} </>:''}
+                                {sizeArray.length >0 ?<h6 className="product-title size-text">select size
+                                    </h6>:''}
                                
                                 
                                 <div className="size-box">
-                                    {item.variants?<ul className="size-category">
-                                {item.variants.options[1]? item.variants.options[1].values.map((size, i) => {
-                                    return <li className={this.state.selectedSize == `${size.name}(${size.displayName})`?'border-red':'border-gray'} style={{'width':'fit-content'}}  onClick={()=>this.clickOnSizeVariant(size.name,size.displayName)} key={i}>{`${size.name}(${size.displayName})`}</li>
-                                }):''}
+                                    {sizeArray.length >0 ?<ul className="size-category">
+                                {sizeArray.map((size, i) => {
+                                    return <li className={this.state.selectedSize == `${size}`?'border-red':'border-gray'}  onClick={()=>this.clickOnSizeVariant(size)} key={i}>{size}</li>
+                                })}
                             </ul>:''}
                             
                         </div>
                             </div>:''}
-                        <span className="instock-cls">{item.availability}</span>
+                        <span className="instock-cls">pre order</span>
                         
                         <h6 className="product-title">quantity</h6>
                         <div className="qty-box">
@@ -358,4 +368,4 @@ class DetailsWithPrice extends Component {
 const mapStateToProps =(state)=>({
     currentUser:state.user.currentUser.displayName
 })
-export default connect(mapStateToProps, null)(DetailsWithPrice);
+export default connect(mapStateToProps, null)(DetailsWithPriceApi);

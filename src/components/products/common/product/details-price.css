@@ -21,11 +21,15 @@
     border: 1px solid orangered !important;
     border-radius: 0% !important;
     padding: .1rem;
+    width: fit-content;
+    height: fit-content;
 }
 .border-gray{
     border: 1px solid rgb(219, 217, 217) !important;
     border-radius: 0% !important;
     padding: .1rem;
+    width: fit-content;
+    height: fit-content;
 }
 
 .shipping-method{
@@ -38,3 +42,11 @@
     padding: 2px;
 
 }
+.service-list{
+    margin-bottom: 1rem !important;
+    text-align: start;
+}
+.service-list span{
+    font-size: 130%;
+    color: green;
+    }

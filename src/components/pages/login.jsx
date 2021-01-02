@@ -5,7 +5,7 @@ import {setCurrentUser} from '../../actions'
 import './login.css'
 import {signInWithGoogle, singInWithFacebook} from '../../firebase/firebase.utils'
 import {auth} from '../../firebase/firebase.utils'
-
+import {Helmet} from 'react-helmet'
 import Breadcrumb from "../common/breadcrumb";
 
 class Login extends Component {
@@ -80,6 +80,9 @@ class Login extends Component {
     render(){
         return (
             <div>
+                 <Helmet>
+                    <title>GlobalbuyBD | Login</title>
+                </Helmet>
                 <Breadcrumb title={'Login'}/>
                 
                 

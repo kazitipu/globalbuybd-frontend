@@ -23,6 +23,7 @@ const productReducer = (state = initialState, action) => {
         case CHANGE_CURRENCY:
             return { ...state,
                 symbol: action.symbol };
+      
         // default:
         //     return {...state};
     }

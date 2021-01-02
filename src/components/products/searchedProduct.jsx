@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import Slider from 'react-slick';
 import '../common/index.scss';
 import {connect} from "react-redux";
+import axios from 'axios'
 import {Helmet} from 'react-helmet'
 // import custom Components
 import Breadcrumb from "../common/breadcrumb";
 import DetailsWithPrice from "./common/product/details-price";
+import DetailsWithPriceApi from "./common/product/details-price-api";
 import DetailsTopTabs from "./common/details-top-tabs";
-import { addToCart, addToCartUnsafe, addToWishlist,fetchSingleProduct } from '../../actions'
+import DetailsTopTabsApi from "./common/details-top-tabs-api";
+import { addToCart, addToCartUnsafe, addToWishlist,fetchSingleProduct,setSearchedProductDetail } from '../../actions'
 import ImageZoom from './common/product/image-zoom'
 import SmallImages from './common/product/small-image'
 import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore, addCartItemsToOrdersFirestore} from '../../firebase/firebase.utils'
@@ -15,7 +18,7 @@ import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore, add
 
 
 
-class NoSideBar extends Component {
+class SearchedProduct extends Component {
 
     constructor(props) {
         super(props);
@@ -27,16 +30,25 @@ class NoSideBar extends Component {
     }
 
     componentDidMount(){
+        console.log('i am called')
+        this.getSingleProduct()
         this.setState({
             nav1: this.slider1,
             nav2: this.slider2
         });
+    }
 
+    componentWillUnmount(){
+        this.props.setSearchedProductDetail(null)
     }
 
     getSingleProduct =async() =>{
-        const productObj = await getSingleProduct(this.props.match.params.id)
-        this.props.fetchSingleProduct(productObj)
+        const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/singleProduct/${this.props.match.params.id},taobao`;
+        const response = await axios.get(_EXTERNAL_URL)
+        console.log(response)
+        if (response.data){
+            this.props.setSearchedProductDetail(response.data.item)
+        }
     }
 
     addToReduxAndFirestoreCart =(product,qty)=>{
@@ -59,9 +71,10 @@ class NoSideBar extends Component {
     render(){
         const {symbol, item, addToCart, addToCartUnsafe, addToWishlist} = this.props
 
-        if (!item){
-            this.getSingleProduct()
-        }
+        // if (!item){
+        //     this.getSingleProduct()
+        // }
+        // console.log(item)
         
         
         var products = {
@@ -73,13 +86,13 @@ class NoSideBar extends Component {
         };
 
         var productsnav = {
-            slidesToShow: item?item.pictures.length + 1: null,
+            slidesToShow: 5,
             swipeToSlide:true,
             arrows:false,
             dots:false,
             focusOnSelect: true
         };
-
+        
         var svgFreeShipping = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -117 679.99892 679">\n' +
         '                                        <path\n' +
         '                                            d="m12.347656 378.382812h37.390625c4.371094 37.714844 36.316407 66.164063 74.277344 66.164063 37.96875 0 69.90625-28.449219 74.28125-66.164063h241.789063c4.382812 37.714844 36.316406 66.164063 74.277343 66.164063 37.96875 0 69.902344-28.449219 74.285157-66.164063h78.890624c6.882813 0 12.460938-5.578124 12.460938-12.460937v-352.957031c0-6.882813-5.578125-12.464844-12.460938-12.464844h-432.476562c-6.875 0-12.457031 5.582031-12.457031 12.464844v69.914062h-105.570313c-4.074218.011719-7.890625 2.007813-10.21875 5.363282l-68.171875 97.582031-26.667969 37.390625-9.722656 13.835937c-1.457031 2.082031-2.2421872 4.558594-2.24999975 7.101563v121.398437c-.09765625 3.34375 1.15624975 6.589844 3.47656275 9.003907 2.320312 2.417968 5.519531 3.796874 8.867187 3.828124zm111.417969 37.386719c-27.527344 0-49.851563-22.320312-49.851563-49.847656 0-27.535156 22.324219-49.855469 49.851563-49.855469 27.535156 0 49.855469 22.320313 49.855469 49.855469 0 27.632813-22.21875 50.132813-49.855469 50.472656zm390.347656 0c-27.53125 0-49.855469-22.320312-49.855469-49.847656 0-27.535156 22.324219-49.855469 49.855469-49.855469 27.539063 0 49.855469 22.320313 49.855469 49.855469.003906 27.632813-22.21875 50.132813-49.855469 50.472656zm140.710938-390.34375v223.34375h-338.375c-6.882813 0-12.464844 5.578125-12.464844 12.460938 0 6.882812 5.582031 12.464843 12.464844 12.464843h338.375v79.761719h-66.421875c-4.382813-37.710937-36.320313-66.15625-74.289063-66.15625-37.960937 0-69.898437 28.445313-74.277343 66.15625h-192.308594v-271.324219h89.980468c6.882813 0 12.464844-5.582031 12.464844-12.464843 0-6.882813-5.582031-12.464844-12.464844-12.464844h-89.980468v-31.777344zm-531.304688 82.382813h99.703125v245.648437h-24.925781c-4.375-37.710937-36.3125-66.15625-74.28125-66.15625-37.960937 0-69.90625 28.445313-74.277344 66.15625h-24.929687v-105.316406l3.738281-5.359375h152.054687c6.882813 0 12.460938-5.574219 12.460938-12.457031v-92.226563c0-6.882812-5.578125-12.464844-12.460938-12.464844h-69.796874zm-30.160156 43h74.777344v67.296875h-122.265625zm0 0"\n' +
@@ -118,18 +131,16 @@ class NoSideBar extends Component {
         '                                            d="m394.199219 7.414062-10.363281 38.640626c-1.429688 5.335937 1.734374 10.816406 7.070312 12.25 5.332031 1.425781 10.816406-1.730469 12.25-7.070313l10.359375-38.640625c1.429687-5.335938-1.734375-10.820312-7.070313-12.25-5.332031-1.429688-10.816406 1.734375-12.246093 7.070312zm0 0"\n' +
         '                                            fill="#ff4c3b"/>\n' +
         '                                    </svg>';
-        
 
         return (
             <div>
                  <Helmet>
                     <title>{item?item.name:this.props.match.params.id}</title>
                 </Helmet>
+            {item?<Breadcrumb title={item.name} />:''}
 
-                {item?<Breadcrumb title={item.name} />:''}
-
-                {/*Section Start*/}
-                {(item)?<>
+            {/* Section Start */}
+              {(item)?<>
                 <section >
                     <div className="collection-wrapper">
                         <div className="container">
@@ -146,14 +157,14 @@ class NoSideBar extends Component {
                                     }
                                     <SmallImages item={item} settings={productsnav} navOne={this.state.nav1} clickOnColorVariant={this.clickOnColorVariant} />
                                 </div>
-                                <DetailsWithPrice {...this.props} symbol={symbol} item={item} navOne={this.state.nav1} clickOnColorVariant={this.clickOnColorVariant} addToCartClicked={this.addToReduxAndFirestoreCart} BuynowClicked={addToCartUnsafe} addToWishlistClicked={this.addToReduxAndFirestoreWishlist} />
+                                <DetailsWithPriceApi {...this.props} symbol={symbol} item={item} navOne={this.state.nav1} clickOnColorVariant={this.clickOnColorVariant} addToCartClicked={this.addToReduxAndFirestoreCart} BuynowClicked={addToCartUnsafe} addToWishlistClicked={this.addToReduxAndFirestoreWishlist} />
                             </div>
                         </div>
                     </div>
-                </section>
-                {/*Section End*/}
- {/*service layout*/}
- <div className="container about-cls section-b-space">
+                </section>  
+                {/* Section End */}
+                {/* service layout */}
+                <div className="container about-cls section-b-space">
                     <section className="service border-section small-section ">
                         <div className="row">
                             <div className="col-md-4 service-block">
@@ -186,21 +197,19 @@ class NoSideBar extends Component {
                         </div>
                     </section>
                 </div>
-                {/*service layout end*/}
+                {/* service layout end */}
                 <section className="tab-product m-0">
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12 col-lg-12">
-                                <DetailsTopTabs item={item} />
+                                <DetailsTopTabsApi item={item} />
                             </div>
                         </div>
                     </div>
-                </section></>: (<div className="loader-wrapper" style={{display:'block',left:'0',height:'80vh',bottom:'0',top:'20vh'}}>
+                </section> </>:  (<div className="loader-wrapper" style={{display:'block',left:'0',height:'80vh',bottom:'0',top:'20vh'}}>
                         <div className="loader"></div>
                         </div>)}
-
-                {/* <RelatedProduct /> */}
-            </div>
+            </div> 
         )
     }
 }
@@ -208,9 +217,9 @@ class NoSideBar extends Component {
 const mapStateToProps = (state, ownProps) => {
     let productId = ownProps.match.params.id;
     return {
-        item: state.data.products.find(el => el.id == productId),
+        item: state.singleProduct.product,
         symbol: state.data.symbol
     }
 }
 
-export default connect(mapStateToProps, {addToCart, addToCartUnsafe, addToWishlist,fetchSingleProduct}) (NoSideBar);
+export default connect(mapStateToProps, {addToCart, addToCartUnsafe, addToWishlist,fetchSingleProduct,setSearchedProductDetail}) (SearchedProduct);

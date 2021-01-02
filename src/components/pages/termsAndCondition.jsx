@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Breadcrumb from "../common/breadcrumb";
-
+import {Helmet} from 'react-helmet'
 class TermsAndCondition extends Component {
 
     constructor (props) {
@@ -12,6 +12,9 @@ class TermsAndCondition extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>GlobalbuyBD | terms & conditions</title>
+                </Helmet>
                 <Breadcrumb title={'Terms and Conditions'}/>
                 {/*about section*/}
                 <section className="about-page  section-b-space">

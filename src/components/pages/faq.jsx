@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Breadcrumb from "../common/breadcrumb";
-
+import {Helmet} from 'react-helmet'
 class Faq extends Component {
 
     constructor (props) {
@@ -20,6 +20,9 @@ class Faq extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>FAQ - frequently asked question</title>
+                </Helmet>
                 <Breadcrumb title={'Faq'}/>
                 
                 

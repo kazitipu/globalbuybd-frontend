@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Breadcrumb from "../common/breadcrumb";
 import {auth} from './../../firebase/firebase.utils'
-
+import {Helmet} from 'react-helmet'
 class ForgetPassword extends Component {
 
     constructor (props) {
@@ -35,6 +35,9 @@ class ForgetPassword extends Component {
 
         return (
             <div>
+                 <Helmet>
+                    <title>forget password</title>
+                </Helmet>
                 <Breadcrumb title={'forget password'}/>
                 
                 

@@ -9,6 +9,7 @@ import {addToCart,addToCompare,addToWishlist} from '../../../actions'
 import ProductItem from './product-item';
 import {addCartItemTofirestore,addWishlistTofirestore} from '../../../firebase/firebase.utils'
 import {auth} from '../../../firebase/firebase.utils'
+import './collection2.css'
 
 class Collection extends Component {
     componentDidMount(){

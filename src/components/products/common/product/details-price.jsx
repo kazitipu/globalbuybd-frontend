@@ -219,7 +219,7 @@ class DetailsWithPrice extends Component {
         return (
             <div className="col-lg-6 rtl-text">
                 <div className="product-right">
-                    <h6> {item.name} </h6>
+                    <h6 style={{color:'black', fontSize:'120%',fontFamily:'sans-serif',fontWeight:'120%'}}> {item.name} </h6>
                     <div>
                         <del>{symbol}{item.price}</del>
                         <span>{item.discount}% off</span> &nbsp; <h6>orders: {item.orders}</h6><h6>available: {item.totalAvailableQuantity}</h6></div>

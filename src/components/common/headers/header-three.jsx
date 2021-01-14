@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink} from 'react-router-dom';
 import { IntlActions } from 'react-redux-multilingual'
 import Pace from 'react-pace-progress'
-
+import './header-three.css'
 // Import custom components
 import store from '../../../store';
 import NavBar from "./common/navbar";
@@ -29,8 +29,12 @@ class HeaderThree extends Component {
          Pre loader
          ==========================*/
     componentDidMount() {
-        setTimeout(function() {
+        setTimeout(()=> {
             document.querySelector(".loader-wrapper").style = "display: none";
+            if (this.props.location.pathname == "/"){
+                this.openNav()
+            }
+            
         }, 2000);
     }
 
@@ -127,10 +131,19 @@ class HeaderThree extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12">
-                                <div className="main-menu border-section border-top-0">
-                                    <div className="brand-logo layout2-logo">
+                                <div className="main-menu">
+                                <div className="menu-left">
+										<div className="navbar">
+											<a href="javascript:void(0)" onClick={this.openNav}>
+												<div className="bar-style"> <i className="fa fa-bars sidebar-bar" style={{color:'darkorange'}} aria-hidden="true"></i></div>
+											</a>
+											{/*SideBar Navigation Component*/}
+											<SideBar/>
+										</div>
+										<div className="brand-logo">
                                         <LogoImage logo={this.props.logoName} />
                                     </div>
+									</div>
                                     <div>
                                         <form className="form_search" role="form" onSubmit={this.handleSearchBarSubmit}>
                                             <input id="query search-autocomplete" type="search"
@@ -184,7 +197,7 @@ class HeaderThree extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
-                                <div className="main-nav-center" style={{'maxHeight':'3rem'}}>
+                                <div className="main-nav-center" style={{'maxHeight':'3rem', justifyContent:'flex-end'}}>
                                     <NavBar/>
                                 </div>
                             </div>

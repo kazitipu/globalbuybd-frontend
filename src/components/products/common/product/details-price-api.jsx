@@ -39,12 +39,12 @@ class DetailsWithPriceApi extends Component {
     minusQty = () => {
         if(this.state.quantity > 1) {
             this.setState({stock: 'InStock'})
-            this.setState({quantity: this.state.quantity - 1})
+            this.setState({quantity: parseInt(this.state.quantity) - 1})
         }
     }
 
     plusQty = () => {
-        this.setState({quantity: this.state.quantity+1})     
+        this.setState({quantity: parseInt(this.state.quantity)+1})     
     }
 
     changeQty = (e) => {
@@ -223,12 +223,45 @@ class DetailsWithPriceApi extends Component {
         if (item.props_list){
             sizeArray = Object.values(item.props_list).filter(value=>value.includes('size') || value.includes('Size')).map(size=>size.split(':')[1])
         }
-        console.log(sizeArray)
+        console.log(sizeArray) 
+        if (item.price_range.length >0){
+            let selectedPriceBox = item.price_range.find(pricebox=>parseInt(pricebox[0]) >= parseInt(this.state.quantity))
+        }
 
+        // if (10>size>0 ){
+
+        // }else if( 100>size>10){
+
+        // }else{
+
+        // }
+        // const html =(<div className='price-box selected'><h3 className='price'>Tk {price[1]}</h3><p className='quantity'>{price[0]} or more</p></div>)
         return (
             <div className="col-lg-6 rtl-text">
                 <div className="product-right">
-                    <h6> {item.name} </h6>
+                <h6 style={{color:'black', fontSize:'120%',fontFamily:'sans-serif',fontWeight:'120%'}}> {item.name} </h6>
+                {
+                    item.price_range.length >0 ?(<div className='price-range-container'>
+                        {item.price_range.map((price,index,arr)=>{
+                            if (index < arr.length -1){
+                                console.log(arr[index+1][0])
+                                if (parseInt(arr[index+1][0])>parseInt(this.state.quantity) && parseInt(this.state.quantity) >= parseInt(price[0])){
+                                    return  (<div className='price-box selected'><h3 className='price'>Tk {price[1]}</h3><p className='quantity'>{price[0]} or more</p></div>)
+                                }else {
+                                    return  (<div className='price-box'><h3 className='price'>Tk {price[1]}</h3><p className='quantity'>{price[0]} or more</p></div>)
+                                }
+                            }else{
+                                if (parseInt(this.state.quantity) >=parseInt(price[0])){
+                                    return (<div className='price-box selected'><h3 className='price'>Tk {price[1]}</h3><p className='quantity'>{price[0]} or more</p></div>)
+                                }else{
+                                    return (<div className='price-box'><h3 className='price'>Tk {price[1]}</h3><p className='quantity'>{price[0]} or more</p></div>)
+                                }
+                            }      
+                    }
+                        )
+                        }
+                    </div>):null
+                }
                     <div>
                         <del>{symbol}{item.price}</del>
                         &nbsp; <h6>orders: {item.orders}</h6><h6>available: {totalAvailableQuantity}</h6></div>
@@ -293,8 +326,6 @@ class DetailsWithPriceApi extends Component {
                                                         <div className="col-xl-9 col-sm-7">
                                                             <select className="form-control digits" id="exampleFormControlSelect1" name="category" value={this.state.category} onChange={this.handleChange}>
                                                                 <option>Alg cargos and logistics(700-1200/kgs)</option>
-                                                                {/* <option>Aliexpress standard shipping</option>
-                                                                <option>via e-EMS</option> */}
                                                             </select>
                                                         </div>
                                                     </div>

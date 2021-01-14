@@ -30,7 +30,8 @@ const searchedProductReducer = (state = initialState, action) => {
             props_name:product.props_name,
             props_list:product.props_list,
             props_imgs:product.props_imgs?product.props_imgs:product.prop_imgs,
-            item_weight: product.item_weight
+            item_weight: product.item_weight,
+            price_range:product.priceRange? product.priceRange:[]
            
         }
             return {...state, product:productObj}

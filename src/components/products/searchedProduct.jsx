@@ -15,6 +15,8 @@ import ImageZoom from './common/product/image-zoom'
 import SmallImages from './common/product/small-image'
 import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore, addCartItemsToOrdersFirestore} from '../../firebase/firebase.utils'
 
+import './singleProduct.css'
+
 
 
 
@@ -141,7 +143,7 @@ class SearchedProduct extends Component {
 
             {/* Section Start */}
               {(item)?<>
-                <section >
+                <section className = 'product-container-section'>
                     <div className="collection-wrapper">
                         <div className="container">
                             <div className="row">

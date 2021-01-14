@@ -12,7 +12,7 @@ import ImageZoom from './common/product/image-zoom'
 import SmallImages from './common/product/small-image'
 import {auth,getSingleProduct,addCartItemTofirestore,addWishlistTofirestore, addCartItemsToOrdersFirestore} from '../../firebase/firebase.utils'
 
-
+import './singleProduct.css'
 
 
 class NoSideBar extends Component {
@@ -125,12 +125,10 @@ class NoSideBar extends Component {
                  <Helmet>
                     <title>{item?item.name:this.props.match.params.id}</title>
                 </Helmet>
-
                 {item?<Breadcrumb title={item.name} />:''}
-
                 {/*Section Start*/}
                 {(item)?<>
-                <section >
+                <section className = 'product-container-section'>
                     <div className="collection-wrapper">
                         <div className="container">
                             <div className="row">

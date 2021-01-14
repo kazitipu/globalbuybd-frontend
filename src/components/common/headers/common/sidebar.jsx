@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
+import './sidebar.css'
 
 class SideBar extends Component {
 
@@ -77,10 +78,10 @@ class SideBar extends Component {
     render() {
         return (
             <div id="mySidenav" className="sidenav">
-                <a href="javascript:void(0)" className="sidebar-overlay" onClick={this.closeNav}></a>
+                <a href="javascript:void(0)" className="sidebar-overlay" style={{opacity:'0'}} onClick={this.closeNav}></a>
                 <nav>
                     <a onClick={this.closeNav}>
-                        <div className="sidebar-back text-left">
+                        <div className="sidebar-back text-left" style={{color:'#ff4c3b'}}>
                             <i className="fa fa-angle-left pr-2" aria-hidden="true"></i> Back
                         </div>
                     </a>
@@ -98,31 +99,31 @@ class SideBar extends Component {
                                                 <h5>women's fashion</h5>
                                                 <ul>
                                                     <li>
-                                                        <Link to="#">dresses</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/womens dress`} onClick={this.closeNav}>dresses</Link>
                                                     </li>
                                                     <li>
-                                                    <Link to="#">skirts</Link>
+                                                    <Link to={`${process.env.PUBLIC_URL}/collection/womens skirts`} onClick={this.closeNav}>skirts</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">westarn wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/womens western wear`} onClick={this.closeNav}>westarn wear</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">ethic wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/womens ethic wear`} onClick={this.closeNav}>ethic wear</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">sport wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/womens sport wear`} onClick={this.closeNav}>sport wear</Link>
                                                     </li>
                                                 </ul>
                                                 <h5>men's fashion</h5>
                                                 <ul>
                                                     <li>
-                                                        <Link to="#">sports wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/mens sports wear`} onClick={this.closeNav}>sports wear</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">western wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/mens western wear`} onClick={this.closeNav}>western wear</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">ethic wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/mens ethic wear`} onClick={this.closeNav}>ethic wear</Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -132,31 +133,31 @@ class SideBar extends Component {
                                                 <h5>accessories</h5>
                                                 <ul>
                                                     <li>
-                                                        <Link to="#">fashion jewellery</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/fashion jewelry`} onClick={this.closeNav}>fashion jewellery</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">caps and hats</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/caps and hats`} onClick={this.closeNav}>caps and hats</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">precious jewellery</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/precious jewelry`} onClick={this.closeNav}>precious jewellery</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">necklaces</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/necklace`} onClick={this.closeNav}>necklaces</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">earrings</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/earrings`} onClick={this.closeNav}>earrings</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">wrist wear</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/wrist wear`} onClick={this.closeNav}>wrist wear</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">ties</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/ties`} onClick={this.closeNav}>ties</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">cufflinks</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/cufflinks`} onClick={this.closeNav}>cufflinks</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="#">pockets squares</Link>
+                                                        <Link to={`${process.env.PUBLIC_URL}/collection/pockets squares`} onClick={this.closeNav}>pockets squares</Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -177,13 +178,13 @@ class SideBar extends Component {
                             </Link>
                             <ul>
                                 <li>
-                                    <Link to="#">shopper bags</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/shopper bag`} onClick={this.closeNav}>shopper bags</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">laptop bags</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/laptop bag`} onClick={this.closeNav}>laptop bags</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">clutches</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/clutches`} onClick={this.closeNav}>clutches</Link>
                                 </li>
                                 <li>
                                     <Link to="#" onClick={(e) => this.handleSubTwoMenu(e)} >
@@ -192,16 +193,16 @@ class SideBar extends Component {
                                     </Link>
                                     <ul>
                                         <li>
-                                            <Link to="#">purses</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/ladies purses`} onClick={this.closeNav}>purses</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">wallets</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/womens wallets`} onClick={this.closeNav}>wallets</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">leathers</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/ladies leather`} onClick={this.closeNav}>leathers</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">satchels</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/ladies satchels`} onClick={this.closeNav}>satchels</Link>
                                         </li>
                                     </ul>
                                 </li>
@@ -214,18 +215,18 @@ class SideBar extends Component {
                             </Link>
                             <ul>
                                 <li>
-                                    <Link to="#">sport shoes</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/spor shoes`} onClick={this.closeNav}>sport shoes</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">formal shoes</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/formal shoes`} onClick={this.closeNav}>formal shoes</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">casual shoes</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/casual shoes`} onClick={this.closeNav}>casual shoes</Link>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <Link to="#" >
+                            <Link to={`${process.env.PUBLIC_URL}/collection/watches`}>
                                 watches
                             </Link>
                         </li>
@@ -236,13 +237,13 @@ class SideBar extends Component {
                             </Link>
                             <ul>
                                 <li>
-                                    <Link to="#">fashion jewellery</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/fashion jewelry`} onClick={this.closeNav}>fashion jewellery</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">caps and hats</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/caps and hats`} onClick={this.closeNav}>caps and hats</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">precious jewellery</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/precious jewelry`} onClick={this.closeNav}>precious jewellery</Link>
                                 </li>
                                 <li>
                                     <Link to="#" onClick={(e) => this.handleSubTwoMenu(e)} >
@@ -251,13 +252,13 @@ class SideBar extends Component {
                                     </Link>
                                     <ul>
                                         <li>
-                                            <Link to="#">necklaces</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/necklace`} onClick={this.closeNav}>necklaces</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">earrings</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/earrings`} onClick={this.closeNav}>earrings</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">wrist wear</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/wrist wear`} onClick={this.closeNav}>wrist wear</Link>
                                         </li>
                                         <li>
                                             <Link to="#" onClick={(e) => this.handleSubThreeMenu(e)} >
@@ -265,52 +266,36 @@ class SideBar extends Component {
                                                 <span className="sub-arrow"></span>
                                             </Link>
                                             <ul>
+                                            <li>
+                                                <Link to={`${process.env.PUBLIC_URL}/collection/accessory gift sets`} onClick={this.closeNav}>accessory gift sets</Link>
+                                            </li>
+                                            <li>
+                                                <Link to={`${process.env.PUBLIC_URL}/collection/travel accessories`} onClick={this.closeNav}>travel accessories</Link>
+                                            </li>
+                                            <li>
+                                                <Link to={`${process.env.PUBLIC_URL}/collection/phone cases`} onClick={this.closeNav}>phone cases</Link>
+                                            </li>
                                                 <li>
-                                                    <Link to="#">ties</Link>
+                                                    <Link to={`${process.env.PUBLIC_URL}/collection/helmets`} onClick={this.closeNav}>helmets</Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="#">cufflinks</Link>
+                                                    <Link to={`${process.env.PUBLIC_URL}/collection/scarves`} onClick={this.closeNav}>scarves</Link>
                                                 </li>
-                                                <li>
-                                                    <Link to="#">pockets squares</Link>
-                                                </li>
-                                                <li>
-                                                    <Link to="#">helmets</Link>
-                                                </li>
-                                                <li>
-                                                    <Link to="#">scarves</Link>
-                                                </li>
-                                                <li>
-                                                    <Link to="#" onClick={(e) => this.handleSubFourMenu(e)} >
-                                                        more...
-                                                        <span className="sub-arrow"></span>
-                                                    </Link>
-                                                    <ul>
-                                                        <li>
-                                                            <Link to="#">accessory gift sets</Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link to="#">travel accessories</Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link to="#">phone cases</Link>
-                                                        </li>
-                                                    </ul>
-                                                </li>
+                                               
                                             </ul>
                                         </li>
                                         <li>
-                                            <Link to="#">belts & more</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/belts`} onClick={this.closeNav}>belts & more</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">wearable</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/wearable`} onClick={this.closeNav}>wearable</Link>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <Link to="#" >house of design</Link>
+                            <Link to={`${process.env.PUBLIC_URL}/collection/house of design`} onClick={this.closeNav}>house of design</Link>
                         </li>
                         <li>
                             <Link to="#" onClick={(e) => this.handleSubmenu(e)}>
@@ -319,13 +304,13 @@ class SideBar extends Component {
                             </Link>
                             <ul>
                                 <li>
-                                    <Link to="#">makeup</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/womens makeup`} onClick={this.closeNav}>makeup</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">skincare</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/womens skincare`} onClick={this.closeNav}>skincare</Link>
                                 </li>
                                 <li>
-                                    <Link to="#">premium beaty</Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/collection/premium beauty`} onClick={this.closeNav}>premium beauty</Link>
                                 </li>
                                 <li>
                                     <Link to="#" onClick={(e) => this.handleSuTwobmenu(e)}>
@@ -334,26 +319,26 @@ class SideBar extends Component {
                                     </Link>
                                     <ul>
                                         <li>
-                                            <Link to="#">fragrances</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/fragrances`} onClick={this.closeNav}>fragrances</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">luxury beauty</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/luxury beauty`} onClick={this.closeNav}>luxury beauty</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">hair care</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/hair care`} onClick={this.closeNav}>hair care</Link>
                                         </li>
                                         <li>
-                                            <Link to="#">tools & brushes</Link>
+                                            <Link to={`${process.env.PUBLIC_URL}/collection/tools and brushes`} onClick={this.closeNav}>tools & brushes</Link>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <Link to="#" >home & decor</Link>
+                            <Link to={`${process.env.PUBLIC_URL}/collection/home and decor`} onClick={this.closeNav}>home & decor</Link>
                         </li>
                         <li>
-                            <Link to="#" >kitchen</Link>
+                            <Link to={`${process.env.PUBLIC_URL}/collection/kitchen`} onClick={this.closeNav}>kitchen</Link>
                         </li>
                     </ul>
                 </nav>

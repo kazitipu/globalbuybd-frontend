@@ -55,20 +55,6 @@ class LogoBlock extends Component {
                                         </a>
                                     </div>
                                 </div> 
-                                {/* <div>
-                                    <div className="logo-block">
-                                        <a href={null}>
-                                            <img src={`${process.env.PUBLIC_URL}/assets/images/logos/7.png`} alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="logo-block">
-                                        <a href={null}>
-                                            <img src={`${process.env.PUBLIC_URL}/assets/images/logos/8.png`} alt="" />
-                                        </a>
-                                    </div>
-                                </div>   */}
                             </Slider>
                         </div>
                     </div>

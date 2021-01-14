@@ -8,7 +8,7 @@ import {Product5} from '../../../services/script'
 import {addToCart,addToCompare,addToWishlist} from '../../../actions'
 import ProductItem from './product-item';
 import {auth,addCartItemTofirestore,addWishlistTofirestore} from '../../../firebase/firebase.utils'
-
+import './collection2.css'
 class CollectionTwo extends Component {
     componentDidMount(){
         // console.log(this.props)
@@ -33,7 +33,7 @@ class CollectionTwo extends Component {
         return (
             <div>
                 {/*Paragraph*/}
-                <section className="section-b-space j-box pets-box ratio_square">
+                <section className="section-b-space j-box pets-box ratio_square  products-container-section">
                     <div className="container">
                         <div className="row">
                             <div className="col">

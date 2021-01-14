@@ -48,5 +48,43 @@
 }
 .service-list span{
     font-size: 130%;
-    color: green;
+    color: darkgreen;
     }
+
+.price-range-container{
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ margin-bottom: 5px;
+}
+
+.price-range-container .price-box{
+ border: 0.1px solid lightgray;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ height: 5rem;
+ width: 13rem;
+}
+
+.price-range-container .price-box h3{
+    margin-top: 5px;
+}
+
+.price-range-container .price-box.selected{
+ background: #ff4c3b;
+}
+
+.price-range-container .price-box.selected h3{
+   color:white
+}
+.price-range-container .price-box.selected p{
+   color:white
+}
+
+.product-right h3 {
+    font-size: 26px;
+    color: darkgoldenrod;
+    margin-bottom: 15px;
+    font-weight: bold;
+}

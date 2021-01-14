@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -10,6 +10,7 @@ import {auth,addCartItemTofirestore,addWishlistTofirestore,getAllFirestoreProduc
 import axios from 'axios'
 import {Helmet} from 'react-helmet'
 import themeSettings from '../../common/theme-settings';
+import { withRouter } from 'react-router-dom';
 
 class ProductListing extends Component {
 
@@ -17,8 +18,8 @@ class ProductListing extends Component {
         super (props)
 
         this.state = { limit: 5, hasMoreItems: true,page:1,notFound:false };
-
     }
+    
     componentDidMount = async()=> {
         
         console.log(this.props.match.params.id)
@@ -48,10 +49,31 @@ class ProductListing extends Component {
     
     componentWillMount(){
         this.fetchMoreItems();
+        this.unlisten = this.props.history.listen(async (location, action) => {
+            if (this.props.match.params.id == 'in-stock' || this.props.match.params.id == 'pre-order'){
+                const productsArray = await getAllFirestoreProducts()
+                const aliProductsArray = await getAllFirestoreAliProductsList()
+                console.log(aliProductsArray)
+                this.props.getAllProductsFirestore([...productsArray,...aliProductsArray])    
+            }else{
+                this.props.setSearchedProductsArray([])
+                console.log('i am called')
+                const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/collection/${this.props.match.params.id},${this.state.page}`;
+                 
+                const response = await axios.get(_EXTERNAL_URL)
+                console.log(response)
+                if (response.data.items){
+                    this.props.setSearchedProductsArray(response.data.items.item)
+                }else{
+                    this.props.setSearchedProductsArray([])
+                }
+            }
+          });
     }
 
     componentWillUnmount(){
         this.props.setSearchedProductsArray([])
+        // this.unlisten()
     }
 
     
@@ -162,6 +184,6 @@ const mapStateToProps = (state,ownProps) => {
     symbol: state.data.symbol,
 }}
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps, {addToCart, addToWishlist, addToCompare,getAllProductsFirestore,setSearchedProductsArray}
-)(ProductListing)
+)(ProductListing));

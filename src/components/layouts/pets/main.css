@@ -48,6 +48,8 @@
 @media (min-width: 1060px){
     .search-bar-logo{
         margin: 50px;
+        box-shadow: 10px 10px 5px grey;
+        background: lightgray;
     }
     .header-h4{
         font-size: 150% !important;
@@ -56,6 +58,8 @@
 @media (max-width: 1060px){
     .search-bar-logo{
         margin: 20px;
+        box-shadow: 10px 10px 5px grey;
+        background: lightgray;
     }
 }
 

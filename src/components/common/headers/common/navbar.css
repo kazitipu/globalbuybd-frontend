@@ -33,3 +33,22 @@
      position: relative;
     }
 }
+@media (max-width: 1199px){
+    header.header-6 .main-nav-center .toggle-nav{
+       top:-110px;
+    }
+}
+@media (max-width: 577px){
+    header.header-6 .main-nav-center .toggle-nav{
+       top:-40px;
+       right: 25px;
+    }
+}
+@media (max-width: 450px){
+    header.header-6 .main-nav-center .toggle-nav{
+       top:-40px;
+       right: 16px;
+    }
+}
+
+

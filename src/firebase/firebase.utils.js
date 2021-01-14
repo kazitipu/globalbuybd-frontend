@@ -422,3 +422,19 @@ export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 export const singInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 
 export default firebase;
+
+
+export const getAllProductsTax = async()=>{
+  const productsCollectionRef = firestore.collection('taxes')
+  try{
+    const products =await productsCollectionRef.get()
+    const productsArray = []
+    products.forEach((doc)=>{
+      
+      productsArray.push(doc.data())
+    })
+    return productsArray;
+  }catch(error){
+    alert(error)
+  }
+}

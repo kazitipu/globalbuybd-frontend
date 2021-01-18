@@ -1,33 +1,36 @@
-@media (max-width: 577px){
-    header.header-6 .main-menu .brand-logo {
-        padding: 0 !important;
-        top: 10px;
-        left: 0;
-        -webkit-transform: translateX(0);
-        transform: translateX(10%);
-    }
+@media (max-width: 577px) {
+  header.header-6 .main-menu .brand-logo {
+    padding: 0 !important;
+    top: 10px;
+    left: 0;
+    -webkit-transform: translateX(0);
+    transform: translateX(10%);
+  }
 }
-@media (max-width: 577px){
-    .main-menu .menu-left .navbar i {
-        font-size: 24px;
-        top: 18px;
-        padding: 2px;
-        position: absolute;
-    }
+@media (max-width: 1200px) {
+  .main-menu .menu-left .navbar i {
+    display: none;
+  }
 }
 
-@media (max-width: 480px){
-    .brand-logo img {
-        height: 35px;
-    }
+@media (max-width: 480px) {
+  .brand-logo img {
+    height: 35px;
+  }
 }
-@media (max-width: 577px){
-    header.header-6 .main-menu .brand-logo {     
-        top: 16px;
-    }
+@media (max-width: 577px) {
+  header.header-6 .main-menu .brand-logo {
+    top: 16px;
+  }
 }
-@media (min-width:577px){
-    .main-menu .menu-left .navbar {
-        padding: 40px 0px;
-    }
+@media (min-width: 577px) {
+  .main-menu .menu-left .navbar {
+    padding: 40px 0px;
+  }
+}
+
+@media (max-width: 700px) {
+  .header-container-left {
+    padding-left: 0px !important;
+  }
 }

@@ -1,17 +1,19 @@
-.section-b-space{
-    padding: 20px !important;
+.logo-container {
+  padding: 20px !important;
+  padding-bottom: 0px !important;
 }
 
-.logo-block img{
-    filter: grayscale(0) !important;
-    opacity: 1!important;
-    cursor: pointer;
+.logo-block img {
+  filter: grayscale(0) !important;
+  opacity: 1 !important;
+  cursor: pointer;
+  width: 60%;
 }
-@media(max-width:890px){
-    .section-b-space{
-        padding: 0px !important;
-    }
+@media (max-width: 890px) {
+  .section-b-space {
+    padding: 0px !important;
+  }
 }
-.logo-block{
-    padding-bottom: 10px;
+.logo-block {
+  padding-bottom: 10px;
 }

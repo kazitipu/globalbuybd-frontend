@@ -1,3 +1,10 @@
-.cart-total-black{
-    color: black !important;
+.cart-total-black {
+  color: black !important;
+}
+
+.product-variant {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }

@@ -1,0 +1,11 @@
+.in-stock {
+  color: darkgreen !important;
+}
+
+.pre-order {
+  color: orange !important;
+}
+
+.taobao {
+  color: darkorange !important;
+}

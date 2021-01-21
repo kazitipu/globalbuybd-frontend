@@ -301,7 +301,7 @@ class DetailsWithPriceApi extends Component {
     } = this.props;
 
     var colorsnav = {
-      slidesToShow: 6,
+      slidesToShow: 8,
       swipeToSlide: true,
       arrows: false,
       dots: false,
@@ -328,6 +328,7 @@ class DetailsWithPriceApi extends Component {
         });
     }
     console.log(this.sizeArray);
+    console.log(this.props);
 
     return (
       <div className="col-lg-6 rtl-text">
@@ -357,9 +358,15 @@ class DetailsWithPriceApi extends Component {
                 const selected = selectedIndex === index;
 
                 return (
-                  <div className={`price-box ${selected && "selected"}`}>
+                  <div
+                    key={index}
+                    className={`price-box ${selected && "selected"}`}
+                  >
                     <h3 className="price">Tk {price[1]}</h3>
-                    <p className="quantity">{price[0]} or more</p>
+                    <p className="quantity">
+                      {index == 0 ? "below " : ""}
+                      {price[0]} or more
+                    </p>
                   </div>
                 );
               })}
@@ -414,7 +421,7 @@ class DetailsWithPriceApi extends Component {
                       return (
                         <div
                           key={i}
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: "pointer", maxWidth: "60px" }}
                           className={
                             this.state.selectedColor == item.properties
                               ? "border-red"
@@ -578,7 +585,7 @@ class DetailsWithPriceApi extends Component {
                 className="btn btn-solid"
                 onClick={() =>
                   this.props.history.push("/pages/login", {
-                    from: `/product/${this.props.match.params.id}`,
+                    from: this.props.match.url,
                   })
                 }
               >

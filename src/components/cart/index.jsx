@@ -85,9 +85,9 @@ class cartComponent extends Component {
                                     ? `${process.env.PUBLIC_URL}/product/${
                                         item.id
                                       }`
-                                    : `${
-                                        process.env.PUBLIC_URL
-                                      }/searched-product/${item.id}`
+                                    : `${process.env.PUBLIC_URL}/${
+                                        item.availability
+                                      }/${item.id}`
                                 }
                               >
                                 <img
@@ -108,9 +108,9 @@ class cartComponent extends Component {
                                     ? `${process.env.PUBLIC_URL}/product/${
                                         item.id
                                       }`
-                                    : `${
-                                        process.env.PUBLIC_URL
-                                      }/searched-product/${item.id}`
+                                    : `${process.env.PUBLIC_URL}/${
+                                        item.availability
+                                      }/${item.id}`
                                 }
                               >
                                 {item.name}
@@ -167,7 +167,7 @@ class cartComponent extends Component {
                             <td>
                               <h2>
                                 {symbol}
-                                {Math.floor(parseInt(item.salePrice))}
+                                {Math.round(parseInt(item.salePrice))}
                               </h2>
                             </td>
                             <td>

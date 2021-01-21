@@ -9,7 +9,11 @@ import NavBar from "./common/navbar";
 import SideBar from "./common/sidebar";
 import CartContainer from "./../../../containers/CartContainer";
 import TopBar from "./common/topbar";
-import { changeCurrency } from "../../../actions";
+import {
+  changeCurrency,
+  setSearchedProductsArray,
+  setSearchedProductDetail,
+} from "../../../actions";
 import { connect } from "react-redux";
 import LogoImage from "./common/logo";
 import { withRouter } from "react-router-dom";
@@ -93,11 +97,13 @@ class HeaderThree extends Component {
   handleSearchBarSubmit = (event) => {
     event.preventDefault();
     if (this.state.searchBarValue.length < 35) {
+      this.props.setSearchedProductsArray([]);
       this.props.history.push(
         `${process.env.PUBLIC_URL}/collection/${this.state.searchBarValue}`
       );
     } else {
       if (this.state.searchBarValue.includes("1688")) {
+        this.props.setSearchedProductDetail(null, "1688");
         let productId = this.state.searchBarValue.split("/")[4].split(".")[0];
         console.log(productId);
         this.props.history.push(`${process.env.PUBLIC_URL}/1688/${productId}`);
@@ -110,14 +116,16 @@ class HeaderThree extends Component {
         let productId = subString.split("=")[1];
         console.log(productId);
         if (productId.includes("&")) {
+          this.props.setSearchedProductDetail(null, "taobao");
           let exactProductId = productId.split("&")[0];
           console.log(exactProductId);
           this.props.history.push(
-            `${process.env.PUBLIC_URL}/searched-product/${exactProductId}`
+            `${process.env.PUBLIC_URL}/taobao/${exactProductId}`
           );
         } else {
+          this.props.setSearchedProductDetail(null, "taobao");
           this.props.history.push(
-            `${process.env.PUBLIC_URL}/searched-product/${productId}`
+            `${process.env.PUBLIC_URL}/taobao/${productId}`
           );
         }
       }
@@ -302,9 +310,14 @@ class HeaderThree extends Component {
   }
 }
 
+// const mapStateToProps =(state)=>{
+//   return {
+
+//   }
+// }
 export default withRouter(
   connect(
     null,
-    { changeCurrency }
+    { changeCurrency, setSearchedProductsArray, setSearchedProductDetail }
   )(HeaderThree)
 );

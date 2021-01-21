@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
+import "./wishlist.css";
 import Breadcrumb from "../common/breadcrumb";
 import { addToCartAndRemoveWishlist, removeFromWishlist } from "../../actions";
 import {
@@ -29,7 +29,7 @@ class wishList extends Component {
     if (item.availability === "in-stock" || item.availability === "pre-order") {
       history.push(`/product/${item.id}`);
     } else {
-      history.push(`/searched-product/${item.id}`);
+      history.push(`/${item.availability}/${item.id}`);
     }
   };
 
@@ -67,9 +67,9 @@ class wishList extends Component {
                                     ? `${process.env.PUBLIC_URL}/product/${
                                         item.id
                                       }`
-                                    : `${
-                                        process.env.PUBLIC_URL
-                                      }/searched-product/${item.id}`
+                                    : `${process.env.PUBLIC_URL}/${
+                                        item.availability
+                                      }/${item.id}`
                                 }
                               >
                                 <img src={item.pictures[0]} alt="" />
@@ -83,17 +83,14 @@ class wishList extends Component {
                                     ? `${process.env.PUBLIC_URL}/product/${
                                         item.id
                                       }`
-                                    : `${
-                                        process.env.PUBLIC_URL
-                                      }/searched-product/${item.id}`
+                                    : `${process.env.PUBLIC_URL}/${
+                                        item.availability
+                                      }/${item.id}`
                                 }
                               >
                                 {item.name}
                               </Link>
                               <div className="mobile-cart-content row">
-                                {/* <div className="col-xs-3">
-                                                            <p>in stock</p>
-                                                        </div> */}
                                 <div className="col-xs-3">
                                   <h2 className="td-color">
                                     {symbol}
@@ -148,12 +145,12 @@ class wishList extends Component {
                               </h2>
                             </td>
                             <td>
-                              {item.availability == "in-stock" ? (
-                                <p style={{ color: "green" }}>
+                              {item.availability == "1688" ? (
+                                <p style={{ color: "red" }}>
                                   {item.availability}
                                 </p>
                               ) : (
-                                <p style={{ color: "orange" }}>
+                                <p className={item.availability}>
                                   {item.availability}
                                 </p>
                               )}

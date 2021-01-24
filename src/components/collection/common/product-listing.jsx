@@ -39,7 +39,9 @@ class ProductListing extends Component {
         const route = this.props.match.params.id;
         console.log(route);
         const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/getProductListByImage/${route}`;
-        const response = await axios.get(_EXTERNAL_URL);
+        const response = await axios.get(_EXTERNAL_URL, {
+          headers: { "Access-Control-Allow-Origin": "*" },
+        });
         console.log(response);
         if (response.data.items) {
           const server_img_url = `https://taobao-1688-api-nodejs.herokuapp.com/uploads/${

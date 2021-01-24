@@ -84,7 +84,7 @@
 
 .search-by-image {
   cursor: pointer;
-  font-size: 18px;
+  font-size: 18px !important;
   color: #ff4c3b;
   padding-left: 15px;
   padding-right: 15px;

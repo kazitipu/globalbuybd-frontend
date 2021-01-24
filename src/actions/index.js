@@ -170,3 +170,8 @@ export const changeCurrency = (symbol) => ({
   type: types.CHANGE_CURRENCY,
   symbol,
 });
+
+export const setImgUrl = (imgUrl) => ({
+  type: "SET_IMG_URL",
+  payload: imgUrl,
+});

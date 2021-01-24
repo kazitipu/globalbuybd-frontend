@@ -361,6 +361,11 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/collection/:id`}
                     component={CollectionNoSidebar}
                   />
+                  <Route
+                    exact
+                    path={`${process.env.PUBLIC_URL}/collection/uploads/:id`}
+                    component={CollectionNoSidebar}
+                  />
                 </Layout>
                 <Route exact component={PageNotFound} />
               </Switch>

@@ -80,6 +80,44 @@ class Pets extends Component {
     }
   };
 
+  _handleImgChange = async (e) => {
+    // let reader = new FileReader();
+    // const { pictures } = this.state;
+    e.preventDefault();
+    let file = e.target.files[0];
+
+    // reader.onloadend = () => {
+    //   pictures[i] = reader.result;
+    //   this.setState({
+    //     file: file,
+    //     pictures,
+    //   });
+    // };
+    if (file) {
+      // reader.readAsDataURL(file);
+      // const imgUrl = await uploadImage(file);
+      const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/uploadImage`;
+
+      let data = new FormData();
+      data.append("productImage", file);
+
+      // let config = {
+      //   header: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // };
+      try {
+        const imgUrl = await axios.post(_EXTERNAL_URL, data);
+        console.log(imgUrl.data);
+        this.props.history.push(
+          `${process.env.PUBLIC_URL}/collection/${imgUrl.data}`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   render() {
     return (
       <div>
@@ -180,11 +218,12 @@ class Pets extends Component {
               className="form_search"
               role="form"
               onSubmit={this.handleSearchBarSubmit}
+              style={{ borderRadius: "0px", boxShadow: "none" }}
             >
               <input
                 id="query search-autocomplete"
                 type="search"
-                placeholder="Paste link from taobao,1688,tmall"
+                placeholder="link from taobao,1688,tmall"
                 value={this.state.searchBarValue}
                 onChange={this.handleChange}
                 name="searchBarValue"
@@ -196,10 +235,20 @@ class Pets extends Component {
                 className="btn-search"
                 style={{ width: "80px" }}
               >
-                <i className="fa fa-camera" style={{ marginRight: "5px" }} />
-                <i className="fa fa-search" />
+                <i className="fa fa-search" style={{ marginLeft: "40px" }} />
               </button>
             </form>
+            <div className="image-input-container">
+              <i
+                className="fa fa-camera search-by-image"
+                style={{ cursor: "pointer" }}
+              />
+              <input
+                className="upload-image"
+                type="file"
+                onChange={(e) => this._handleImgChange(e)}
+              />
+            </div>
           </div>
           <LogoBlock />
         </div>

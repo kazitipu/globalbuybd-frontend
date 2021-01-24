@@ -9,6 +9,7 @@ import {
   addToCompare,
   getAllProductsFirestore,
   setSearchedProductsArray,
+  setImgUrl,
 } from "../../../actions";
 import { getVisibleproducts } from "../../../services";
 import ProductListItem from "./product-list-item";
@@ -33,7 +34,26 @@ class ProductListing extends Component {
 
   componentDidMount = async () => {
     console.log(this.props.match.params.id);
-    if (
+    if (this.props.match.params.id.includes(".jpg")) {
+      try {
+        const route = this.props.match.params.id;
+        console.log(route);
+        const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/getProductListByImage/${route}`;
+        const response = await axios.get(_EXTERNAL_URL);
+        console.log(response);
+        if (response.data.items) {
+          const server_img_url = `https://taobao-1688-api-nodejs.herokuapp.com/uploads/${
+            this.props.match.params.id
+          }`;
+          this.props.setImgUrl(server_img_url);
+          this.props.setSearchedProductsArray(response.data.items.item);
+        } else {
+          this.props.setSearchedProductsArray([]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (
       this.props.match.params.id == "in-stock" ||
       this.props.match.params.id == "pre-order"
     ) {
@@ -65,7 +85,25 @@ class ProductListing extends Component {
   componentWillMount() {
     this.fetchMoreItems();
     this.unlisten = this.props.history.listen(async (location, action) => {
-      if (
+      if (this.props.match.params.id.includes(".jpg")) {
+        try {
+          const route = this.props.match.params.id;
+          console.log(route);
+          const _EXTERNAL_URL = `https://taobao-1688-api-nodejs.herokuapp.com/getProductListByImage/${route}`;
+          const response = await axios.get(_EXTERNAL_URL);
+          if (response.items) {
+            const server_img_url = `https://taobao-1688-api-nodejs.herokuapp.com/uploads/${
+              this.props.match.params.id
+            }`;
+            this.props.setImgUrl(server_img_url);
+            this.props.setSearchedProductsArray(response.items.item);
+          } else {
+            this.props.setSearchedProductsArray([]);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (
         this.props.match.params.id == "in-stock" ||
         this.props.match.params.id == "pre-order"
       ) {
@@ -263,6 +301,7 @@ export default withRouter(
       addToCompare,
       getAllProductsFirestore,
       setSearchedProductsArray,
+      setImgUrl,
     }
   )(ProductListing)
 );
